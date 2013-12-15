@@ -1,1 +1,0 @@
-[16-Oct-2013 08:14:05 UTC] PHP Fatal error:  Call to a member function result() on a non-object in /home/opixuser/public_html/application/models/person_model.php on line 267
