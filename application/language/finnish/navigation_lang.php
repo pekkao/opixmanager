@@ -1,0 +1,29 @@
+<?php
+$lang['nav_customers'] = "Asiakkaat";
+$lang['nav_projects'] = "Projektit ↓";
+$lang['nav_persons'] = "Henkilöt";
+$lang['nav_project_types'] = "Projektityypit";
+$lang['nav_staff_roles'] = "Jäsenten roolit";
+$lang['nav_status'] = "Status";
+$lang['nav_task_type'] = "Työluokka";
+$lang['nav_reports'] = "Raportit ↓";
+$lang['nav_customer_contacts'] = "Asiakkaat ja yhteyshenkilöt >";
+$lang['nav_customer_projects'] = "Asiakkaat ja projektit >";
+$lang['nav_projects_persons'] = "Projektit ja henkilöt >";
+$lang['nav_persons_projects'] = "Henkilöt ja projektit";
+$lang['nav_project_show_all'] = "Kaikki projektit";
+$lang['nav_project_show_active'] = "Aktiiviset projektit";
+$lang['nav_project_show_finished'] = "Valmiit projektit";
+$lang['nav_choose_project'] = "Projekti, Tuotejonot, Tuotejonorivit";
+$lang['nav_choose_customer'] = "Valitse asiakas";
+$lang['nav_choose_customer_project'] = "Valitse asiakas";
+$lang['nav_choose_person'] = "Valitse Henkilö";
+$lang['nav_backup'] = "Vk";
+$lang['nav_sprint_work'] = "Sprintin Työ";
+$lang['nav_task_work'] = "Tehtävän työ";
+$lang['nav_choose_project_sprint'] = "Projekti, Sprintti ja Sprintin tehtävät";
+$lang['nav_choose_project_period'] = "Projekti, Periodit, Tehtävät";
+$lang['nav_logout'] = "Kirjaudu ulos";
+$lang['nav_home'] = "Etusivu";
+$lang['label_footer'] = 'Oulun seudun ammattikorkeakoulu';
+?>

@@ -1,0 +1,378 @@
+/* 
+    Document   : opixstyle.css
+    Created on : 2.5.2012, 20:44:00
+    Author     : lauer
+    Description:
+        Purpose of the stylesheet follows.
+*/
+*
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+body
+{
+    font-family: Geneva,Arial,Helvetica,sans-serif;   
+    font-size: 14px;
+    background-image: url(back5.png);
+    background-attachment:fixed;
+    background-repeat: repeat-x;
+    background-position: bottom;
+}
+
+div#wrapper
+{
+    width: 938px;
+    border: 5px solid #99B2CC; 
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    border-radius: 15px;
+    background-color: #ffffff;
+}
+
+div#logged
+{
+   padding-left: 10px;
+   padding-right: 10px;
+   text-align: right;
+   font-weight: bold;
+   color: #f0f0f0;
+   background-color: #6699CC;
+}
+
+header
+{
+    height: 130px;
+    background-color: #6699CC;
+    border-radius: 10px 10px 0px 0px;
+}
+
+header h1
+{
+    line-height: 130px;
+    color: #fff;
+}
+
+header h1 img
+{
+    float:left;
+}
+nav
+{
+    clear: both;
+    height: 30px;
+    background-color: #6699CC;
+    border-top: 2px solid #99B2CC;
+    border-bottom: 2px solid #99B2CC;
+}
+
+nav ul
+{
+    list-style-type: none;
+}
+
+nav a
+{
+    display: block;
+    line-height: 30px;
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: bold;
+    color: #f0f0f0;
+    text-decoration: none;
+    border-right: 2px solid #99B2CC;
+}
+
+nav a:hover
+{
+    color: #D6E0EB;
+    background-color: #003366;
+}
+
+footer
+{
+    height: 25px;
+    border-top: 1px solid #006666;
+    background-color: #6699CC;
+    border-radius: 0px 0px 10px 10px;
+    color: #ffffff;
+}
+
+footer p
+{
+    text-align: center;
+    line-height: 25px;
+}
+
+section
+{
+    padding-left: 30px;
+    padding-bottom: 30px;
+    padding-right: 30px;
+}
+
+section h1
+{
+    color: #CC0000;
+    line-height: 50px;
+}
+
+section h4
+{
+    color: #CC0000;
+    line-height: 30px;
+    margin-top: 20px;
+}
+
+section h5
+{
+    color: #003366;
+    font-size: 15px;
+    line-height: 30px;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+section p.search_info
+{
+    margin-left: 10px;
+}
+
+section p.add_link
+{
+    margin-top: 10px;
+}
+
+section table
+{
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+td, th 
+{
+    vertical-align: top;
+    padding: 5px;
+    text-align: left;
+    border-bottom: 1px solid #99B2CC;
+}
+
+th.rivi
+{
+    width: auto;
+    border-top: 3px solid #99B2CC;
+    border-bottom: none;
+}
+
+td.testi
+{
+    width: 150px;
+}
+
+td.rivi
+{
+    border-top: 3px solid #99B2CC;
+    border-bottom: none;
+}
+
+th.reuna, td.reuna
+{
+    border-bottom: none;
+}
+
+th.reunaa, td.reunaa
+{
+    border-bottom: none;
+    padding-left: 20px;
+}
+
+th.reunaaa, td.reunaaa
+{
+    padding-left: 20px;
+}
+
+th.raporttireuna, td.raporttireuna
+{
+    width: 145px;
+    border-bottom: none;
+}
+
+fieldset label
+{
+    float: left;
+    clear: left;
+    line-height: 20px;
+    width: 100px;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+fieldset input
+{
+    float: left;
+    height: 20px;
+    margin-top: 5px;    
+}
+
+fieldset span.error
+{
+    float: left;
+    line-height: 20px;
+    margin-top: 5px;
+    color: red;
+    padding-left: 10px;
+}
+
+.sameline
+{
+    clear: none;
+}
+
+fieldset input[type="reset"],
+fieldset input[type="submit"],
+fieldset input[type="button"]
+{
+    height: 25px;
+    margin: 10px;
+}
+
+fieldset input.newline 
+{
+    clear: left;
+    float: left;
+}
+
+a.returnlink
+{
+    float: left;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+select
+{
+    margin-top: 5px;
+    clear: right;
+    float: left;
+}
+
+/* Popup style for info boxes */
+div.pop-up {
+  display: none;
+  text-align: left;
+  position: absolute;
+  margin-top: -20px;    
+  margin-left: 50px;
+  max-width: 200px;
+  padding: 10px 10px;
+  background-color: #ffffff;
+  color: #000000;
+  border: 5px solid #99B2CC;
+  font-size: 90%;
+  border-radius: 15px;
+}
+
+div.pop-up-project {
+  display: none;
+  text-align: left;
+  position: absolute;
+  margin-top: -8px;    
+  margin-left: 50px;
+  max-width: 200px;
+  padding: 10px 10px;
+  background-color: #ffffff;
+  color: #000000;
+  border: 5px solid #99B2CC;
+  font-size: 90%;
+  border-radius: 15px;
+}
+
+/* dropdown menu items */
+nav ul ul {
+  position: absolute;
+  width: 200px;
+  top: 28px; 
+  left: -2px; 
+  visibility: hidden;
+  border: none;
+}
+
+nav ul ul ul {
+  position: absolute;
+  width: 200px;
+  top: -2px; 
+  left: 195px; 
+  visibility: hidden;
+  border: none;
+}
+
+/* all li items in menus */
+nav li {
+  position: relative; 
+  float: left; 
+  background-color: #6699CC;  
+  text-align: center;
+  border-right: 2px solid #99B2CC;
+  font-weight: bold;
+}
+
+/* dropdown menu items have different borders */
+nav li li{
+  border-left: 2px solid #99B2CC;
+  border-right: 2px solid #99B2CC;
+  border-top: 2px solid #99B2CC;
+  border-bottom: 2px solid #99B2CC;
+}
+
+nav li a {
+  display: block;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-decoration: none; 
+}
+
+nav li a:hover {
+  display: block;
+  background-color: #003366;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #D6E0EB;
+}
+
+/* submenus need width */
+nav li a.submenu {
+    min-width: 174px;
+    text-align: left;
+}
+
+nav li a.subsubmenu {
+    min-width: 150px;
+    text-align: left;
+}
+
+nav ul li:hover ul {
+  visibility: visible;
+}
+
+nav ul li:hover ul ul {
+  visibility: hidden;
+}
+
+nav ul li ul li:hover ul {
+  visibility: visible;
+}
+
+p.polku {
+    font-family: Geneva,Arial,Helvetica,sans-serif;   
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+img
+{
+    border:none;
+}
+
