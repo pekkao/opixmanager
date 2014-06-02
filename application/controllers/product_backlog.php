@@ -14,7 +14,7 @@
  * to handle Product_backlog listing, inserting, editing and deleting Product_backlogs.
  * Extends CI_Controller.
  * 
- * @author Wang Yuqing
+ * @author Wang Yuqing, Roni Kokkonen, Tuukka Kiiskinen
  * @package opix
  * @subpackage controllers
  * @category Product_backlog
@@ -44,6 +44,8 @@ class Product_Backlog extends CI_Controller
      * Reads all product backlogs from the product_backlog table in the database. 
      * Uses the product_backlog/product_backlogs_view.
      * 
+     * @param int projectid Primary key of a project
+     * 
      */
     public function index($projectid = 0)
     {   
@@ -58,14 +60,21 @@ class Product_Backlog extends CI_Controller
             $product = $this->product_backlog_model->read_all($projectid);
             $product_backlogs = array();
             foreach ($product as $product_backlog)
-            {
-                
-                $name = $this->person_model->read_name($product_backlog->product_owner);
+            {                                
                 $product_backlogi['id'] = $product_backlog->id;
                 $product_backlogi['backlog_name'] = $product_backlog->backlog_name;
                 $product_backlogi['product_visio'] = $product_backlog->product_visio;
                 $product_backlogi['product_current_state'] = $product_backlog->product_current_state;
-                $product_backlogi['product_owner'] = $name[0]->name;
+                
+                if (!(is_null($product_backlog->product_owner)))
+                {                  
+                    $name = $this->person_model->read_name($product_backlog->product_owner);                
+                    $product_backlogi['product_owner'] = $name[0]->name;
+                }
+                else 
+                {
+                    $product_backlogi['product_owner'] = "";
+                }
                 $product_backlogi['project_id'] = $product_backlog->project_id; 
                 $product_backlogs[] = $product_backlogi;
                 
@@ -98,7 +107,8 @@ class Product_Backlog extends CI_Controller
      * Add a product backlog to the database.
      * 
      * Creates an empty product backlog and shows it via product backlog/product backlogs_view.
-     * @param int $currentprojectid Primary key of the product backlog. 
+     * 
+     * @param int $currentprojectid Primary key of the project. 
      */
     public function add($currentprojectid)
     {
@@ -143,7 +153,9 @@ class Product_Backlog extends CI_Controller
      * Reads a product backlog from the database using the primary key. 
      * If no product backlog is found redirects to index with error message in flash data.
      * 
-     * @param int $id, $currentprojectid Primary key of the product backlog. 
+     * @param int $currentprojectid Primary key of the project.
+     * @param int $id Primary key of a product backlog
+     *  
      */
      public function edit($currentprojectid, $id)
     {
@@ -243,8 +255,23 @@ class Product_Backlog extends CI_Controller
         
         if ($this->form_validation->run() == FALSE) 
         {
+            $session_data = $this->session->userdata('logged_in');
+            $data['login_user_id'] = $session_data['user_id'];
+            $data['login_id'] = $session_data['id'];
+            
             $data['main_content'] = 'product_backlog/product_backlog_view';
             $data['pagetitle'] = $this->lang->line('title_add_product_backlog');
+            
+            $this->load->helper("form_input_helper");
+            $persons_from_project = 
+                    $this->project_staff_model->read_project_persons(
+                    $this->input->post('txt_project_id'));
+            // new text in the beginning of array
+            $a = array('person_id' => "0", 'name' => $this->lang->line('select_person') );
+            array_unshift($persons_from_project, $a);
+            $persons = convert_db_result_to_dropdown(
+            $persons_from_project, 'person_id', 'name');        
+            $data['persons'] = $persons;
             
             if ($update == TRUE)
             {
@@ -278,8 +305,6 @@ class Product_Backlog extends CI_Controller
      * Delete a product backlog.
      * 
      * Deletes a product backlog using the primary key.
-     * 
-     * @param int $id Primary key of the product backlog. 
      */
     public function delete()
     {

@@ -4,18 +4,27 @@
  * Project_periods_view to be used to view project_periods.
  * 
  * @param $data = array(
-                'id'         => $project_period[0]->id,
-                'period_start_date'    => $project_period[0]->period_start_date,
-                'period_end_date'  => $project_period[0]->period_end_date,
-                'milestone'      => $project_period[0]->milestone,
-                'project_id'      => $project_period[0]->project_id,
-                'period_description'      => $project_period[0]->period_description,
-                'period_name'   => $project_period[0]->period_name
-            );
+ *       'id',
+ *       'period_name',
+ *       'period_description',
+ *       'period_start_date',
+ *       'period_end_date', 
+ *       'milestone',
+ *       'project_id', 
+ *   );
  * 
+ * @param $data['project_periods'] Periods of a selected project in an array
+ * @param $data['currentproject_id'] Selected project
  * @param $data['pagetitle'] Title and heading of the page
  * @param $data['add'] Hide or show the Reset button (false/true).
- *
+ * @param $data['heading'] Heading for the error message.
+ * @param $data['error_message'] The error message to be printed.
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
+ * @package opix
+ * @category View
+ * @author Hannu Raappana, Tuukka Kiiskinen, Roni Kokkonen
  */
 
 ?>

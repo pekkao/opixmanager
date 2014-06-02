@@ -3,19 +3,25 @@
  * Contact person view to be used to insert and update a contact person.
  * 
  * @param $data = array(
- *               'id' => $contact_person[0]->id,
- *               'surname' => $contact_person[0]->surname,
- *               'firstname' => $contact_person[0]->firstname,
- *               'title' => $contact_person[0]->title,
- *               'phonenumber' => $contact_person[0]->phonenumber,
- *               'email' => $contact_person[0]->email,
- *               'customerid' => $contact_person[0]->customerid,
- *               'customer_name' => $contact_person[0]->customer_name
+ *               'id',
+ *               'surname',
+ *               'firstname',
+ *               'title',
+ *               'phonenumber',
+ *               'email', 
+ *               'customerid',
+ *               'customer_name' 
  *           );
  * 
  * @param $data['pagetitle'] Title and heading of the page
  * @param $data['add'] Hide or show the Reset button (false/true).
  * @param $data['customers] Data for dropdownlistbox
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
+ * @package opix
+ * @category View
+ * @author Liisa Auer
  */
 ?>
 
@@ -92,7 +98,6 @@ echo form_input($data);
 echo form_error('eml_email');
 echo br(1); // four lines to get the droplistbox in right place
 
-//if ($customers != null && $add == FALSE)
 if (empty($customer_name))
 {
     echo br(3); // four lines to get the droplistbox in right place

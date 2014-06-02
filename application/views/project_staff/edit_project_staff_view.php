@@ -3,19 +3,27 @@
  *  Edit Project staffs view to be used to edit all project staffs in an html table.
  * 
  * @param  $data = array(
- *       'id' => '',
- *       'surname' => '',
- *       'firstname' => '',
- *       'role' => '',
- *       'start_date' => '',
- *       'end_date' => '',
+ *       'project_staff_id',
+ *       'project_id',
+ *       'person_id',
+ *       'start_date',
+ *       'end_date',
+ *       'project_name',
+ *       'person_role_id',
+ *       'surname',
+ *       'firstname'
  *   );
- * @param $data['project_staff'] Project staff names and ids
+ * 
  * @param $data['pagetitle'] Title and heading of the page
- 
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * @param $data['heading'] Heading for the error message.
+ * @param $data['error_message'] The error message to be printed.
+ *  
  * @package opix
  * @category View
- * @author Arto Ruonala, Pipsa Korkiakoski, Antti Aho, Liisa Auer
+ * @author Arto Ruonala, Pipsa Korkiakoski, Antti Aho, Liisa Auer,
+ *      Tuukka Kiiskinen, Roni Kokkonen
  */
 ?>
 
@@ -60,7 +68,7 @@ echo form_label($firstname, 'txt_firstname', $data);
 echo br(1);
 
 echo form_label($this->lang->line('label_role'), 'ddl_role');
-echo form_dropdown('ddl_role', $roles, $id, 'class="sameline"');
+echo form_dropdown('ddl_role', $roles, $person_role_id, 'class="sameline"');
 echo br(1);
 
 echo form_label($this->lang->line('label_start_date'), 'dtm_startdate');

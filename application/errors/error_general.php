@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?php echo $heading; ?></title>
+<title>Error</title>
 <style type="text/css">
 
 ::selection{ background-color: #E13300; color: white; }
@@ -56,9 +56,9 @@ p {
 <body>
 	<div id="container">
 		<h1><?php echo $heading; ?></h1>
-                <p><?php echo $message; ?></p>
-                <br /><br />
-                <p><?php echo anchor($redirect, $this->lang->line('link_return')); ?></p>
+		<?php echo $message; ?>
+        <br /><br />
+        <p><?php echo anchor($redirect, $this->lang->line('link_return')); ?></p>		
 	</div>
 </body>
 </html>

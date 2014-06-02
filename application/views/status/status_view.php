@@ -10,7 +10,12 @@
  * 
  * @param $data['pagetitle'] Title and heading of the page
  * @param $data['add'] Hide or show the Reset button (false/true).
- *
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
+ * @package opix
+ * @category View
+ * @author Tuukka Kiiskinen, Roni Kokkonen
  */
 ?>
 <h1>

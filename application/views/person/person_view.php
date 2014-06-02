@@ -3,18 +3,28 @@
  * Person view to be used to insert and update a person.
  * 
  * @param $data = array(
- *               'id' => $person[0]->id,
- *               'surname' => $person[0]->surname,
- *               'firstname' => $person[0]->firstname,
- *               'title' => $person[0]->title,
- *               'email' => $person[0]->email,
- *               'phone_number' => $person[0]->phone_number,
- *               'user_id' => $person[0]->user_id,
- *               'password' => $person[0]->password
+ *               'id', 
+ *               'surname',
+ *               'firstname',
+ *               'title',
+ *               'email',
+ *               'phone_number',
+ *               'user_id',
+ *               'password',
+ *               'language_id',
+ *               'account_type',
+ *               'confirm_password'
  * );
  * 
+ * $data['languages'] Languages (array) for the dropdown listbox
  * @param $data['pagetitle'] Title and heading of the page
  * @param $data['add'] Hide or show the Reset button (false/true).
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
+ * @package opix
+ * @category View
+ * @author Wang Yuqing, Tuukka Kiiskinen, Roni Kokkonen
  *
  */
 ?>
@@ -25,6 +35,7 @@
     echo form_fieldset();
     
     echo form_hidden('txt_id', set_value('id', $id));
+    echo form_hidden('txt_account_type', set_value('account_type', $this->session->userdata('account_type')));
     
     echo form_label($this->lang->line('label_person_surname'), 'txt_surname');
         $data = array(
@@ -136,7 +147,8 @@
     }
     
     echo form_label($this->lang->line('label_person_language'), 'ddl_language');
-    echo form_dropdown('ddl_language', $languages, $language_id);   
+    echo form_dropdown('ddl_language', $languages, $language_id); 
+    echo form_error('ddl_language');
     echo br(1);
     
 if ($add == TRUE)

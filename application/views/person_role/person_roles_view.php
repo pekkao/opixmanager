@@ -4,16 +4,21 @@
  * Person_roles_view to be used to show all person_roles in an html table..
  * 
  * @param $data = array(
- *               'id' => $person_role[0]->id,
- *               'role_name' => $person_role[0]->role_name,
- *               'role_description' => $person_role[0]->role_description
+ *               'id',
+ *               'role_name',
+ *               'role_description'
  *              );
  * 
  * @param $data['pagetitle'] Title and heading of the page
  * @param $data['add'] Hide or show the Reset button (false/true).
  * @param $data['heading'] Heading for the error message.
  * @param $data['error_message'] The error message to be printed.
- *
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
+ * @package opix
+ * @category View
+ * @author Wang Yuqing, Tuukka Kiiskinen, Roni Kokkonen
  */
 
 

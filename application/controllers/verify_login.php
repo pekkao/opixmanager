@@ -47,7 +47,6 @@ class Verify_Login extends CI_Controller {
         if ($this->form_validation->run() == FALSE)
         {
             $data = array(
-                'id' => '',
                 'user_id' => '',
                 'password' => ''
             );
@@ -66,6 +65,7 @@ class Verify_Login extends CI_Controller {
     
     /*
      * Compare username and password to database.
+     * 
      * @param string md5 $password
      */
     public function check_database($password)
@@ -90,10 +90,9 @@ class Verify_Login extends CI_Controller {
         }
         else
         {        
-           $this->form_validation->set_message('check_database', 'Invalid username or password');         
+           $this->form_validation->set_message('check_database', $this->lang->line('error_password'));         
            return FALSE;
         }
-        
     }
 }
 

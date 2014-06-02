@@ -49,8 +49,8 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'opixuser_opix';
-$db['default']['password'] = 'FeEr;0kU#3ME';
+$db['default']['username'] = 'root';
+$db['default']['password'] = '';
 $db['default']['database'] = 'opixuser_opix';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';

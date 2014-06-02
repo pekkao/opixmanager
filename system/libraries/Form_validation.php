@@ -1079,11 +1079,12 @@ class CI_Form_validation {
 	 *
 	 * @access	public
 	 * @param	string
+	 * @param	string "ipv4" or "ipv6" to validate a specific ip format
 	 * @return	string
 	 */
-	public function valid_ip($ip)
+	public function valid_ip($ip, $which = '')
 	{
-		return $this->CI->input->valid_ip($ip);
+		return $this->CI->input->valid_ip($ip, $which);
 	}
 
 	// --------------------------------------------------------------------
@@ -1097,7 +1098,7 @@ class CI_Form_validation {
 	 */
 	public function alpha($str)
 	{
-		return ( ! preg_match("/^([a-zäöåÄÖÅ ])+$/i", $str)) ? FALSE : TRUE;
+		return ( ! preg_match("/^([a-z])+$/i", $str)) ? FALSE : TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -1111,7 +1112,7 @@ class CI_Form_validation {
 	 */
 	public function alpha_numeric($str)
 	{
-		return ( ! preg_match("/^([a-zöäåÄÖÅ 0-9])+$/i", $str)) ? FALSE : TRUE;
+		return ( ! preg_match("/^([a-z0-9])+$/i", $str)) ? FALSE : TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -1125,7 +1126,7 @@ class CI_Form_validation {
 	 */
 	public function alpha_dash($str)
 	{
-		return ( ! preg_match("/^([-a-zöäåÖÄÅ0-9_-])+$/i", $str)) ? FALSE : TRUE;
+		return ( ! preg_match("/^([-a-z0-9_-])+$/i", $str)) ? FALSE : TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -1373,29 +1374,6 @@ class CI_Form_validation {
 	{
 		return str_replace(array('<?php', '<?PHP', '<?', '?>'),  array('&lt;?php', '&lt;?PHP', '&lt;?', '?&gt;'), $str);
 	}
-        public function check_date($selected_date)
-        {
-            $date_format = 'Y-m-d'; /* use dashes - dd/mm/yyyy */
-
-            $date = trim($selected_date);
-            /* UK dates and strtotime() don't work with slashes, 
-            so just do a quick replace */
-            $date = str_replace('/', '-', $date); 
-
-
-            $time = strtotime($selected_date);
-
-            $is_valid = date($date_format, $time) == $date;
-
-            if($is_valid)
-            {
-                return TRUE;
-            }
-            else
-            {
-                return FALSE;
-            }
-        }       
 
 }
 // END Form Validation Class

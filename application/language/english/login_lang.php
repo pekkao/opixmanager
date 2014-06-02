@@ -5,4 +5,5 @@ $lang['button_login'] = "Login";
 $lang['title_login'] = "Login";
 $lang['label_username'] = "Username ";
 $lang['label_password2'] = "Password ";
+$lang['error_password'] = "Invalid username or password";
 ?>

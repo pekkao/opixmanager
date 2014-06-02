@@ -45,6 +45,7 @@ class Task_Work extends CI_Controller
      * 
      * Reads all task works from the task_work table in the database. 
      * Uses the task_work/task_works_view.
+     * 
      * @param int id primary key of the selected person, default value 0.
      * 
      */
@@ -133,6 +134,7 @@ class Task_Work extends CI_Controller
      * Add a task work to the database.
      * 
      * Creates an empty task work and shows it via task_work/task_work_view.
+     * 
      * @param int $currentpersonid Primary key of the person. 
      */
     public function add($currentpersonid)
@@ -181,7 +183,8 @@ class Task_Work extends CI_Controller
      * Reads a task work from the database using the primary key. 
      * If no task work is found redirects to index with error message in flash data.
      * 
-     * @param int $id, $person_id Primary key of the task work and selected person. 
+     * @param int $id Primary key of a task work
+     * @param int $person_id Primary key of selected person. 
      */
      public function edit($person_id, $id)
     {
@@ -321,7 +324,6 @@ class Task_Work extends CI_Controller
      * 
      * Deletes a task work using the primary key.
      * 
-     * @param int $id Primary key of the task work. 
      */
     public function delete()
     {

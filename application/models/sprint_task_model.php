@@ -33,15 +33,11 @@ class Sprint_Task_Model extends CI_Model
      * Insert a sprint task into the sprint task table.
      * 
      * @param <array> $data sprint task data
+     * 
      * @return int Returns the primary key of the new sprint task. 
      */
     public function create($data)
     {    
-        if (empty($data['task_name']))
-        {
-            $data['task_name'] = NULL;
-        }
-        
         if (empty($data['task_description']))
         {
             $data['task_description'] = NULL;
@@ -60,6 +56,7 @@ class Sprint_Task_Model extends CI_Model
      * Read sprint task from the sprint task table using primary key.
      * 
      * @param int $id Primary key of the sprint task
+     * 
      * @return <array> sprint task data 
      */
     public function read($id)
@@ -71,11 +68,13 @@ class Sprint_Task_Model extends CI_Model
     
     /*
      * Reads person's tasks which are in progress
+     * 
      * @param int $id Primary key of the person to read.
+     * 
+     * @return <result_array> sprint task data 
      */
     public function read_person_tasks_in_progress($id)
     {
-        // subquery and a parameter in a query
         $sql = 'SELECT s.task_name, s.id ' .
                 'FROM sprint_task AS s ' .
                 'INNER JOIN sprint_task_person AS p ON p.sprint_task_id = s.id ' .
@@ -88,6 +87,8 @@ class Sprint_Task_Model extends CI_Model
     
     /**
      * Read all the sprint tasks of the selected sprint backlog item. 
+     * 
+     * @param int sprintbacklog_id Optional, primary key of a sprint backlog
      * 
      * @return <array> sprint tasks. 
      */
@@ -119,19 +120,14 @@ class Sprint_Task_Model extends CI_Model
         $query = $this->db->get();
         return $query->result(); 
     }
-    
+
     /**
      * Update sprint task in the sprint_task table.
      * 
      * @param <array> $data sprint task data to be updated in the table. 
      */
     public function update($data)
-    {
-        if (empty($data['task_name']))
-        {
-            $data['task_name'] = NULL;
-        }
-        
+    {        
         if (empty($data['task_description']))
         {
             $data['task_description'] = NULL;
@@ -150,6 +146,8 @@ class Sprint_Task_Model extends CI_Model
      * Delete a sprint task from the sprint_task table.
      * 
      * @param int $id Primary key of the sprint task to delete. 
+     * 
+     * @return boolean false if delete does not succeed because of child rows
      */
     public function delete($id)
     {
@@ -164,20 +162,7 @@ class Sprint_Task_Model extends CI_Model
         {            
             return TRUE;
         }
-    }    
-    
-    /**
-     *
-     * @param type $id primary key of the wanted sprint backlog
-     * @return array sprint baclog item
-     */
-    public function read_sprint_backlog_item($id = 0)
-    {
-        $this->db->from('sprint_backlog_item');
-        $this->db->where('sprint_backlog_item.sprint_backlog_id');
-        $query = $this->db->get();
-        return $query->result(); 
-    }
+    }   
 }
 
 ?>

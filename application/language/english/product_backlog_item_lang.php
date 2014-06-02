@@ -28,10 +28,14 @@ $lang['link_product_backlog_item']='Product backlog item';
 $lang['not_allowed'] = "You don't have permission to do that.";
 
 $lang['missing_item_name']='Item name';
+$lang['missing_status']='Select status';
 $lang['invalid_priority']='Priority ';
 $lang['invalid_business_value']='Business value ';
 $lang['invalid_estimate_points']='Estimate points ';
 $lang['invalid_effort_estimate_hours']='Effort estimate hours ';
 $lang['missing_product_backlog_item']='Product Backlog item is not found in database';
-$lang['cannot_delete']='Cannot delete because product backlog item is in use in sprint backlog item.'
+$lang['cannot_delete']='Cannot delete because product backlog item is in use in sprint backlog item.';
+
+$lang['select_status']='Select status';
+        
 ?>

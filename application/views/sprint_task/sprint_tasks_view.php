@@ -1,21 +1,23 @@
 <?php
 
 /**
- * Sprint_tasks_view to be used to insert and update sprint_tasks.
+ * Sprint_tasks_view to list sprint_tasks.
  * 
- * @param $data = array(
-                'id'         => $sprint_task[0]->id,
-                'sprint_backlog_item_id'    => $sprint_task[0]->sprint_backlog_item_id,
-                'task_name'  => $sprint_task[0]->task_name,
-                'task_description'      => $sprint_task[0]->task_description,
-                'effort_estimate_hours'      => $sprint_task[0]->effort_estimate_hours,
-                'status_id'      => $sprint_task[0]->status_id,
-                'task_type_id' => $sprint_task[0]->task_type_id
- * 
+ * @param $data['sprint_tasks'] Sprint tasks to list
+ * @param $data['currentsprintbacklogid'] Selected sprint backlog
+ * @param $data['sprintbacklog'] Selected sprint backlog data
+ * @param $data['project_id'] Selected project
+ * @param $data['product_backlog_id'] Selected product backlog
+ * @param $data['sprint_backlog_item_id'] Selected sprint backlog
  * @param $data['pagetitle'] Title and heading of the page
- * @param $data['add'] Hide or show the Reset button (false/true).
- * @author Tuukka Kiiskinen, Roni Kokkonen
+ * @param $data['heading'] Heading for the error message.
+ * @param $data['error_message'] The error message to be printed.
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
  * 
+ * @package opix
+ * @category View
+ * @author Tuukka Kiiskinen, Roni Kokkonen
  */
 
 ?>

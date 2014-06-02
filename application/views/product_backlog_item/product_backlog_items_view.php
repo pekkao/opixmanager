@@ -1,23 +1,31 @@
 <?php
 
 /**
- * Product_backlog__items_view to be used to insert and update product_backlog_items.
+ * Product_backlog__items_view to show items in a selected product backlog.
  * 
  * @param $data = array(
- *               'id' => $product_backlog[0]->id,
- *               'item_name' => $product_backlog_item[0]->item_name,
- *               'item_description' => $product_backlog_item[0]->item_description,
- *               'item_priority' => $product_backlog_item[0]->item_priority,
- *               'item_business_value' => $product_backlog_item[0]->item_business_value,
- *               'item_estimate_points' => $product_backlog_item[0]->item_estimate_points,
- *               'item_effort_estimate_points' => $product_backlog_item[0]->item_effort_estimate_points,
- *               'item_acceptance_criteria' => $product_backlog_item[0]->item_acceptance_criteria,
- *               'item_release_target' => $product_backlog_item[0]->item_release_target,
+ *               'id',
+ *               'item_name',
+ *               'item_description',
+ *               'priority',
+ *               'business_value',
+ *               'estimate_points',
+ *               'effort_estimate_points',
+ *               'acceptance_criteria',
+ *               'release_target' 
  *              );
  * 
+ * @param $data['product_backlog_items'] Backlog items of a selected product backlog
  * @param $data['pagetitle'] Title and heading of the page
  * @param $data['add'] Hide or show the Reset button (false/true).
- *
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * @param $data['heading'] Heading for the error message.
+ * @param $data['error_message'] The error message to be printed.
+ * 
+ * @package opix
+ * @category View
+ * @author Wang Yuqing, Tuukka Kiiskinen, Roni Kokkonen
  */
 
 ?>

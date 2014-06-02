@@ -43,25 +43,13 @@ class Project_Staff extends CI_Controller
      * from the project_staff table in the database. 
      * Uses the project staffs.
      * 
-     * @param int $projectid Selected projectid, default is zero. 
+     * @param int $projectid Primary key of a project, optional. 
      */
     public function index($projectid = 0) 
     {
         if ($this->session->userdata('logged_in'))
         {
             $session_data = $this->session->userdata('logged_in');
-            $data = array(
-                'id' => '',
-                'project_id' => '',
-                'person_id' => '',
-                'person_role_id' => '',
-                'start_date' => '',
-                'end_date' => '',
-                'project_name' => '',
-                'role_name' => '',
-                'surname' => '',
-                'firstname' => ''
-            );
 
             $data['project_staffs'] = $this->project_staff_model->read_project_staffs($projectid);
             $data['currentid'] = $projectid;
@@ -95,6 +83,9 @@ class Project_Staff extends CI_Controller
      * Add a project_staff to the database.
      * 
      * Creates an empty project_staff and shows it via project_staff_view.
+     * 
+     * @param int $projectid Primary key of a project
+     * 
      */
     public function add($id)
     {
@@ -105,7 +96,8 @@ class Project_Staff extends CI_Controller
             
             $data['login_user_id'] = $session_data['user_id'];
             $data['login_id'] = $session_data['id'];
-            $current_person = $this->project_staff_model->read_person_role($data['login_id'], $id);
+            
+            $current_person = $this->project_staff_model->read($data['login_id']);
            
             if (isset ($current_person[0]))
             {               
@@ -151,7 +143,6 @@ class Project_Staff extends CI_Controller
                     $data['pagetitle'] = $project[0]->project_name . ": " .
                             $this->lang->line('title_add_project_staff');
                 }
-
                 else 
                 {
                     $data['pagetitle'] = $this->lang->line('title_add_project_staff');
@@ -175,9 +166,10 @@ class Project_Staff extends CI_Controller
     }
     
     /**
-     * Insert or update project_staff into the database.
+     * Insert project_staff into the database.
      * 
-     * Inserts or updates the project_staff into the project_staff table. 
+     * Inserts the project_staff into the project_staff table. 
+     * 
      */
      public function save()
     {
@@ -216,10 +208,9 @@ class Project_Staff extends CI_Controller
                                     'person_role_id' => $person_role_id,
                                     'person_id' => $person
                                  );
-
                                 $this->project_staff_model->create($data);
-                                redirect('project_staff/index/' . $project_id);
                             }
+                            redirect('project_staff/index/' . $project_id);
                         }
                         else
                         {
@@ -243,10 +234,9 @@ class Project_Staff extends CI_Controller
                                 'person_role_id' => $person_role_id,
                                 'person_id' => $person
                              );
-
                             $this->project_staff_model->create($data);
-                            redirect('project_staff/index/' . $project_id);
                         }
+                        redirect('project_staff/index/' . $project_id);
                     }
                 }
                 else
@@ -337,31 +327,36 @@ class Project_Staff extends CI_Controller
                         'start_date' => $project_staffs[0]->start_date,
                         'end_date' => $project_staffs[0]->end_date,
                         'project_name' => $project_staffs[0]->project_name,
-                        'role_name' => $project_staffs[0]->role_name,
-                        'id' => $project_staffs[0]->id,
+                        'person_role_id' => $project_staffs[0]->id,
                         'surname' => $project_staffs[0]->surname,
                         'firstname' => $project_staffs[0]->firstname,
                     );
 
                 $data['login_user_id'] = $session_data['user_id'];
                 $data['login_id'] = $session_data['id'];
-                $current_person = $this->project_staff_model->read_person_role($data['login_id'], $data['project_id']);
-
-                if (isset ($current_person[0]))
-                {               
-                    $data['person_role_id'] = $current_person[0]->person_role_id;         
-                }
-                else
+                
+                if (is_null($project_staffs[0]->person_role_id))
                 {
-                    $data['person_role_id'] = 1;
+                    $data['person_role_id'] = 0;
+                }
+                else 
+                {
+                    $data['person_role_id'] = $project_staffs[0]->person_role_id;
                 }
 
                 if ($data['person_role_id'] == 3 || $this->session->userdata('account_type') == 1)
                 {
                     $data['error_message'] = $this->session->flashdata('$error_message');  
                     
-                    $roles_from_db = $this->person_role_model->read_names();         
+                    // roles from db
+                    $roles_from_db = $this->person_role_model->read_names(); 
+                    
+                    // new text in the beginning of array
+                    $a = array('id' => "0", 'role_name' => $this->lang->line('select_role') );
+                    array_unshift($roles_from_db, $a);
+                    
                     $this->load->helper("form_input_helper");
+                    
                     $roles = convert_db_result_to_dropdown(
                     $roles_from_db, 'id', 'role_name');        
                     $data['roles'] = $roles;
@@ -394,6 +389,7 @@ class Project_Staff extends CI_Controller
      * Update project_staff into the database.
      * 
      * Updates the project_staff into the project_staff table. 
+     * 
      */
     public function save_edit()
     {
@@ -443,6 +439,9 @@ class Project_Staff extends CI_Controller
                     $data['error_message'] = $this->session->flashdata('$error_message');
                     $roles_from_db = $this->person_role_model->read_names();         
                     $this->load->helper("form_input_helper");
+                    // new text in the beginning of array
+                    $a = array('id' => "0", 'role_name' => $this->lang->line('select_role') );
+                    array_unshift($roles_from_db, $a);
                     $roles = convert_db_result_to_dropdown(
                     $roles_from_db, 'id', 'role_name');        
                     $data['roles'] = $roles;
@@ -532,7 +531,6 @@ class Project_Staff extends CI_Controller
      * 
      * Deletes a project_staff using the primary key.
      * 
-     * @param int $id Primary key of the project_staff. 
      */
     public function delete()
     {
@@ -544,7 +542,7 @@ class Project_Staff extends CI_Controller
             
             $id = $this->input->post('txt_id');
             $project_id = $this->input->post('txt_project_id');
-            $current_person = $this->project_staff_model->read_person_role($data['login_id'], $project_id);
+            $current_person = $this->project_staff_model->read($data['login_id']);
             
              if (isset ($current_person[0]))
              {               

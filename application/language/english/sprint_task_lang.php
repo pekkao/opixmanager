@@ -24,8 +24,10 @@ $lang['link_sprint_backlog']='Sprint Backlog';
 $lang['link_product_backlog']='Product Backlog';
 $lang['link_sprint_backlog_item']='Sprint Backlog Item';
 
-$lang['missing_name']='Name';
+$lang['missing_task_name']='Task name';
 $lang['missing_sprint_task']='Sprint Task is not found in database';
+$lang['missing_status']='Select status';
+$lang['missing_type']='Select type';
 $lang['cannot_delete']='Cannot delete sprint task because it contains sprint task person(s).'
 
 

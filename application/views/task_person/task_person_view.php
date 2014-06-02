@@ -1,7 +1,7 @@
 <?php
 /**
  * Add task person view to be used to add a task person in an html table.
- * 
+* COMMENTS SHOULD BE REWRITTEN
  * $data = array(
                 'id' => $task_person[0]->id,
                 'task_id' => $task_person[0]->task_id,

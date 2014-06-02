@@ -35,22 +35,7 @@ class Contact_Person_Model extends CI_Model
      * @return int Returns the primary key of the new contact person. 
      */
     public function create($data)
-    {
-        if ($data['customer_id'] == 0)
-        {
-            $data['customer_id'] = NULL;
-        }
-        
-        if (empty($data['surname']))
-        {
-            $data['surname'] = NULL;
-        }
-        
-        if (empty($data['firstname']))
-        {
-            $data['lastname'] = NULL;
-        }
-        
+    {                
         if (empty($data['title']))
         {
             $data['title'] = NULL;
@@ -95,8 +80,12 @@ class Contact_Person_Model extends CI_Model
     }
     
     /**
-     * Read all the contact persons from the contact_person table
+     * Reads all contact persons from the contact_person table
      * 
+     * Reads either all contact persons or contact persons of a customer if
+     * customer_id is given
+     * 
+     * @param int $customer_id Customer's id, optional
      * @return <array> contact persons. 
      */
     public function read_all($customer_id = 0)
@@ -126,14 +115,14 @@ class Contact_Person_Model extends CI_Model
     }
     
     /**
-     * Read the contact persons of a customer from the contact_person table
+     * Reads the contact persons of a customer from the contact_person table
      * 
      * @param int $customerid Foreign key value (customerid) of the contact person
      * @return <array> contact persons of a customer. 
      */
     public function read_customer_contacts($customerid)
     {
-        $this->db->where('customerid', $data['customerid']);
+        $this->db->where('customerid', $customerid);
         $query = $this->db->get('contact_person');
         return $query->result();
     }
@@ -145,21 +134,6 @@ class Contact_Person_Model extends CI_Model
      */
     public function update($data)
     {
-        if ($data['customer_id'] == 0)
-        {
-            $data['customer_id'] = NULL;
-        }
-        
-        if (empty($data['surname']))
-        {
-            $data['surname'] = NULL;
-        }
-        
-        if (empty($data['firstname']))
-        {
-            $data['lastname'] = NULL;
-        }
-        
         if (empty($data['title']))
         {
             $data['title'] = NULL;

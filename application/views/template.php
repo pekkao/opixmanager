@@ -6,7 +6,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><?php echo $pagetitle ?></title>
 
-        <link <?php echo 'href="' . base_url() . 'application/css/opixstyle.css"' ?>
+        <link <?php echo 'href="' . base_url() . 'css/opixstyle.css"' ?>
             type="text/css"  rel="stylesheet" />  
         
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
@@ -17,7 +17,7 @@
         <div id="wrapper">
             <header>
                 <h1>
-                    <img <?php echo 'src="' . base_url() . 'application/css/opixlogo3.png"' ?>  
+                    <img <?php echo 'src="' . base_url() . 'css/opixlogo3.png"' ?>  
                         />OpixManager</h1>
                 
 

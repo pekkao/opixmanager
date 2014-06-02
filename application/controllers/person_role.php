@@ -117,8 +117,8 @@ class Person_Role extends CI_Controller
             $session_data = $this->session->userdata('logged_in');
              $data = array(
                 'id' => $this->input->post('txt_id'),
-                'role_name' => $this->input->post('txt_rolename'),
-                'role_description' => $this->input->post('txt_roledescription')
+                'role_name' => $this->input->post('txt_role_name'),
+                'role_description' => $this->input->post('txt_role_description')
              );
 
              $update = FALSE;
@@ -132,9 +132,9 @@ class Person_Role extends CI_Controller
              $this->form_validation ->set_error_delimiters('<span class="error">','</span>');
 
              $this->form_validation->set_rules(
-                     'txt_rolename',$this->lang->line('missing_name'),'trim|required|max_length[255]|xss_clean');
+                     'txt_role_name',$this->lang->line('missing_name'),'trim|required|max_length[255]|xss_clean');
              $this->form_validation->set_rules(
-                     'txt_roledescription', 'trim|max_length[1000]|xss_clean');
+                     'txt_role_description', 'trim|max_length[1000]|xss_clean');
 
              if ($this->form_validation->run() == FALSE)
              {

@@ -2,6 +2,7 @@
 
 /**
  * tasks_view to be used to view tasks.
+* COMMENTS SHOULD BE REWRITTEN
  * 
  * @param $data = array(        
                 'id' => $task[0]->id,

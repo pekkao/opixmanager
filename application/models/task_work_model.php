@@ -40,16 +40,6 @@ class Task_Work_Model extends CI_Model
         {
             $data['description'] = NULL;
         }
-        
-        if (empty($data['work_hours']))
-        {
-            $data['work_hours'] = NULL;
-        }
-        
-        if (empty($data['work_date']))
-        {
-            $data['work_date'] = NULL;
-        }
               
         $this->db->insert('task_work', $data);
         return $this->db->insert_id();
@@ -71,6 +61,7 @@ class Task_Work_Model extends CI_Model
     /**
      * Read all the task works of the selected person. 
      * 
+     * @param int $id Optional, Primary key of a person
      * @return <array> task works. 
      */
     public function read_all($person_id = 0)
@@ -113,16 +104,6 @@ class Task_Work_Model extends CI_Model
         {
             $data['description'] = NULL;
         }
-        
-        if (empty($data['work_hours']))
-        {
-            $data['work_hours'] = NULL;
-        }
-        
-        if (empty($data['work_date']))
-        {
-            $data['work_date'] = NULL;
-        } 
                
         $this->db->where('id', $data['id']);
         $query = $this->db->update('task_work', $data) ;

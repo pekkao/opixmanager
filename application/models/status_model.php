@@ -58,6 +58,19 @@ class Status_Model extends CI_Model {
         return $query->result();
     }
     
+    /**
+     * Read all the status names and ids from the status table
+     * @return <result_array> Statuses
+     */
+    public function read_names()
+    {
+        $this->db->select('id, status_name');
+        $this->db->from('status');
+        $this->db->order_by('status_name');
+        $query = $this->db->get();
+        return $query->result_array();
+    }    
+    
      /**
      * Update status in the status table.
      * 
@@ -95,6 +108,7 @@ class Status_Model extends CI_Model {
      * Delete a status from the status table.
      * 
      * @param int $id Primary key of the Status to delete. 
+     * @return boolean false if delete does not succeed because of child rows
      */
     public function delete($id)
     {
@@ -109,19 +123,6 @@ class Status_Model extends CI_Model {
         {            
             return TRUE;
         }
-    }
-       
-    /**
-     * Read all the status names and ids from the status table
-     * @return <result_array> Statuses
-     */
-    public function read_names()
-    {
-        $this->db->select('id, status_name');
-        $this->db->from('status');
-        $this->db->order_by('status_name');
-        $query = $this->db->get();
-        return $query->result_array();
     }
 }
 

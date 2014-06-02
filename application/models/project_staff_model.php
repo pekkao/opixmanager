@@ -43,6 +43,7 @@ class Project_Staff_Model extends CI_Model
     
     /**
      * Reads all project staffs from all projects
+     * 
      * @return <array> project_staffs
      */
     public function read_all()
@@ -57,10 +58,10 @@ class Project_Staff_Model extends CI_Model
             'project_staff.start_date AS start_date,' .
             'project_staff.end_date AS end_date'
         );
-         
+
         $this->db->from('project_staff');
         $this->db->join('person_role', 
-                'project_staff.person_role_id  = person_role.id');
+                'project_staff.person_role_id  = person_role.id', 'left');
         $this->db->join('project', 
                 'project_staff.project_id = project.id');
         $this->db->join('person', 
@@ -73,8 +74,10 @@ class Project_Staff_Model extends CI_Model
     }
     
     /**
-     * Read project staff from a project.
-     * @param int $id project_staff.id
+     * Read project staff of a project.
+     * 
+     * @param int $id Primary key of a project_staff
+     * 
      * @return <array> project_staff
      */
     public function read($id)
@@ -94,7 +97,7 @@ class Project_Staff_Model extends CI_Model
                 
         $this->db->from('project_staff');
         $this->db->join('person_role', 
-                'project_staff.person_role_id  = person_role.id');
+                'project_staff.person_role_id  = person_role.id', 'left');
         $this->db->join('project', 
                 'project_staff.project_id = project.id');
         $this->db->join('person', 
@@ -104,38 +107,13 @@ class Project_Staff_Model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
-    
-    /*
-     * Read person's person_role from project.
-     */
-    public function read_person_role($id, $project_id)
-    {
-        $this->db->select(
-        'project_staff.project_id AS project_id,' .
-        'project_staff.person_role_id AS person_role_id,' .
-        'project_staff.person_id AS person_id,' .       
-        'person_role.id AS id'       
-        );
-                
-        $this->db->from('project_staff');
-        $this->db->join('person_role', 
-                'project_staff.person_role_id  = person_role.id');      
-        $this->db->join('person', 
-                'project_staff.person_id = person.id');
-        $this->db->join('project', 
-                'project_staff.project_id = project.id');
         
-        $this->db->where('project_staff.project_id', $project_id);
-        $this->db->where('project_staff.person_id', $id);
-        $query = $this->db->get();
-        return $query->result();       
-                
-    }
     
     /**
      * Read all the project_staffs with foreign key descriptions (project, person, person_role) 
      * from the project_staff table.
      * 
+     * @param int projectid Primary key of a project
      * @return <array> Project_staff. 
      */
     
@@ -154,7 +132,7 @@ class Project_Staff_Model extends CI_Model
          
         $this->db->from('project_staff');
         $this->db->join('person_role', 
-                'project_staff.person_role_id  = person_role.id');
+                'project_staff.person_role_id  = person_role.id', 'left');
         $this->db->join('project', 
                 'project_staff.project_id = project.id');
         $this->db->join('person', 
@@ -172,7 +150,10 @@ class Project_Staff_Model extends CI_Model
     
     /*
      * Reads project's persons
+     * 
      * @param int $id Primary key of the project to read.
+     * 
+     * @return <result_array> Persons of a project
      */
     public function read_project_persons($projectid)
     {
@@ -195,8 +176,10 @@ class Project_Staff_Model extends CI_Model
     
     /**
      * Read project staffs that are not selected in the project.
-     * @param int $id project_id
-     * @return <array> project_staffs
+     * 
+     * @param int $id Primary key of a project
+     * 
+     * @return <array> Project's staff
      */
     public function read_not_project_staffs($id)
     {
@@ -223,7 +206,12 @@ class Project_Staff_Model extends CI_Model
         {
             $data['end_date'] = NULL;
         }
-            
+        
+        if ($data['person_role_id'] == 0)
+        {
+            $data['person_role_id'] = NULL;
+        }
+        
         $this->db->where('id', $data['id']);
         $query = $this->db->update('project_staff', $data);
     }

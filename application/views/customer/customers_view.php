@@ -5,19 +5,24 @@
  * Show customers and with each customer a link to edit and delete a customer.
  * 
  * @param $data = array(
- *           'id' => '',
- *           'customer_name' => '',
- *           'customer_description' => '',
- *           'street_address' => '',
- *           'post_code' => '',
- *           'city' => '',
- *           'www' => ''
+ *           'id',
+ *           'customer_name', 
+ *           'customer_description', 
+ *           'street_address', 
+ *           'post_code', 
+ *           'city', 
+ *           'www'
  *           );
  * @param $data['customers'] All customers in an array.
  * @param $data['pagetitle'] Title and heading of the page
  * @param $data['heading'] Heading for the error message.
  * @param $data['error_message'] The error message to be printed.
- 
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
+ * @package opix
+ * @category View
+ * @author Liisa Auer, Tuukka Kiiskinen, Roni Kokkonen
  */
 ?>
 <script type="text/javascript">
@@ -121,7 +126,7 @@ echo form_fieldset_close();?>
                          $customer->www . '</br>' .
                          $this->lang->line('label_customer_description') . ': ' . $customer->customer_description;    
                 echo '</div>'; 
-                echo '<a href="#" class="trigger">' . img('application/img/information.jpg') . '</a>';
+                echo '<a href="#" class="trigger">' . img('img/information.jpg') . '</a>';
                 echo '</td>';
                 echo '<td>';                
                 echo '</tr>';            

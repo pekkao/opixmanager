@@ -54,7 +54,7 @@ class Report extends CI_Controller
      * project_model, project_staff_model,
      * product_backlog_model, product_backlog_item_model,
      * sprint_backlog_model, sprint_backlog_item_model,
-     * sprint_task_model and language package.
+     * sprint_task_model and language packages.
      */
     public function __construct() 
     {
@@ -106,7 +106,6 @@ class Report extends CI_Controller
                         $customer_person['email'] = $one_person->email;
                         $customer_persons[] = $customer_person;
                     }
-
                 }
             }
             $data['customer_persons'] = $customer_persons;
@@ -155,7 +154,6 @@ class Report extends CI_Controller
                         $customer_project['active'] = $project->active;
                         $customer_projects[] = $customer_project;
                     }
-
                 }
             }
             $data['customer_projects'] = $customer_projects;
@@ -191,19 +189,33 @@ class Report extends CI_Controller
                 foreach($all_projects as $project)
                 {
                     $persons = $this->project_staff_model->read_project_staffs($project->id);
-                    foreach ($persons as $person)
+                    if (count($persons) > 0) // is there any staff in a project?
                     {
-                        $project_person['project_name'] = $project->project_name;
-                        $project_person['project_start_date'] = $project->project_start_date;
-                        $project_person['project_end_date'] = $project->project_end_date;
-                        $project_person['project_type'] = $project->project_type;
-                        $project_person['active'] = $project->active;
-                        $project_person['surname'] = $person->surname;
-                        $project_person['firstname'] = $person->firstname;
-                        $project_person['role_name'] = $person->role_name;
-                        $project_persons[] = $project_person;
+                        foreach ($persons as $person)
+                        {
+                            $project_person['project_name'] = $project->project_name;
+                            $project_person['project_start_date'] = $project->project_start_date;
+                            $project_person['project_end_date'] = $project->project_end_date;
+                            $project_person['project_type'] = $project->project_type;
+                            $project_person['active'] = $project->active;
+                            $project_person['surname'] = $person->surname;
+                            $project_person['firstname'] = $person->firstname;
+                            $project_person['role_name'] = $person->role_name;
+                            $project_persons[] = $project_person;
+                        }
                     }
-
+                    else 
+                    {
+                            $project_person['project_name'] = $project->project_name;
+                            $project_person['project_start_date'] = $project->project_start_date;
+                            $project_person['project_end_date'] = $project->project_end_date;
+                            $project_person['project_type'] = $project->project_type;
+                            $project_person['active'] = $project->active;
+                            $project_person['surname'] = "";
+                            $project_person['firstname'] = "";
+                            $project_person['role_name'] = "";
+                            $project_persons[] = $project_person;                        
+                    }
                 }
             }
             $data['project_persons'] = $project_persons;
@@ -239,19 +251,33 @@ class Report extends CI_Controller
                 foreach($all_projects as $project)
                 {
                     $persons = $this->project_staff_model->read_project_staffs($project->id);
-                    foreach ($persons as $person)
+                    if (count($persons) > 0) // is there any staff in a project?
                     {
-                        $project_person['project_name'] = $project->project_name;
-                        $project_person['project_start_date'] = $project->project_start_date;
-                        $project_person['project_end_date'] = $project->project_end_date;
-                        $project_person['project_type'] = $project->project_type;
-                        $project_person['active'] = $project->active;
-                        $project_person['surname'] = $person->surname;
-                        $project_person['firstname'] = $person->firstname;
-                        $project_person['role_name'] = $person->role_name;
-                        $project_persons[] = $project_person;
+                        foreach ($persons as $person)
+                        {
+                            $project_person['project_name'] = $project->project_name;
+                            $project_person['project_start_date'] = $project->project_start_date;
+                            $project_person['project_end_date'] = $project->project_end_date;
+                            $project_person['project_type'] = $project->project_type;
+                            $project_person['active'] = $project->active;
+                            $project_person['surname'] = $person->surname;
+                            $project_person['firstname'] = $person->firstname;
+                            $project_person['role_name'] = $person->role_name;
+                            $project_persons[] = $project_person;
+                        }
                     }
-
+                    else
+                    {
+                            $project_person['project_name'] = $project->project_name;
+                            $project_person['project_start_date'] = $project->project_start_date;
+                            $project_person['project_end_date'] = $project->project_end_date;
+                            $project_person['project_type'] = $project->project_type;
+                            $project_person['active'] = $project->active;
+                            $project_person['surname'] = "";
+                            $project_person['firstname'] = "";
+                            $project_person['role_name'] = "";
+                            $project_persons[] = $project_person;                        
+                    }
                 }
             }
             $data['project_persons'] = $project_persons;
@@ -287,19 +313,33 @@ class Report extends CI_Controller
                 foreach($all_projects as $project)
                 {
                     $persons = $this->project_staff_model->read_project_staffs($project->id);
-                    foreach ($persons as $person)
+                    if (count($persons) > 0) // is there any staff in a project?
                     {
-                        $project_person['project_name'] = $project->project_name;
-                        $project_person['project_start_date'] = $project->project_start_date;
-                        $project_person['project_end_date'] = $project->project_end_date;
-                        $project_person['project_type'] = $project->project_type;
-                        $project_person['active'] = $project->active;
-                        $project_person['surname'] = $person->surname;
-                        $project_person['firstname'] = $person->firstname;
-                        $project_person['role_name'] = $person->role_name;
-                        $project_persons[] = $project_person;
+                        foreach ($persons as $person)
+                        {
+                            $project_person['project_name'] = $project->project_name;
+                            $project_person['project_start_date'] = $project->project_start_date;
+                            $project_person['project_end_date'] = $project->project_end_date;
+                            $project_person['project_type'] = $project->project_type;
+                            $project_person['active'] = $project->active;
+                            $project_person['surname'] = $person->surname;
+                            $project_person['firstname'] = $person->firstname;
+                            $project_person['role_name'] = $person->role_name;
+                            $project_persons[] = $project_person;
+                        }
                     }
-
+                    else 
+                    {
+                            $project_person['project_name'] = $project->project_name;
+                            $project_person['project_start_date'] = $project->project_start_date;
+                            $project_person['project_end_date'] = $project->project_end_date;
+                            $project_person['project_type'] = $project->project_type;
+                            $project_person['active'] = $project->active;
+                            $project_person['surname'] = "";
+                            $project_person['firstname'] = "";
+                            $project_person['role_name'] = "";
+                            $project_persons[] = $project_person;                        
+                    }
                 }
             }
             $data['project_persons'] = $project_persons;
@@ -347,7 +387,6 @@ class Report extends CI_Controller
                         $person_project['active'] = $project->active;                   
                         $person_projects[] = $person_project;
                     }
-
                 }
             }
 
@@ -387,7 +426,6 @@ class Report extends CI_Controller
             $data['login_id'] = $session_data['id'];
             $data['main_content'] = 'report/choose_project_view';
             $this->load->view('template', $data);
-
         }
         else
         {
@@ -415,24 +453,59 @@ class Report extends CI_Controller
                 foreach($product_backlogs as $product_backlog)
                 {
                     $backlog_items = $this->product_backlog_item_model->read_all($product_backlog->id);
-                    foreach ($backlog_items as $backlog_item)
+                    if (isset ($backlog_items[0]))
                     {
-                        $ppbi['backlog_name'] = $product_backlog->backlog_name;
-                        $ppbi['product_visio'] = $product_backlog->product_visio;
-                        $ppbi['product_current_state'] = $product_backlog->product_current_state;
-                        $ppbi['product_owner'] = $product_backlog->product_owner;
-                        $ppbi['item_name'] = $backlog_item->item_name;
-                        $ppbi['item_description'] = $backlog_item->item_description;
-                        $ppbi['start_date'] = $backlog_item->start_date;
-                        $ppbi['priority'] = $backlog_item->priority;
-                        $ppbi['business_value'] = $backlog_item->business_value;
-                        $ppbi['estimate_points'] = $backlog_item->estimate_points;
-                        $ppbi['effort_estimate_hours'] = $backlog_item->effort_estimate_hours;
-                        $ppbi['acceptance_criteria'] = $backlog_item->acceptance_criteria;
-                        $ppbi['release_target'] = $backlog_item->release_target;
-                        $ppbis[] = $ppbi;
-                    }
-
+                        foreach ($backlog_items as $backlog_item)
+                        {
+                            $ppbi['backlog_name'] = $product_backlog->backlog_name;
+                            $ppbi['product_visio'] = $product_backlog->product_visio;
+                            $ppbi['product_current_state'] = $product_backlog->product_current_state;
+                            if (!(is_null($product_backlog->product_owner)))
+                            {
+                                $name = $this->person_model->read_name($product_backlog->product_owner); 
+                                $ppbi['product_owner'] = $name[0]->name;
+                            }
+                            else 
+                            {
+                                $ppbi['product_owner'] = "";
+                            }
+                            $ppbi['item_name'] = $backlog_item->item_name;
+                            $ppbi['item_description'] = $backlog_item->item_description;
+                            $ppbi['start_date'] = $backlog_item->start_date;
+                            $ppbi['priority'] = $backlog_item->priority;
+                            $ppbi['business_value'] = $backlog_item->business_value;
+                            $ppbi['estimate_points'] = $backlog_item->estimate_points;
+                            $ppbi['effort_estimate_hours'] = $backlog_item->effort_estimate_hours;
+                            $ppbi['acceptance_criteria'] = $backlog_item->acceptance_criteria;
+                            $ppbi['release_target'] = $backlog_item->release_target;
+                            $ppbis[] = $ppbi;
+                        }
+                     }
+                     else  // backlog has no items
+                     {
+                            $ppbi['backlog_name'] = $product_backlog->backlog_name;
+                            $ppbi['product_visio'] = $product_backlog->product_visio;
+                            $ppbi['product_current_state'] = $product_backlog->product_current_state;
+                            if (!(is_null($product_backlog->product_owner)))
+                            {
+                                $name = $this->person_model->read_name($product_backlog->product_owner); 
+                                $ppbi['product_owner'] = $name[0]->name;
+                            }
+                            else 
+                            {
+                                $ppbi['product_owner'] = "";
+                            }
+                            $ppbi['item_name'] = "";
+                            $ppbi['item_description'] = "";
+                            $ppbi['start_date'] = "";
+                            $ppbi['priority'] = "";
+                            $ppbi['business_value'] = "";
+                            $ppbi['estimate_points'] = "";
+                            $ppbi['effort_estimate_hours'] = "";
+                            $ppbi['acceptance_criteria'] = "";
+                            $ppbi['release_target'] = "";
+                            $ppbis[] = $ppbi;
+                     }
                 }
             }
 
@@ -656,20 +729,35 @@ class Report extends CI_Controller
                         foreach ($sprint_backlog_items as $sprint_backlog_item)
                         {
                             $sprint_tasks = $this->sprint_task_model->read_all($sprint_backlog_item->id);
-                            foreach ($sprint_tasks as $sprint_task)
+                            if (isset($sprint_tasks[0]))
+                            {
+                                foreach ($sprint_tasks as $sprint_task)
+                                {
+                                    $pst['sprint_name'] = $sprint_backlog->sprint_name;
+                                    $pst['sprint_description'] = $sprint_backlog->sprint_description;
+                                    $pst['start_date'] = $sprint_backlog->start_date;
+                                    $pst['end_date'] = $sprint_backlog->end_date;
+                                    $pst['item_name'] = $sprint_backlog_item->item_name;
+                                    $pst['task_name'] = $sprint_task->task_name;
+                                    $pst['task_description'] = $sprint_task->task_description;
+                                    $pst['effort_estimate_hours'] = $sprint_task->effort_estimate_hours;
+                                    $psts[] = $pst;
+                                }
+                            }
+                            else // no tasks defined
                             {
                                 $pst['sprint_name'] = $sprint_backlog->sprint_name;
                                 $pst['sprint_description'] = $sprint_backlog->sprint_description;
                                 $pst['start_date'] = $sprint_backlog->start_date;
                                 $pst['end_date'] = $sprint_backlog->end_date;
-                                $pst['task_name'] = $sprint_task->task_name;
-                                $pst['task_description'] = $sprint_task->task_description;
-                                $pst['effort_estimate_hours'] = $sprint_task->effort_estimate_hours;
-                                $psts[] = $pst;
+                                $pst['item_name'] = $sprint_backlog_item->item_name;
+                                $pst['task_name'] = ""; 
+                                $pst['task_description'] = "";
+                                $pst['effort_estimate_hours'] = $sprint_backlog_item->effort_estimate_hours;;
+                                $psts[] = $pst;                                
                             }
                         }
                     }
-
                 }
             }
 
@@ -711,7 +799,6 @@ class Report extends CI_Controller
             $data['login_id'] = $session_data['id'];
             $data['main_content'] = 'report/choose_project_period_view';
             $this->load->view('template', $data);
-
         }
         else
         {
@@ -756,7 +843,6 @@ class Report extends CI_Controller
                         $ppt['task_type_name'] = $task->task_type_name;
                         $ppts[] = $ppt;
                     }
-
                 }
             }
 

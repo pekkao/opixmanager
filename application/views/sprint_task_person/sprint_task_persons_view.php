@@ -3,20 +3,21 @@
 /**
  * Sprint_task_persons_view to be used to show all sprint_task_persons in an html table.
  * 
- * $data = array(
-            'id' => $sprint_task_person[0]->id,
-            'sprint_task_id' => $sprint_task_person[0]->sprint_task_id,
-            'person_id' => $sprint_task_person[0]->person_id,
-            'estimate_work_effort_hours' => $sprint_task_person[0]->estimate_work_effort_hours,
-            'firstname' => $sprint_task_person[0]->firstname,
-            'surname' => $sprint_task_person[0]->surname              
-            );
- * 
- * @param $data['sprint_task_persons'] All sprint_task_persons in an array.
+ * @param $data['project_id'] Selected project
+ * @param $data['sprint_task_persons'] All sprint_task_persons with estimate hours in an array.
+ * @param $data['currentid'] Selected sprint task id
+ * @param $data['sprint_backlog_item_id'] Selected sprint backlog item
+ * @param $data['sprint_backlog_id'] Selected sprint backlog
+ * @param $data['product_backlog_id'] Selected product backlog
  * @param $data['pagetitle'] Title and heading of the page
  * @param $data['heading'] Heading for the error message.
  * @param $data['error_message'] The error message to be printed.
- *
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
+ * @package opix
+ * @category View
+ * @author Tuukka Kiiskinen, Roni Kokkonen
  */
 
 ?>
@@ -38,9 +39,9 @@ echo '<p class="polku">' . anchor('product_backlog/index/' . $project_id, $this-
 echo ' >> ';
 echo anchor('sprint_backlog/index/' . $project_id . '/' . $product_backlog_id, $this->lang->line('link_sprint_backlog'));
 echo ' >> ';
-echo anchor('sprint_backlog_item/index/' . $project_id . '/' . $sprint_backlog_item_id, $this->lang->line('link_sprint_backlog_item'));
+echo anchor('sprint_backlog_item/index/' . $project_id . '/' . $sprint_backlog_id, $this->lang->line('link_sprint_backlog_item'));
 echo ' >> ';
-echo anchor('sprint_task/index/' . $project_id . '/' . $sprint_task_id, $this->lang->line('link_sprint_task'));
+echo anchor('sprint_task/index/' . $project_id . '/' . $sprint_backlog_item_id, $this->lang->line('link_sprint_task'));
 echo '</p>';
 ?>
 

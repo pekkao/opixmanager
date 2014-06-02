@@ -47,10 +47,12 @@ function hide()
                     if ($pst['sprint_name'] === $prev)
                     {
                         echo '<tr>';
+                            echo '<th class="raporttireuna">' . $this->lang->line('label_item_name') . '</th>';
+                            echo '<td class="raporttireuna">' . $pst['item_name'] . '</td>'; 
                             echo '<th class="raporttireuna">' . $this->lang->line('label_task_name') . '</th>';
                             echo '<td class="raporttireuna">' . $pst['task_name'] . '</td>'; 
-                            echo '<th class="raporttireuna">' . $this->lang->line('label_effort_estimate_hours') . '</th>';
-                            echo '<td class="raporttireuna" colspan="2">' . $pst['effort_estimate_hours'] . '</td>';
+                            echo '<th class="raporttireuna">' . $this->lang->line('label_effort_estimate_hours');
+                            echo '<td class="raporttireuna">' . $pst['effort_estimate_hours'] . '</td>';
                         echo '</tr>';                        
                         
                         echo '<tr>';
@@ -65,7 +67,7 @@ function hide()
                     
                     else
                     {
-                        echo '<tr>';
+                        echo '<tr>';                        
                             echo '<th class="rivi">' . $this->lang->line('label_sprint_name') . '</th>';
                             echo '<td class="rivi">' . $pst['sprint_name'] . '</td>';
                             echo '<th class="rivi">' . $this->lang->line('label_start_date') . '</th>';
@@ -83,10 +85,12 @@ function hide()
                         echo '</tr>';
                         
                         echo '<tr>';
+                            echo '<th class="raporttireuna">' . $this->lang->line('label_item_name') . '</th>';
+                            echo '<td class="raporttireuna">' . $pst['item_name'] . '</td>';                        
                             echo '<th class="raporttireuna">' . $this->lang->line('label_task_name') . '</th>';
                             echo '<td class="raporttireuna">' . $pst['task_name'] . '</td>';
-                            echo '<th class="raporttireuna">' . $this->lang->line('label_effort_estimate_hours') . '</th>';
-                            echo '<td class="raporttireuna" colspan="2">' . $pst['effort_estimate_hours'] . '</td>';
+                            echo '<th class="raporttireuna">' . $this->lang->line('label_effort_estimate_hours'); 
+                            echo '<td class="raporttireuna">' . $pst['effort_estimate_hours'] . '</td>';
                         echo '</tr>';
                         
                         echo '<tr>';

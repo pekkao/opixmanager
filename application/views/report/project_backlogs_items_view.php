@@ -41,6 +41,7 @@ if (isset($ppbis))
     {                                     
         if ($ppbi['backlog_name'] === $prev)
         {
+            // second and subsequent item lines
             echo '<table>';
             echo '<tbody>';
                 echo '<tr>';
@@ -120,49 +121,52 @@ if (isset($ppbis))
             echo '</tbody>';
             echo '</table>';
             
-            echo '<table>';
-            echo '<tbody>';
-                echo '<tr>';
-                    echo '<th class="reunaa">' . $this->lang->line('label_item_name') . '</th>';
-                    echo '<th class="reuna">' . $this->lang->line('label_start_date') . '</th>';
-                    echo '<th class="reuna">' . $this->lang->line('label_priority') . '</th>';
-                    echo '<th class="reuna">' . $this->lang->line('label_business_value') . '</th>';
-                    echo '<th class="reuna">' . $this->lang->line('label_estimate_points') . '</th>';
-                    echo '<th class="reuna">' . $this->lang->line('label_effort_estimate_hours') . '</th>';
-                    echo '<th class="reuna">' . $this->lang->line('label_release_target') . '</th>';
-                echo '</tr>';
+            if($ppbi['item_name'] != "") // if there is an item
+            {
+                echo '<table>';
+                echo '<tbody>';
+                    echo '<tr>';
+                        echo '<th class="reunaa">' . $this->lang->line('label_item_name') . '</th>';
+                        echo '<th class="reuna">' . $this->lang->line('label_start_date') . '</th>';
+                        echo '<th class="reuna">' . $this->lang->line('label_priority') . '</th>';
+                        echo '<th class="reuna">' . $this->lang->line('label_business_value') . '</th>';
+                        echo '<th class="reuna">' . $this->lang->line('label_estimate_points') . '</th>';
+                        echo '<th class="reuna">' . $this->lang->line('label_effort_estimate_hours') . '</th>';
+                        echo '<th class="reuna">' . $this->lang->line('label_release_target') . '</th>';
+                    echo '</tr>';
 
-                echo '<tr>';
-                    echo '<td class="reunaa">' . $ppbi['item_name'] . '</td>'; 
-                    echo '<td class="reuna">' . $ppbi['start_date'] . '</td>';
-                    echo '<td class="reuna">' . $ppbi['priority'] . '</td>';
-                    echo '<td class="reuna">' . $ppbi['business_value'] . '</td>';
-                    echo '<td class="reuna">' . $ppbi['estimate_points'] . '</td>';
-                    echo '<td class="reuna">' . $ppbi['effort_estimate_hours'] . '</td>';                      
-                    echo '<td class="reuna">' . $ppbi['release_target'] . '</td>';
-                echo '</tr>';
-            echo '</tbody>';
-            echo '</table>';
-            
-            echo '<table>';
-            echo '<tbody>';
-                echo '<tr>';
-                    echo '<th class="reunaa">' . $this->lang->line('label_item_description') . '</th>';
-                echo '</tr>';
+                    echo '<tr>';
+                        echo '<td class="reunaa">' . $ppbi['item_name'] . '</td>'; 
+                        echo '<td class="reuna">' . $ppbi['start_date'] . '</td>';
+                        echo '<td class="reuna">' . $ppbi['priority'] . '</td>';
+                        echo '<td class="reuna">' . $ppbi['business_value'] . '</td>';
+                        echo '<td class="reuna">' . $ppbi['estimate_points'] . '</td>';
+                        echo '<td class="reuna">' . $ppbi['effort_estimate_hours'] . '</td>';                      
+                        echo '<td class="reuna">' . $ppbi['release_target'] . '</td>';
+                    echo '</tr>';
+                echo '</tbody>';
+                echo '</table>';
 
-                echo '<tr>';
-                    echo '<td class="reunaa">' . $ppbi['item_description'] . '</td>';
-                echo '</tr>';
+                echo '<table>';
+                echo '<tbody>';
+                    echo '<tr>';
+                        echo '<th class="reunaa">' . $this->lang->line('label_item_description') . '</th>';
+                    echo '</tr>';
 
-                echo '<tr>';
-                    echo '<th class="reunaa">' . $this->lang->line('label_acceptance_criteria') . '</th>';
-                echo '</tr>';
+                    echo '<tr>';
+                        echo '<td class="reunaa">' . $ppbi['item_description'] . '</td>';
+                    echo '</tr>';
 
-                echo '<tr>';
-                    echo '<td class="reunaaa">' . $ppbi['acceptance_criteria'] . '</td>';
-                echo '</tr>';
-            echo '</tbody>';
-            echo '</table>';
+                    echo '<tr>';
+                        echo '<th class="reunaa">' . $this->lang->line('label_acceptance_criteria') . '</th>';
+                    echo '</tr>';
+
+                    echo '<tr>';
+                        echo '<td class="reunaaa">' . $ppbi['acceptance_criteria'] . '</td>';
+                    echo '</tr>';
+                echo '</tbody>';
+                echo '</table>';
+            }
             $prev = $ppbi['backlog_name'];
         }                                                                
     }

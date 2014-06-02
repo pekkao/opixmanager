@@ -69,7 +69,9 @@ class Sprint_Backlog_Item_Model extends CI_Model
     /**
      * Read all the sprint backlog items of the selected sprint backlog. 
      * 
-     * @return <query> sprint_backlog_items. 
+     * @param int $id Primary key of the sprint backlog 
+     * 
+     * @return <array> sprint_backlog_items. 
      */
     public function read_all($sprintbacklogitemid)
     {
@@ -105,18 +107,19 @@ class Sprint_Backlog_Item_Model extends CI_Model
     /**
      *
      * Read all the sprint backlog items currently not selected in the sprint backlog
-     * @param int $id Primary key of the sprint backlog
-     * @return query results 
+     * 
+     * @param int $id product_backlog_id
+     * 
+     * @return <array> Backlog items 
      */
     public function read_not_backlog_items($id)
     {
-        // subquery and a parameter in a query
-        $sql = 'SELECT product_backlog_item.id AS product_backlog_item_id, 
-                product_backlog_item.item_name AS item_name ' .           
-                'FROM product_backlog_item WHERE product_backlog_item.id NOT IN ( ' .
-                'SELECT product_backlog_item.id AS id FROM product_backlog_item ' .
-                'INNER JOIN sprint_backlog_item ON product_backlog_item.id = sprint_backlog_item.product_backlog_item_id ' .
-                'WHERE sprint_backlog_item.sprint_backlog_id = ?)';
+        $sql = 'SELECT product_backlog_item.id AS product_backlog_item_id, ' . 
+                'product_backlog_item.item_name AS item_name ' .
+                'FROM product_backlog_item left join sprint_backlog_item on ' .
+                ' product_backlog_item.id = sprint_backlog_item.product_backlog_item_id ' .
+                'WHERE product_backlog_item.product_backlog_id = ? and ' .
+                'sprint_backlog_item.product_backlog_item_id is null;';
         
         $query = $this->db->query($sql, array($id));
         return $query->result();
@@ -126,6 +129,8 @@ class Sprint_Backlog_Item_Model extends CI_Model
      * Delete a sprint backlog item from the sprint backlog item table.
      * 
      * @param int $id Primary key of the sprint backlog item to delete. 
+     * 
+     * @return boolean false if delete does not succeed because of child rows
      */
     public function delete($id)
     {

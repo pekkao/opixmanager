@@ -1,8 +1,14 @@
 <?php
 /**
+ * @param $data['pagetitle'] Title and heading of the page
+ * @param $data['heading'] Heading for the error message.
+ * @param $data['error_message'] The error message to be printed.
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
  * @package opix
  * @category View
- * @author Roni Kokkonen, Tuukka Kiiskinen
+ * @author Tuukka Kiiskinen, Roni Kokkonen
  */
 ?>
 

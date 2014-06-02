@@ -23,6 +23,9 @@ $lang['invalid_dates'] = "Start date must be before end date.";
 $lang['invalid_start_date'] = "Start date must be before Project end date.";
 $lang['title_db_error']="Error";
 
+$lang['select_role']="Select role";
+
+
 $lang['not_allowed'] = "You don't have permission to do that.";
 
 ?>

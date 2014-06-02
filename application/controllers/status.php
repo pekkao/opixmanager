@@ -37,8 +37,7 @@ class Status extends CI_Controller {
      * Reads all statuses from the status table in the database. 
      * Uses the status/statuses_view.
      * 
-     */
-    
+     */    
     public function index() {
         
         if ($this->session->userdata('logged_in'))
@@ -236,7 +235,6 @@ class Status extends CI_Controller {
      * 
      * Deletes a status using the primary key.
      * 
-     * @param int $id Primary key of the status. 
      */
     public function delete()
     {

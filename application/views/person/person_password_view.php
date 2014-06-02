@@ -3,15 +3,18 @@
  * Person password view to be used to change a person's password.
  * 
  * @param $data = array(
- *           'id' => '',
- *           'pwd_old_password' => '',
- *           'pwd_new_password' => '',
- *           'pwd_confirm_password' => '',
+ *           'id' => ''
  *      );
+ * 
  * @param $data['pagetitle'] Title and heading of the page
  * @param $data['heading'] Heading for the error message.
  * @param $data['error_message'] The error message to be printed.
- 
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
+ * @package opix
+ * @category View
+ * @author Tuukka Kiiskinen, Roni Kokkonen
  */
 ?>
 
@@ -58,5 +61,12 @@
     echo anchor('home', $this->lang->line('link_return'), 'class="returnlink"' );
     echo '</p>';
     echo form_fieldset_close();
-    echo form_close();
+    echo form_close();    
+?>
+
+<?php 
+if (isset($error_message))
+{
+    echo '<p>' . $error_message . '</p>';
+}
 ?>

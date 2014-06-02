@@ -4,20 +4,31 @@
  * Product_backlog__item_view to be used to insert and update a product_backlog_item.
  * 
  * @param $data = array(
- *               'id' => $product_backlog_item[0]->id,
- *               'item_name' => $product_backlog_item[0]->item_name,
- *               'item_description' => $product_backlog_item[0]->item_description,
- *               'item_priority' => $product_backlog_item[0]->item_priority,
- *               'item_business_value' => $product_backlog_item[0]->item_business_value,
- *               'item_estimate_points' => $product_backlog_item[0]->item_estimate_points,
- *               'item_effort_estimate_points' => $product_backlog_item[0]->item_effort_estimate_points,
- *               'item_acceptance_criteria' => $product_backlog_item[0]->item_acceptance_criteria,
- *               'item_release_target' => $product_backlog_item[0]->item_release_target,
+ *               'id',
+ *               'item_name',
+ *               'item_description',
+ *               'priority',
+ *               'business_value',
+ *               'estimate_points',
+ *               'effort_estimate_points',
+ *               'acceptance_criteria',
+ *               'release_target',
+ *               'product_backlog_id'
+ *               'item_type_id,
+ *               'status_id',
+ *               'is_part_of_id',
+ *               'start_date'            
  *              );
  * 
+ * @param $data['project_id'] Pjoject_id of the project the product backlog belongs to
  * @param $data['pagetitle'] Title and heading of the page
  * @param $data['add'] Hide or show the Reset button (false/true).
- *
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
+ * @package opix
+ * @category View
+ * @author Wang Yuqing, Tuukka Kiiskinen, Roni Kokkonen
  */
 
 ?>
@@ -187,6 +198,7 @@ echo br(1);
 
 echo form_label($this->lang->line('label_status'), 'ddl_status');
 echo form_dropdown('ddl_status', $status, $status_id, 'class="sameline"');
+echo form_error('ddl_status' );
 echo br(1);
 
 echo '<p>';

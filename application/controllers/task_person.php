@@ -49,7 +49,8 @@ class Task_Person extends CI_Controller
      * from the task_person table in the database. 
      * Uses the task persons.
      * 
-     * @param int $taskid Selected taskid, default is zero. 
+     * @param int $project_id Primary key of the selected project.
+     * @param int $taskid Selected taskid, optional. 
      */
     public function index($project_id = 0, $taskid = 0) 
     {
@@ -103,6 +104,9 @@ class Task_Person extends CI_Controller
      * Add a task_person to the database.
      * 
      * Creates a task_person and shows it via task_person_view.
+     * 
+     * @param int $project_id Primary key of the selected project.
+     * @param int $id Selected project period 
      */
     public function add($project_id, $id)
     {
@@ -174,9 +178,11 @@ class Task_Person extends CI_Controller
      * Edit task person's effort estimate hours.
      * 
      * Edit task person's effort estimate hours.
-     * @param type $id primary key person_id.
+     * 
+     * @param type $project_id Selected project
+     * @param type $id Person id
+     * @param type $task_id Selected task
      */
-    
     public function edit($project_id, $id, $task_id)
     {
         if ($this->session->userdata('logged_in'))
@@ -208,7 +214,6 @@ class Task_Person extends CI_Controller
                 $data['login_id'] = $session_data['id'];
                 $this->load->view('template', $data);
             } 
-
             else 
             {
                 $error_message = $this->lang->line('missing_task_person');
@@ -435,7 +440,6 @@ class Task_Person extends CI_Controller
     /**
      * Delete a task_person.
      * 
-     * @param int $id Primary key of the task_person. 
      */
     public function delete()
     {

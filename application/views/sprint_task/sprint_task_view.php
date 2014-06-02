@@ -4,18 +4,28 @@
  * Sprint_task_view to be used to insert and update a sprint_task.
  * 
  * @param $data = array(
-                'id'         => $sprint_task[0]->id,
-                'sprint_backlog_item_id'    => $sprint_task[0]->sprint_backlog_item_id,
-                'task_name'  => $sprint_task[0]->task_name,
-                'task_description'      => $sprint_task[0]->task_description,
-                'effort_estimate_hours'      => $sprint_task[0]->effort_estimate_hours,
-                'status_id'      => $sprint_task[0]->status_id,
-                'task_type_id' => $sprint_task[0]->task_type_id  
+ *   'id',
+ *   'sprint_backlog_item_id',
+ *   'task_name',
+ *   'task_description',
+ *   'effort_estimate_hours',
+ *   'status_id',
+ *   'task_type_id'
+ * );
  * 
+ * @param $data['statuses'] Statuses for a dropdown listbox
+ * @param $data['task_types'] Task types for a dropdown listbox
+ * @param $data['project_id'] Selected project
  * @param $data['pagetitle'] Title and heading of the page
  * @param $data['add'] Hide or show the Reset button (false/true).
- * @author Tuukka Kiiskinen, Roni Kokkonen
+ * @param $data['heading'] Heading for the error message.
+ * @param $data['error_message'] The error message to be printed.
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
  * 
+ * @package opix
+ * @category View
+ * @author Tuukka Kiiskinen, Roni Kokkonen
  */
 
 ?>
@@ -76,9 +86,11 @@ echo br(1);
 
 echo form_label($this->lang->line('label_status'), 'ddl_status_id');
 echo form_dropdown('ddl_status_id', $statuses, $status_id);
+echo form_error('ddl_status_id');
 
 echo form_label($this->lang->line('label_task_type'), 'ddl_task_type_id');
 echo form_dropdown('ddl_task_type_id', $task_types, $task_type_id);
+echo form_error('ddl_task_type_id');
 
 echo br(1);
 

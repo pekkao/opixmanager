@@ -3,19 +3,27 @@
  *  Add Project staffs view to be used to add a project staff in an html table.
  * 
  * @param  $data = array(
- *       'id' => '',
- *       'surname' => '',
- *       'firstname' => '',
- *       'role' => '',
- *       'start_date' => '',
- *       'end_date' => '',
+ *       'person_id', 
+ *       'surname', 
+ *       'firstname',
+ *       'selected'
+ * 
  *   );
- * @param $data['project_staff'] Project staff names and ids
+ * @param $data['persons'] Project staff names and ids that are not in the selected project
+ * @param $data['start_date'] Start date of project members
+ * @param $data['selected_role'] Role to be set to the project members
+ * @param $data['project_id'] Selected project
+ * @param $data['roles'] Project member roles in an array
  * @param $data['pagetitle'] Title and heading of the page
- 
+ * @param $data['heading'] Heading for the error message.
+ * @param $data['error_message'] The error message to be printed.
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ *  
  * @package opix
  * @category View
- * @author Arto Ruonala, Pipsa Korkiakoski, Antti Aho, Liisa Auer
+ * @author Arto Ruonala, Pipsa Korkiakoski, Antti Aho, Liisa Auer,
+ *      Tuukka Kiiskinen, Roni Kokkonen
  */
 ?>
 

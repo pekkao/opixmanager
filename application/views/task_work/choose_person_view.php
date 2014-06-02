@@ -1,4 +1,5 @@
 <?php
+// COMMENTS SHOULD BE REWRITTEN
 /**
  * Select a person from dropdownlist
  * @param $data['persons'] person names and ids

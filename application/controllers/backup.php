@@ -91,7 +91,7 @@ class Backup extends CI_Controller
 
                 $prefs = array(
                     'tables'      => array('item_type', 'language', 'person', 'status', 
-                        'task_type', 'person_role', 'project_type',  
+                        'task_type', 'person_role',   
                         'customer', 'contact_person', 'project', 'project_staff', 
                         'product_backlog', 'product_backlog_item', 'sprint_backlog', 
                         'sprint_backlog_item', 'sprint_task', 'sprint_task_person', 
@@ -135,8 +135,7 @@ class Backup extends CI_Controller
         else
         {
             redirect('login','refresh');
-        }
-             
+        }  
     }
 }
 ?>

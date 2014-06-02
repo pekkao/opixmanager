@@ -39,7 +39,7 @@ $lang['button_search'] = 'Search';
 $lang['link_add_person'] = "Add Person";
 $lang['link_return'] = 'Return';
 $lang['link_change_password'] = 'Change Password';
-$lang['link_all'] = 'All persons';
+$lang['link_all_persons'] = 'All persons';
 $lang['link_edit']='Edit';
 $lang['link_project']='Projects';
 
@@ -52,6 +52,7 @@ $lang['missing_old_password']='Old Password ';
 $lang['missing_new_password']='New Password ';
 $lang['missing_confirm_password']='Confirm Password ';
 $lang['missing_person']='Person is not found in database';
+$lang['missing_language']='Select language';
 $lang['invalid_email'] = 'Email';
 $lang['invalid_phonenumber'] = 'Phone number ';
 $lang['invalid_password'] = "New password cannot be the same as old password.";

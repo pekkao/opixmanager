@@ -2,7 +2,7 @@
 
 /**
  * task_persons_view to be used to show all task_persons in an html table.
- * 
+* COMMENTS SHOULD BE REWRITTEN
  * $data = array(
                 'id' => $task_person[0]->id,
                 'task_id' => $task_person[0]->task_id,

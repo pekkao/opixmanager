@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.5
+-- version 3.5.2.2
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Dec 15, 2013 at 11:03 AM
--- Server version: 5.5.32-cll
--- PHP Version: 5.3.17
+-- Host: 127.0.0.1
+-- Generation Time: Jun 02, 2014 at 09:05 AM
+-- Server version: 5.5.27
+-- PHP Version: 5.4.7
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -36,7 +36,8 @@ CREATE TABLE IF NOT EXISTS `contact_person` (
   `customer_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_contactperson_customer` (`customer_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+
 
 --
 -- Table structure for table `customer`
@@ -51,7 +52,8 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `city` varchar(255) DEFAULT NULL,
   `www` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+
 
 --
 -- Table structure for table `item_type`
@@ -64,15 +66,6 @@ CREATE TABLE IF NOT EXISTS `item_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
---
--- Dumping data for table `item_type`
---
-
-INSERT INTO `item_type` (`id`, `item_type_name`, `item_type_description`) VALUES
-(1, 'Epic', NULL),
-(2, 'Theme', NULL);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `language`
@@ -85,15 +78,6 @@ CREATE TABLE IF NOT EXISTS `language` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
---
--- Dumping data for table `language`
---
-
-INSERT INTO `language` (`id`, `language_short`, `language_long`) VALUES
-(1, 'en', 'english'),
-(2, 'fi', 'finnish');
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `person`
@@ -108,21 +92,13 @@ CREATE TABLE IF NOT EXISTS `person` (
   `phone_number` varchar(255) DEFAULT NULL,
   `user_id` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `language_id` int(11) DEFAULT NULL,
-  `account_type` int(11) DEFAULT NULL,
+  `language_id` int(11) NOT NULL,
+  `account_type` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`),
   KEY `fk_person_language` (`language_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
---
--- Dumping data for table `person`
---
-
-INSERT INTO `person` (`id`, `surname`, `firstname`, `title`, `email`, `phone_number`, `user_id`, `password`, `language_id`, `account_type`) VALUES
-(1, 'admin', 'admin', NULL, '', NULL, 'admin', 'e00cf25ad42683b3df678c61f42c6bda', 2, 1);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `person_role`
@@ -135,16 +111,6 @@ CREATE TABLE IF NOT EXISTS `person_role` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
---
--- Dumping data for table `person_role`
---
-
-INSERT INTO `person_role` (`id`, `role_name`, `role_description`) VALUES
-(1, 'Member', NULL),
-(2, 'Scrum Master', NULL),
-(3, 'Project Manager', NULL);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `product_backlog`
@@ -155,13 +121,12 @@ CREATE TABLE IF NOT EXISTS `product_backlog` (
   `backlog_name` varchar(255) NOT NULL,
   `product_visio` varchar(1000) DEFAULT NULL,
   `product_current_state` varchar(1000) DEFAULT NULL,
-  `product_owner` varchar(255) DEFAULT NULL,
+  `product_owner` int(11) DEFAULT NULL,
   `project_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_product_backlog_project` (`project_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
--- --------------------------------------------------------
 
 --
 -- Table structure for table `product_backlog_item`
@@ -186,9 +151,8 @@ CREATE TABLE IF NOT EXISTS `product_backlog_item` (
   KEY `fk_product_backlog_item_product_backlog` (`product_backlog_id`),
   KEY `fk_product_backlog_item_item_type` (`item_type_id`),
   KEY `fk_product_backlog_item_status` (`status_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
--- --------------------------------------------------------
 
 --
 -- Table structure for table `project`
@@ -196,20 +160,17 @@ CREATE TABLE IF NOT EXISTS `product_backlog_item` (
 
 CREATE TABLE IF NOT EXISTS `project` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `project_name` varchar(255) DEFAULT NULL,
+  `project_name` varchar(255) NOT NULL,
   `project_description` text,
   `project_start_date` date DEFAULT NULL,
   `project_end_date` date DEFAULT NULL,
-  `type_id` int(11) DEFAULT NULL,
   `customer_id` int(11) DEFAULT NULL,
-  `project_type` int(11) DEFAULT NULL,
-  `active` int(11) DEFAULT NULL,
+  `project_type` int(11) NOT NULL,
+  `active` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_project_projecttype` (`type_id`),
   KEY `fk_project_customer` (`customer_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
--- --------------------------------------------------------
 
 --
 -- Table structure for table `project_period`
@@ -227,7 +188,6 @@ CREATE TABLE IF NOT EXISTS `project_period` (
   KEY `fk_project` (`project_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
--- --------------------------------------------------------
 
 --
 -- Table structure for table `project_staff`
@@ -244,28 +204,8 @@ CREATE TABLE IF NOT EXISTS `project_staff` (
   KEY `fk_projectstaff_project` (`project_id`),
   KEY `fk_projectstaff_person` (`person_id`),
   KEY `fk_projectstaff_personrole` (`person_role_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
 
---
--- Table structure for table `project_type`
---
-
-CREATE TABLE IF NOT EXISTS `project_type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type_name` varchar(255) NOT NULL,
-  `type_description` text,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `project_type`
---
-
-INSERT INTO `project_type` (`id`, `type_name`, `type_description`) VALUES
-(1, 'Scrum', 'An agile project'),
-(2, 'Traditional', NULL);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `sprint_backlog`
@@ -275,14 +215,13 @@ CREATE TABLE IF NOT EXISTS `sprint_backlog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_backlog_id` int(11) NOT NULL,
   `sprint_name` varchar(255) NOT NULL,
-  `sprint_description` varchar(1000) NOT NULL,
-  `start_date` date DEFAULT NULL,
-  `end_date` date NOT NULL,
+  `sprint_description` varchar(1000) DEFAULT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_sprint_backlog_product_backlog` (`product_backlog_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
--- --------------------------------------------------------
 
 --
 -- Table structure for table `sprint_backlog_item`
@@ -295,9 +234,8 @@ CREATE TABLE IF NOT EXISTS `sprint_backlog_item` (
   PRIMARY KEY (`id`),
   KEY `fk_sprint_backlog_item_sprint_backlog` (`sprint_backlog_id`),
   KEY `fk_sprint_backlog_item_product_backlog_item` (`product_backlog_item_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
--- --------------------------------------------------------
 
 --
 -- Table structure for table `sprint_task`
@@ -315,7 +253,8 @@ CREATE TABLE IF NOT EXISTS `sprint_task` (
   KEY `fk_sprint_task_status` (`status_id`),
   KEY `fk_sprint_task_sprint_backlog_item` (`sprint_backlog_item_id`),
   KEY `fk_sprint_task_task_type` (`task_type_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+
 
 --
 -- Table structure for table `sprint_task_person`
@@ -323,15 +262,14 @@ CREATE TABLE IF NOT EXISTS `sprint_task` (
 
 CREATE TABLE IF NOT EXISTS `sprint_task_person` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sprint_task_id` int(11) DEFAULT NULL,
-  `person_id` int(11) DEFAULT NULL,
+  `sprint_task_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
   `estimate_work_effort_hours` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_sprint_task_person_sprint_task` (`sprint_task_id`),
   KEY `fk_sprint_task_person_person` (`person_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
 
--- --------------------------------------------------------
 
 --
 -- Table structure for table `sprint_work`
@@ -350,7 +288,6 @@ CREATE TABLE IF NOT EXISTS `sprint_work` (
   KEY `fk_sprint_work_person` (`person_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
 
 --
 -- Table structure for table `status`
@@ -363,16 +300,6 @@ CREATE TABLE IF NOT EXISTS `status` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
---
--- Dumping data for table `status`
---
-
-INSERT INTO `status` (`id`, `status_name`, `status_description`) VALUES
-(1, 'Not started', NULL),
-(2, 'In Progress', NULL),
-(3, 'Done', NULL);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `task`
@@ -394,7 +321,6 @@ CREATE TABLE IF NOT EXISTS `task` (
   KEY `fk_status` (`status_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
--- --------------------------------------------------------
 
 --
 -- Table structure for table `task_person`
@@ -405,14 +331,13 @@ CREATE TABLE IF NOT EXISTS `task_person` (
   `start_date` date NOT NULL,
   `end_date` date DEFAULT NULL,
   `effort_estimate_hours` int(11) NOT NULL,
-  `task_id` int(11) DEFAULT NULL,
-  `person_id` int(11) DEFAULT NULL,
+  `task_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_task_person_task` (`task_id`),
   KEY `fk_task_person_person` (`person_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
--- --------------------------------------------------------
 
 --
 -- Table structure for table `task_type`
@@ -425,7 +350,6 @@ CREATE TABLE IF NOT EXISTS `task_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
--- --------------------------------------------------------
 
 --
 -- Table structure for table `task_work`
@@ -436,8 +360,8 @@ CREATE TABLE IF NOT EXISTS `task_work` (
   `work_hours` decimal(5,1) NOT NULL,
   `work_date` date NOT NULL,
   `description` varchar(1000) DEFAULT NULL,
-  `task_id` int(11) DEFAULT NULL,
-  `person_id` int(11) DEFAULT NULL,
+  `task_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_task_work_task` (`task_id`),
   KEY `fk_task_work_person` (`person_id`)
@@ -477,8 +401,7 @@ ALTER TABLE `product_backlog_item`
 -- Constraints for table `project`
 --
 ALTER TABLE `project`
-  ADD CONSTRAINT `fk_project_customer` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_project_projecttype` FOREIGN KEY (`type_id`) REFERENCES `project_type` (`id`) ON DELETE SET NULL;
+  ADD CONSTRAINT `fk_project_customer` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `project_period`

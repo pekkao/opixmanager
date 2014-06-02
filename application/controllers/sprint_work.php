@@ -46,6 +46,7 @@ class Sprint_Work extends CI_Controller
      * 
      * Reads all sprint works from the sprint_work table in the database. 
      * Uses the sprint_work/sprint_works_view.
+     * 
      * @param int id primary key of the selected person, default value 0.
      * 
      */
@@ -92,6 +93,9 @@ class Sprint_Work extends CI_Controller
         }
     }
     
+    /**
+     * ??
+     */
     public function choose_person()
     {
         if ($this->session->userdata('logged_in'))
@@ -132,7 +136,8 @@ class Sprint_Work extends CI_Controller
      * Add a sprint work to the database.
      * 
      * Creates an empty sprint work and shows it via sprint_work/sprint_work_view.
-     * @param int $currentpersonid primary key of the selected person. 
+     * 
+     * @param int $currentpersonid Primary key of the selected person. 
      */
     public function add($currentpersonid)
     {
@@ -181,7 +186,8 @@ class Sprint_Work extends CI_Controller
      * Reads a sprint work from the database using the primary key. 
      * If no sprint work is found redirects to index with error message in flash data.
      * 
-     * @param int $id, $person_id Primary key of the sprint work and the selected person. 
+     * @param int $id Selected sprint work 
+     * @param int $person_id Selected person. 
      */
      public function edit($person_id, $id)
     {
@@ -326,7 +332,6 @@ class Sprint_Work extends CI_Controller
      * 
      * Deletes a sprint work using the primary key.
      * 
-     * @param int $id Primary key of the sprint work. 
      */
     public function delete()
     {

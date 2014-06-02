@@ -28,6 +28,7 @@ class Project_Model extends CI_Model
      * Insert a project into the project table.
      * 
      * @param <array> $data Project data
+     * 
      * @return int Returns the primary key of the new project. 
      */
     public function create($data)
@@ -35,11 +36,6 @@ class Project_Model extends CI_Model
         if ($data['customer_id'] == 0)
         {
             $data['customer_id'] = NULL;
-        }
-
-        if ($data['type_id'] == 0)
-        {
-            $data['type_id'] = NULL;
         }
         
         if (empty($data['project_start_date']))
@@ -56,17 +52,7 @@ class Project_Model extends CI_Model
         {
             $data['project_description'] = NULL;
         }
-        
-        if (empty($data['project_type']))
-        {
-            $data['project_type'] = NULL;
-        }
-        
-        if( empty($data['active']))
-        {
-            $data['active'] = NULL;
-        }
-        
+                
         $this->db->insert('project', $data);
         return $this->db->insert_id();
     }
@@ -75,6 +61,7 @@ class Project_Model extends CI_Model
      * Read project from the project table using primary key.
      * 
      * @param int $id Primary key of the project
+     * 
      * @return <array> project data 
      */
     public function read($id)
@@ -85,7 +72,7 @@ class Project_Model extends CI_Model
     }
     
     /**
-     * Read all the projects with foreign key descriptions (type, customer) 
+     * Read all the projects with foreign key descriptions (customer) 
      * from the project table.
      * 
      * @return <array> Projects. 
@@ -98,8 +85,7 @@ class Project_Model extends CI_Model
             'project.project_start_date AS project_start_date,' .
             'project.project_end_date AS project_end_date,' .
             'project.project_type AS project_type,' .
-            'project.type_id AS type_id, project.customer_id AS customer_id,' .
-            'project_type.type_name AS type_name,' . 
+            'project.customer_id AS customer_id,' .
             'customer.customer_name AS customer_name,' .
             'project.active AS active'    
         );
@@ -108,9 +94,6 @@ class Project_Model extends CI_Model
         // left join because customer_id can be null 
         $this->db->join('customer', 
                 'project.customer_id = customer.id', 'left');
-        // left join because type_id can be null 
-        $this->db->join('project_type', 
-                'project.type_id = project_type.id', 'left');
         $this->db->order_by('project_name');
          
         $query = $this->db->get();
@@ -118,7 +101,7 @@ class Project_Model extends CI_Model
     }
     
     /**
-     * Read selected customer's projects from the project table using a key.
+     * Read selected customer's projects from the project table.
      * 
      * @param int $id a customerid of the selected customer
      * @return <array> project data 
@@ -131,8 +114,7 @@ class Project_Model extends CI_Model
             'project.project_start_date AS project_start_date,' .
             'project.project_end_date AS project_end_date,' .
             'project.project_type AS project_type,' .
-            'project.type_id AS type_id, project.customer_id AS customer_id,' .
-            'project_type.type_name AS type_name,' . 
+            'project.customer_id AS customer_id,' .
             'customer.customer_name AS customer_name,' .
             'project.active AS active'    
         );
@@ -141,11 +123,7 @@ class Project_Model extends CI_Model
         $this->db->where('project.customer_id', $customerid);
         // left join because customer_id can be null 
         $this->db->join('customer', 
-                'project.customer_id = customer.id', 'left');
-        // left join because type_id can be null 
-        $this->db->join('project_type', 
-                'project.type_id = project_type.id', 'left');
-         
+                'project.customer_id = customer.id', 'left');         
         $query = $this->db->get();
         return $query->result();        
     }    
@@ -163,8 +141,7 @@ class Project_Model extends CI_Model
             'project.project_start_date AS project_start_date,' .
             'project.project_end_date AS project_end_date,' .
             'project.project_type AS project_type,' .
-            'project.type_id AS type_id, project.customer_id AS customer_id,' .
-            'project_type.type_name AS type_name,' . 
+            'project.customer_id AS customer_id,' .
             'customer.customer_name AS customer_name,' .
             'project.active AS active'    
         );
@@ -174,9 +151,6 @@ class Project_Model extends CI_Model
         // left join because customer_id can be null 
         $this->db->join('customer', 
                 'project.customer_id = customer.id', 'left');
-        // left join because type_id can be null 
-        $this->db->join('project_type', 
-                'project.type_id = project_type.id', 'left');
         $this->db->order_by('project_name');
          
         $query = $this->db->get();
@@ -196,8 +170,7 @@ class Project_Model extends CI_Model
             'project.project_start_date AS project_start_date,' .
             'project.project_end_date AS project_end_date,' .
             'project.project_type AS project_type,' .
-            'project.type_id AS type_id, project.customer_id AS customer_id,' .
-            'project_type.type_name AS type_name,' . 
+            'project.customer_id AS customer_id,' .
             'customer.customer_name AS customer_name,' .
             'project.active AS active'    
         );
@@ -207,9 +180,6 @@ class Project_Model extends CI_Model
         // left join because customer_id can be null 
         $this->db->join('customer', 
                 'project.customer_id = customer.id', 'left');
-        // left join because type_id can be null 
-        $this->db->join('project_type', 
-                'project.type_id = project_type.id', 'left');
         $this->db->order_by('project_name');
          
         $query = $this->db->get();
@@ -257,11 +227,6 @@ class Project_Model extends CI_Model
         {
             $data['customer_id'] = NULL;
         }
-
-       // if($data['type_id'] == 0)
-        //{
-            $data['type_id'] = NULL;
-       // }
         
         if (empty($data['project_start_date']))
         {
@@ -277,17 +242,7 @@ class Project_Model extends CI_Model
         {
             $data['project_description'] = NULL;
         }
-        
-        if (empty($data['project_type']))
-        {
-            $data['project_type'] = NULL;
-        }
-        
-        if (empty($data['active']))
-        {
-            $data['active'] = NULL;
-        }
-        
+                
         $this->db->where('id', $data['id']);
         $query = $this->db->update('project', $data) ;
     }
@@ -328,8 +283,7 @@ class Project_Model extends CI_Model
             'project.project_description AS project_description,' . 
             'project.project_start_date AS project_start_date,' .
             'project.project_end_date AS project_end_date,' .
-            'project.type_id AS type_id, project.customer_id AS customer_id,' .
-            'project_type.type_name AS type_name,' . 
+            'project.customer_id AS customer_id,' .
             'customer.customer_name AS customer_name,' .
             'project.project_type AS project_type,' .
             'project.active AS active' 
@@ -339,9 +293,6 @@ class Project_Model extends CI_Model
         // left join because customer_id can be null 
         $this->db->join('customer', 
                 'project.customer_id = customer.id', 'left');
-        // left join because type_id can be null 
-        $this->db->join('project_type', 
-                'project.type_id = project_type.id', 'left');
     
         $this->db->where('project_end_date >=', $date_start);
         $this->db->where('project_start_date <=', $date_end);

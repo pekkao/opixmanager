@@ -4,14 +4,19 @@
  * Person_role_view to be used to insert and update a person_roles.
  * 
  * @param $data = array(
- *               'id' => $person_role[0]->id,
- *               'role_name' => $person_role[0]->role_name,
- *               'role_description' => $person_role[0]->role_description
+ *               'id', 
+ *               'role_name', 
+ *               'role_description'
  *              );
  * 
  * @param $data['pagetitle'] Title and heading of the page
  * @param $data['add'] Hide or show the Reset button (false/true).
- *
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
+ * @package opix
+ * @category View
+ * @author Wang Yuqing, Tuukka Kiiskinen, Roni Kokkonen
  */
 
 ?>
@@ -23,11 +28,11 @@ echo form_fieldset();
 
 echo form_hidden('txt_id', set_value('id',$id));
 
-echo form_label($this->lang->line('label_person_role_name'), 'txt_rolename');
+echo form_label($this->lang->line('label_person_role_name'), 'txt_role_name');
 
 $data = array(
-    'name'=>'txt_rolename',
-    'id' =>'txt_rolename',
+    'name'=>'txt_role_name',
+    'id' =>'txt_role_name',
     'value' =>  set_value('txt_name', $role_name),
     'maxlength' =>'100',
     'size' =>'50',
@@ -35,16 +40,16 @@ $data = array(
     );
 
 echo form_input($data);
-echo form_error('txt_rolename');
+echo form_error('txt_role_name');
 echo br(1);
 
-echo form_label($this->lang->line('label_person_role_description'), 'txt_roledescription');
+echo form_label($this->lang->line('label_person_role_description'), 'txt_role_description');
 echo br(1);
 
 $data = array(
-    'name'=>'txt_roledescription',
-    'id' =>'txt_roledescription',
-    'value' =>  set_value(' txt_roledescription', $role_description),
+    'name'=>'txt_role_description',
+    'id' =>'txt_role_description',
+    'value' =>  set_value(' txt_role_description', $role_description),
     'maxlength' =>'100',
     'size' =>'50',
     'type' => 'text'

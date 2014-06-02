@@ -5,19 +5,26 @@
  * Show Project staffs and with each Project staff a link to edit and delete Project staff.
  * 
  * @param  $data = array(
- *       'id' => '',
- *       'surname' => '',
- *       'firstname' => '',
- *       'role' => '',
- *       'start_date' => '',
- *       'end_date' => '',
+ *       'id', 
+ *       'project_id', 
+ *       'surname', 
+ *       'firstname', 
+ *       'role', 
+ *       'start_date', 
+ *       'end_date', 
  *   );
+ * 
  * @param $data['project_staff'] Project staff names and ids
  * @param $data['pagetitle'] Title and heading of the page
- 
+ * @param $data['heading'] Heading for the error message.
+ * @param $data['error_message'] The error message to be printed.
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
  * @package opix
  * @category View
- * @author Arto Ruonala, Pipsa Korkiakoski, Antti Aho, Liisa Auer
+ * @author Arto Ruonala, Pipsa Korkiakoski, Antti Aho, Liisa Auer,
+ *      Tuukka Kiiskinen, Roni Kokkonen
  */
 ?>
 

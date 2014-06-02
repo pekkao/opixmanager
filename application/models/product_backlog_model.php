@@ -69,7 +69,10 @@ class Product_Backlog_Model extends CI_Model
     }
     
     /**
-     * Read all the product backlogs of the selected project. 
+     * Read all the product backlogs of the selected project.
+     * 
+     * @param int project_id Optional, primary key of the project whose 
+     * backlogs are to be read. 
      * 
      * @return <array> product_backlogs. 
      */

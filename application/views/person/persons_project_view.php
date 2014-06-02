@@ -3,13 +3,20 @@
  * Person project view to be used to view person's projects.
  * 
  * @param $data['pagetitle'] Title and heading of the page
- * @param $data['projects'] Person's projects
+ * @param $data['projects'] Person's projects in an array
  * @param $data['add'] Hide or show the Reset button (false/true).
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
+ * @package opix
+ * @category View
+ * @author Tuukka Kiiskinen, Roni Kokkonen
+ * 
  *
  */
 ?>
 <h1>
-    <?php echo $pagetitle ?>
+    <?php echo $pagetitle  ?>
 </h1>
 
 <table>
@@ -52,43 +59,5 @@
     </tbody>
 </table>
 
-
-
-<h1><?php // echo $pagetitle ?></h1>
-
-<table>
-    <thead>
-        <tr>
-            <?php /*
-            echo '<th>' . $this->lang->line('label_project_name') . '</th>';
-            echo '<th>' . $this->lang->line('label_project_description') . '</th>';
-            echo '<th>' . $this->lang->line('label_role_name') . '</th>';
-            echo '<th>' . $this->lang->line('label_start_date') . '</th>';
-            echo '<th>' . $this->lang->line('label_end_date') . '</th>';
-            
-             */ ?>
-        </tr>
-    </thead>
-    <tbody>
-        <?php /*
-        if (isset($projects)) {
-            foreach ($projects as $project) {
-                echo '<tr>';
-                echo '<td>' . $project->project_name . '</td>';
-                echo '<td>' . $project->project_description . '</td>';
-                echo '<td>' . $project->role_name . '</td>';
-                echo '<td>' . $project->start_date . '</td>';
-                echo '<td>' . $project->end_date . '</td>';
-
-
-                echo form_close();
-                echo '</tr>';
-            }
-        }
-         * 
-         */
-        ?>
-    </tbody>
-</table>
 
 

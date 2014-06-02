@@ -5,21 +5,28 @@
  * Show Projects and with each Project a link to edit and delete a Project.
  * 
  * @param  $data = array(
- *       'id' => '',
- *       'project_name' => '',
- *       'project_description' => '',
- *       'project_start_date' => '',
- *       'project_end_date' => '',
- *       'type_id' => '',
- *       'customer_id' => '',
+ *       'id',
+ *       'project_name', 
+ *       'project_description', 
+ *       'project_start_date', 
+ *       'project_end_date', 
+ *       'customer_id',
+ *       'customer_name',
+ *       'project_type',
+ *       'active'
  *   );
- * @param $data['customers'] Customer names and ids
- * @param $data['project_types'] Project types and ids
+ * 
+ * @param $data['customers'] Customer names and ids for dropdown listbox
+ * @param $data['project_types'] Project types and ids for dropdown listbox
  * @param $data['pagetitle'] Title and heading of the page
- 
+ * @param $data['add'] Hide or show the Reset button (false/true).
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ *  
  * @package opix
  * @category View
- * @author Arto Ruonala, Pipsa Korkiakoski, Antti Aho, Liisa Auer
+ * @author Arto Ruonala, Pipsa Korkiakoski, Antti Aho, Liisa Auer,
+ *      Tuukka Kiiskinen, Roni Kokkonen
  */
 ?>
 

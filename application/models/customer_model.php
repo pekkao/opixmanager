@@ -103,6 +103,7 @@ class Customer_Model extends CI_Model
     
     /**
      * Read all the customer names and ids from the customer table
+     * 
      * @return <result_array> Customers
      */
     public function read_names()
@@ -165,6 +166,7 @@ class Customer_Model extends CI_Model
      * Find a customers that exists based on customer_name
      * 
      * @param type $customer_name The customer_name.
+     * 
      * @return <array> customers.
      * 
      */
@@ -181,7 +183,6 @@ class Customer_Model extends CI_Model
         );
         
         $this->db->from('customer');
-        //$this->db->like($field,$criteria);
         $this->db->like($field, $criteria, 'after');
         $this->db->order_by("customer_name", "asc");
         $query = $this->db->get();

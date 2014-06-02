@@ -22,4 +22,11 @@ $lang['missing_start_date']="Alkupvm puuttuu.";
 $lang['invalid_dates'] = "Aloituspäivämäärä täytyy olla ennen päättymispäivämäärää.";
 $lang['invalid_start_date'] = "Aloituspäivämäärä täytyy olla ennen projektin lopetuspäivämäärää.";
 
+$lang['title_db_error']="Virhe";
+
+$lang['select_role']="Valitse rooli";
+
+
+$lang['not_allowed'] = "Sinulla ei ole oikeutta tehdä toimintoa.";
+
 ?>

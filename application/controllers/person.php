@@ -13,7 +13,7 @@
  * to handle Person listing, inserting, editing and deleting persons.
  * Extends CI_Controller.
  * 
- * @author Wang Yuqing
+ * @author Wang Yuqing, Tuukka Kiiskinen, Roni Kokkonen
  * @package opix
  * @subpackage controllers
  * @category customer
@@ -228,8 +228,14 @@ class Person extends CI_Controller
                     'txt_firstname', $this->lang->line('missing_firstname'), 'trim|required|max_length[255]|xss_clean');
             $this->form_validation->set_rules(
                     'txt_user_id', $this->lang->line('missing_user_id'), 'trim|required');
-
-            if ($update == FALSE)
+            
+            // callback function to validate that language is selected
+            // error message for that callback function
+            $this->form_validation->set_message('check_language', $this->lang->line('missing_language'));
+            $this->form_validation->set_rules(
+                    'ddl_language', null, 'callback_check_language');
+            
+            if ($update == FALSE)  // new person
             {
                 $this->form_validation->set_rules(
                     'pwd_password', $this->lang->line('missing_password'), 'min_length[6]|trim|required|md5');
@@ -273,23 +279,48 @@ class Person extends CI_Controller
                 $this->load->view('template', $data);
             }
             else
-            {
+            {                
                 if ($update == TRUE)  
                 {          
                     $data['id'] = intval($this->input->post('txt_id'));
                     $this->person_model->update($data);            
-                    redirect('person');
                 }
                 else  
                 {
                     $this->person_model->create($data);
+                }
+                
+                // account_type = 1 for admins
+                $account_type = $this->input->post("txt_account_type");
+                
+                if ($account_type == 1)
+                {
                     redirect('person');
                 }
+                else 
+                {
+                    redirect('home');
+                }
+                
             }   
         }
         else
         {
             redirect('login', 'refresh');
+        }
+    }
+    
+    /**
+     * Checks that language is selected
+     * @param int $language what language is selected
+     * @return boolean 
+     */
+    function check_language($language) {
+        if ($language > 0) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
     
@@ -299,7 +330,7 @@ class Person extends CI_Controller
      * Reads a person from the database using the primary key. 
      * If no person is found redirects to index with error message in flash data.
      * 
-     * @param int $id Primary key of the person. 
+     *  @param int $id Primary key of the person.
      */
     public function edit($id)
     {
@@ -490,6 +521,8 @@ class Person extends CI_Controller
     
     /*
      * Reads a person from person model and reads the persons projects.
+     * 
+     * @param int id Primary key of a person
      */
     public function read_project($id)
     {
@@ -524,6 +557,8 @@ class Person extends CI_Controller
     /*
      * Reads a person from person model and reads the persons projects.
      * This function is used on the home page to show person's projects.
+     * 
+     * @param int id Primary key of a person
      */
     public function read_projects($id)
     {
@@ -560,6 +595,8 @@ class Person extends CI_Controller
     /*
      * Edit a person's password
      * Edit a person's password via person/person_password_view
+     * 
+     * @param int id Primary key of a person
      */
     public function edit_password($id)
     {
@@ -574,8 +611,8 @@ class Person extends CI_Controller
                 $person = $this->person_model->read($id);
 
                 $data = array(
-                    'id' => $person[0]->id,
-                    'password' => $person[0]->password            
+                    'id' => $person[0]->id //,
+//                    'password' => $person[0]->password            
                 );
                 $data['login_user_id'] = $session_data['user_id'];
                 $data['login_id'] = $session_data['id'];
@@ -606,14 +643,15 @@ class Person extends CI_Controller
         if ($this->session->userdata('logged_in'))
         {
             $session_data = $this->session->userdata('logged_in');
+            $old_password_ui = md5($this->input->post('pwd_old_password'));
+            $new_password_ui = md5($this->input->post('pwd_new_password'));
             
+            // data to be sent back to ui if there is  an error
             $data = array(
-                'id' => $this->input->post('txt_id'),          
-                'password' => md5($this->input->post('pwd_new_password')),
-                'old_password' => md5($this->input->post('pwd_old_password')),
-                'confirm_password' => md5($this->input->post('pwd_confirm_password'))
+                'id' => $this->input->post('txt_id')
             );
 
+            // new password data to be saved into the database
             $data2 = array(
                 'id' => $this->input->post('txt_id'),
                 'password' => md5($this->input->post('pwd_new_password'))
@@ -630,9 +668,8 @@ class Person extends CI_Controller
                     'pwd_new_password', $this->lang->line('missing_new_password'), 'min_length[6]|trim|required|md5');
 
 
-
             if ($this->form_validation->run() == FALSE) 
-            {    
+            {
                 $data['login_user_id'] = $session_data['user_id'];
                 $data['login_id'] = $session_data['id'];
                 $data['main_content'] = 'person/person_password_view';
@@ -642,47 +679,48 @@ class Person extends CI_Controller
             else
             {          
 
+                $data['login_user_id'] = $session_data['user_id'];
+                $data['login_id'] = $session_data['id'];
+                $data['main_content'] = 'person/person_password_view';
+                $data['pagetitle'] = $this->lang->line('title_change_password');                 
+
                 $person = $this->person_model->read($data['id']);
 
                 if (isset($person[0]))
                 {
-                    $data3 = array(
+                    $current_data = array(
                       'id' => $person[0]->id,
                       'password' => $person[0]->password
-                    );
-                    if ($data3['password'] == $data['old_password'])
+                    );                     
+                    
+                    // current password match ui old password
+                    if ($current_data['password'] == $old_password_ui) 
                     {
-                        if ($data['old_password'] == $data2['password'])
+                        // new password cannot be the same as old password
+                        if ($old_password_ui == $new_password_ui)
                         {
-                            echo $this->lang->line('invalid_password');
-                            echo br(2);
-                            $js = 'onClick="history.go(-1)"';
-                            echo form_button('btn_cancel', 'Return', $js);
+                            $data['error_message'] = $this->lang->line('invalid_password');
+                            $this->load->view('template', $data);
                         }
                         else
                         {
                             $this->person_model->update_password($data2);
-                            echo $this->lang->line('password_changed');
-                            echo br(2);
-                            echo anchor('home', $this->lang->line('title_return'));
+                            $data['error_message'] = $this->lang->line('password_changed');
+                            $this->load->view('template', $data);
                         }
                     }
                     else
                     {
-                        echo $this->lang->line('wrong_password');
-                        echo br(2);
-                        $js = 'onClick="history.go(-1)"';
-                        echo form_button('btn_cancel', 'Return', $js);
+                        $data['error_message'] = $this->lang->line('wrong_password');
+                        $this->load->view('template', $data);
                     }
                 }
 
                 else
                 {
-                    $error_message = $this->lang->line('missing_customer');
-                    $this->session->set_flashdata('$error_message', $error_message);
-                    redirect('home');
+                    $error_message = $this->lang->line('missing_person');
+                    $this->load->view('template', $data);
                 }
-
             }   
         }
         else

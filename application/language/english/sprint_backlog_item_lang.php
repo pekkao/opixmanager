@@ -29,7 +29,9 @@ $lang['link_product_backlog']='Product Backlog';
 
 $lang['missing_name']='Name';
 $lang['missing_sprint_backlog_item']='Sprint Backlog Item is not found in database';
-$lang['cannot_delete']='Cannot delete sprint backlog item because it contains sprint task(s).'
+$lang['cannot_delete']='Cannot delete sprint backlog item because it contains sprint task(s).';
+$lang['no_items']='All product backlog user stories are in sprints';
+        
 
 
 ?>

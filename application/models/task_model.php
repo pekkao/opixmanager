@@ -35,12 +35,7 @@ class Task_Model extends CI_Model
      * @return int Returns the primary key of the new task. 
      */
     public function create($data)
-    {               
-        if ($data['project_period_id'] == 0)
-        {         
-            $data['project_period_id'] = NULL;       
-        }
-        
+    {                       
         if (empty($data['task_type_id']))
         {            
             $data['task_type_id'] = NULL;        
@@ -50,32 +45,12 @@ class Task_Model extends CI_Model
         {           
             $data['status_id'] = NULL;
         }
-        
-        if (empty($data['task_name']))
-        {           
-            $data['task_name'] = NULL;
-        }
-        
+                
         if (empty($data['task_description']))
         {           
             $data['task_description'] = NULL;
         }
-        
-        if (empty($data['task_start_date']))
-        {           
-            $data['task_start_date'] = NULL;
-        }
-        
-        if (empty($data['task_end_date']))
-        {           
-            $data['task_end_date'] = NULL;
-        }
-        
-        if (empty($data['effort_estimate_hours']))
-        {           
-            $data['effort_estimate_hours'] = NULL;
-        }
-        
+                
         $this->db->insert('task', $data);
         return $this->db->insert_id();
     }
@@ -101,7 +76,7 @@ class Task_Model extends CI_Model
         );
 
         $this->db->from('task');
-
+        // left join because status_id can be null
         $this->db->join('status', 
                 'task.status_id = status.id', 'left');
         // left join because type_id can be null 
@@ -119,7 +94,7 @@ class Task_Model extends CI_Model
      * @param int $id Primary key of the task
      * @return <array> task data 
      */
-    public function read($id = 0) 
+    public function read($id) 
     {     
         $this->db->select(
             'task.id AS id, task.task_name AS task_name,' .
@@ -141,7 +116,10 @@ class Task_Model extends CI_Model
     
     /*
      * Reads task.
+     * 
      * @param int $id Primary key of the task to read.
+     * 
+     * @return <array> task data 
      */
     public function read_task($id)
     {
@@ -152,7 +130,9 @@ class Task_Model extends CI_Model
     
     /*
      * Reads person's tasks which are in progress.
+     * 
      * @param int $id Primary key of the person to read.
+     * @return <array> person's task data 
      */
     public function read_person_tasks_in_progress($id)
     {
@@ -174,44 +154,19 @@ class Task_Model extends CI_Model
      */
     public function update($data) 
     {               
-        if ($data['project_period_id'] == 0) 
-        {  
-            $data['project_period_id'] = NULL;        
-        }
-        
-        if (empty($data['task_type_id'])) 
-        {  
-            $data['task_type_id'] = NULL;
+        if (empty($data['task_type_id']))
+        {            
+            $data['task_type_id'] = NULL;        
         }
         
         if (empty($data['status_id']))
-        {  
+        {           
             $data['status_id'] = NULL;
         }
-        
-        if (empty($data['task_name'])) 
-        {          
-            $data['task_name'] = NULL;
-        }
-        
-        if (empty($data['task_description'])) 
+                
+        if (empty($data['task_description']))
         {           
             $data['task_description'] = NULL;
-        }
-        
-        if (empty($data['task_start_date'])) 
-        {       
-            $data['task_start_date'] = NULL;
-        }
-        
-        if (empty($data['task_end_date'])) 
-        {
-            $data['task_end_date'] = NULL;
-        }
-        
-        if (empty($data['effort_estimate_hours'])) 
-        {
-            $data['effort_estimate_hours'] = NULL;  
         }
         
         $this->db->where('id', $data['id']);
@@ -221,7 +176,9 @@ class Task_Model extends CI_Model
     /**
      * Delete a task from the task table.
      * 
-     * @param int $id Primary key of the task to delete. 
+     * @param int $id Primary key of the task to delete.
+     * 
+     * @return boolean false if delete does not succeed because of child rows 
      */
     public function delete($id) 
     {

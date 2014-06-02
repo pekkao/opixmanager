@@ -1,9 +1,24 @@
+<?php
+/**
+ * Login view
+ * 
+ * @param $data = array(
+ *           'user_id',
+ *           'password',
+ *   );
+ * @param $data['user_id'] User login id
+ * @param $data['password'] User password
+ * @param $data['pagetitle'] Title and heading of the page
+ * 
+ * @package opix
+ * @category View
+ * @author Roni Kokkonen, Tuukka Kiiskinen
+ */
+?>
 <h1><?php echo $pagetitle ?></h1>
 
 <?php
 
-echo br(1);
-echo validation_errors();
 echo form_fieldset();
 echo form_open('verify_login');
 
@@ -34,6 +49,9 @@ echo form_input($data);
 echo br(1);
 
 echo form_submit('btn_submit', $this->lang->line('button_login'),'class="newline"');
-echo form_fieldset_close();
+
 echo form_close();
+echo form_fieldset_close();
+echo br(1);
+echo validation_errors();
 ?>

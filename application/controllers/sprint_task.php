@@ -48,9 +48,10 @@ class Sprint_Task extends CI_Controller
      * 
      * Reads all sprint tasks from the sprint_task table in the database. 
      * Uses the sprint_task/sprint_tasks_view.
-     * @param int id primary key of the selected sprint backlog, default value 0.
      * 
-     */
+     * @param int $project_id Primary key of a project
+     * @param int $sprintbacklogid Primary key of a sprint backlog
+     */    
     public function index($project_id = 0, $sprintbacklogid = 0)
     {  
         if ($this->session->userdata('logged_in'))
@@ -98,6 +99,8 @@ class Sprint_Task extends CI_Controller
      * Add a sprint task to the database.
      * 
      * Creates an empty sprint task and shows it via sprint_task/sprint_tasks_view.
+     * 
+     * @param int $project_id Primary key of a project
      * @param int $currentsprintbacklogid Primary key of the sprint backlog. 
      */
     public function add($project_id, $currentsprintbacklogid)
@@ -158,7 +161,8 @@ class Sprint_Task extends CI_Controller
      * Reads a sprint task from the database using the primary key. 
      * If no sprint task is found redirects to index with error message in flash data.
      * 
-     * @param int $id, $currentsprintbacklogid Primary key of the sprint backlog. 
+     * @param int $project_id Primary key of a project
+     * @param int $id Primary key of a sprint task
      */
      public function edit($project_id, $id)
     {
@@ -251,12 +255,23 @@ class Sprint_Task extends CI_Controller
 
             $this->load->library('form_validation');
             $this->form_validation->set_error_delimiters('<span class="error">', '</span>');
-
+                    
             $this->form_validation->set_rules(
                     'txt_task_name', $this->lang->line('missing_task_name'), 'trim|required|max_length[255]|xss_clean');
             $this->form_validation->set_rules(
                     'txt_task_description', 'trim|max_length[1000]|xss_clean');         
+            
+            // callback function to validate that status is selected
+            // error message for that callback function
+            $this->form_validation->set_message('check_status', $this->lang->line('missing_status'));
+            $this->form_validation->set_rules(
+                    'ddl_status_id', null, 'callback_check_status');
 
+            // same for task type
+            $this->form_validation->set_message('check_type', $this->lang->line('missing_type'));
+            $this->form_validation->set_rules(
+                    'ddl_task_type_id', null, 'callback_check_type');
+            
             if ($this->form_validation->run() == FALSE) 
             {
                 $data['project_id'] = $project_id;
@@ -280,7 +295,7 @@ class Sprint_Task extends CI_Controller
                 $a = array('id' => "0", 'status_name' => $this->lang->line('select_status') );
                 array_unshift($statuses_from_db, $a);
                 $statuses = convert_db_result_to_dropdown(
-                        $customers_from_db, 'id', 'status_name');        
+                        $statuses_from_db, 'id', 'status_name');        
                 $data['statuses'] = $statuses;
 
                 $task_types_from_db = $this->task_type_model->read_names();
@@ -318,11 +333,38 @@ class Sprint_Task extends CI_Controller
     }
     
      /**
+     * Checks that status is selected
+     * @param int $status what status is selected
+     * @return boolean 
+     */
+    function check_status($status) {
+        if ($status > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+     /**
+     * Checks that task type is selected
+     * @param int $type what task type is selected
+     * @return boolean 
+     */
+    function check_type($type) {
+        if ($type > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
+     /**
      * Delete a sprint task.
      * 
      * Deletes a sprint task using the primary key.
      * 
-     * @param int $id Primary key of the sprint task. 
      */
     public function delete()
     {

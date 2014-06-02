@@ -46,6 +46,8 @@ Class Project_Period extends CI_Controller
      * Reads all project periods from the project_period table in the database. 
      * Uses the project_period/project_periods_view.
      * 
+     * @param int $projectid Primay key of a project
+     * 
      */
     public function index($project_id = 0)
     {
@@ -97,7 +99,8 @@ Class Project_Period extends CI_Controller
      * Reads a project_period from the database using the primary key. 
      * If no project period is found redirects to index with error message in flash data.
      * 
-     * @param int $project_period_id, $currentprojectid Primary key of the project_period. 
+     * @param int $project_period_id Primary key of the project_period.
+     * @param int $currentprojectid Primary key of the project. 
      */
     public function edit($project_period_id, $currentproject_id) 
     {
@@ -147,7 +150,8 @@ Class Project_Period extends CI_Controller
      * Add a project_period to the database.
      * 
      * Creates an empty project_period and shows it via project_period/project_period_view.
-     * @param int $currentprojectid Primary key of the project_period. 
+     * 
+     * @param int $currentprojectid Primary key of the project. 
      */
     public function add($currentproject_id = 0)
     {
@@ -187,61 +191,64 @@ Class Project_Period extends CI_Controller
      */
     public function save()
     {
-        // data from a page
-        $data = array(
-            'id' => $this->input->post('txt_id'),
-            'project_id' => $this->input->post('txt_projectid'),
-            'period_name' => $this->input->post('txt_period_name'),
-            'period_description' => $this->input->post('txt_period_description'),
-            'period_start_date' => $this->input->post('txt_period_start_date'),
-            'period_end_date' => $this->input->post('txt_period_end_date'),
-            'milestone' => $this->input->post('txt_milestone')
-        );                
-        
-        $update = FALSE; // assume it it add new
-        // is there an id value
-        if (strlen($this->input->post("txt_id"))>0)
+        if ($this->session->userdata('logged_in'))
         {
-            $update = TRUE; // it is update
-        }
+            $session_data = $this->session->userdata('logged_in');        
+            // data from a page
+            $data = array(
+                'id' => $this->input->post('txt_id'),
+                'project_id' => $this->input->post('txt_projectid'),
+                'period_name' => $this->input->post('txt_period_name'),
+                'period_description' => $this->input->post('txt_period_description'),
+                'period_start_date' => $this->input->post('txt_period_start_date'),
+                'period_end_date' => $this->input->post('txt_period_end_date'),
+                'milestone' => $this->input->post('txt_milestone')
+            );                
 
-        $this->load->library('form_validation');
-        $this->form_validation->set_error_delimiters('<span class="error">', 
-                '</span>');
-        
-        $this->form_validation->set_rules('txt_period_name',
-                $this->lang->line('label_period_name'), 'trim|required|max_length[255]|xss_clean');
-        $this->form_validation->set_rules('txt_period_description',
-                $this->lang->line('label_period_description'), 'trim|max_length[1000]|xss_clean');
-        $this->form_validation->set_rules('txt_period_start_date', 
-                $this->lang->line('label_period_start_date'), 'xss_clean|check_date');
-        $this->form_validation->set_rules('txt_period_end_date', 
-                $this->lang->line('label_period_end_date'), 'xss_clean|check_date');
-        $this->form_validation->set_rules('txt_milestone',
-                $this->lang->line('label_milestone'), 'xss_clean');
-
-        if ($this->form_validation->run() == FALSE)
-        {
-            $data['main_content'] = 'project_period/project_period_view';
-            $data['error_message'] = $this->session->flashdata('$error_message');
-            if ($update == TRUE)
+            $update = FALSE; // assume it it add new
+            // is there an id value
+            if (strlen($this->input->post("txt_id"))>0)
             {
-                $data['add'] = FALSE; // not show reset button
-                $data['pagetitle'] = $this->lang->line('title_edit_project_period');
+                $update = TRUE; // it is update
             }
-            
+
+            $this->load->library('form_validation');
+            $this->form_validation->set_error_delimiters('<span class="error">', 
+                    '</span>');
+
+            $this->form_validation->set_rules('txt_period_name',
+                    $this->lang->line('label_period_name'), 'trim|required|max_length[255]|xss_clean');
+            $this->form_validation->set_rules('txt_period_description',
+                    $this->lang->line('label_period_description'), 'trim|max_length[1000]|xss_clean');
+            $this->form_validation->set_rules('txt_period_start_date', 
+                    $this->lang->line('label_period_start_date'), 'required|xss_clean|check_date');
+            $this->form_validation->set_rules('txt_period_end_date', 
+                    $this->lang->line('label_period_end_date'), 'required|xss_clean|check_date');
+            $this->form_validation->set_rules('txt_milestone',
+                    $this->lang->line('label_milestone'), 'xss_clean');
+
+            if ($this->form_validation->run() == FALSE)
+            {
+                $data['main_content'] = 'project_period/project_period_view';
+                $data['error_message'] = $this->session->flashdata('$error_message');
+                if ($update == TRUE)
+                {
+                    $data['add'] = FALSE; // not show reset button
+                    $data['pagetitle'] = $this->lang->line('title_edit_project_period');
+                }
+
+                else
+                {
+                    $data['add'] = TRUE; // show reset button
+                    $data['pagetitle'] = $this->lang->line('title_add_project_period');
+                }
+
+                $data['login_user_id'] = $session_data['user_id'];
+                $data['login_id'] = $session_data['id'];            
+                $this->load->view('template', $data);
+            }
+
             else
-            {
-                $data['add'] = TRUE; // show reset button
-                $data['pagetitle'] = $this->lang->line('title_add_project_period');
-            }
-            $this->load->view('template', $data);
-     
-        }
-        
-        else
-        {
-            if (!empty($data['period_start_date']) && !empty($data['period_end_date']))
             {
                 if ($data['period_start_date'] < $data['period_end_date'])
                 {
@@ -250,44 +257,41 @@ Class Project_Period extends CI_Controller
                         $data['id'] = intval($this->input->post('txt_id'));
                         $this->project_period_model->update($data);     
                     }
-
                     else  // insert new
                     {
                         $this->project_period_model->create($data);
                     }
+                    redirect('project_period/index/'. $data['project_id']);
                 }
                 else
                 {
+                    // start date >= end date => error
+                    
+                    $data['login_user_id'] = $session_data['user_id'];
+                    $data['login_id'] = $session_data['id'];
+                    $data['error_message'] = $this->lang->line('invalid_dates');
+                    
+                    $data['main_content'] = 'project_period/project_period_view';
                     if ($update == TRUE)
                     {
-                        $error_message = $this->lang->line('invalid_dates');
-                        $this->session->set_flashdata('$error_message', $error_message);
-                        redirect('project_period/edit/' . $data['id'] . '/' . $data['project_id']);
+                        $data['add'] = FALSE; // not show reset button
+                        $data['pagetitle'] = $this->lang->line('title_edit_project_period');
                     }
+
                     else
                     {
-                        $error_message = $this->lang->line('invalid_dates');
-                        $this->session->set_flashdata('$error_message', $error_message);
-                        redirect('project_period/add/' . $data['project_id']);
-                    }
+                        $data['add'] = TRUE; // show reset button
+                        $data['pagetitle'] = $this->lang->line('title_add_project_period');
+                    }                    
+                    $this->load->view('template', $data);
+                    
                 }
             }
-            else
-            {
-                if ($update == TRUE)  // update the database
-                {
-                    $data['id'] = intval($this->input->post('txt_id'));
-                    $this->project_period_model->update($data);     
-                }
-
-                else  // insert new
-                {
-                    $this->project_period_model->create($data);
-                }
-            }
-            
-            redirect('project_period/index/' . $data['project_id']);            
         }
+        else
+        {
+            redirect('login','refresh');
+        }            
     }
     
     /**
@@ -295,7 +299,6 @@ Class Project_Period extends CI_Controller
      * 
      * Deletes a project period using the primary key.
      * 
-     * @param int $id Primary key of the project_period. 
      */
     public function delete() 
     {

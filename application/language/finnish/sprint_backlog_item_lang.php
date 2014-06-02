@@ -26,8 +26,11 @@ $lang['link_edit']='Muokkaa';
 $lang['link_sprint_task']='Sprintin tehtävät';
 
 $lang['missing_name']='Nimi';
+$lang['missing_status']='Valitse tila';
 $lang['missing_sprint_backlog_item']='Sprintin jonon riviä ei läydy tietokannasta';
-$lang['cannot_delete']='Sprintin kehitysjonon riviä ei voi poistaa, koska se sisältää sprintin tehtäviä.'
+$lang['cannot_delete']='Sprintin kehitysjonon riviä ei voi poistaa, koska se sisältää sprintin tehtäviä.';
+$lang['no_items']='Kaikki tuotteen kehitysjonon käyttäjätarinat ovat sprinteissä';
 
+$lang['select_status']='Valitse tila';
 
 ?>

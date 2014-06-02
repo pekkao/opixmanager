@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.5
+-- version 3.5.2.2
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Dec 15, 2013 at 11:03 AM
--- Server version: 5.5.32-cll
--- PHP Version: 5.3.17
+-- Host: 127.0.0.1
+-- Generation Time: Jun 02, 2014 at 09:05 AM
+-- Server version: 5.5.27
+-- PHP Version: 5.4.7
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `contact_person` (
   `customer_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_contactperson_customer` (`customer_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `contact_person`
@@ -51,7 +51,8 @@ INSERT INTO `contact_person` (`id`, `surname`, `firstname`, `title`, `phone_numb
 (6, 'Aaltonen', 'Aimo', NULL, NULL, NULL, 4),
 (7, 'Laffer', 'Larry', NULL, NULL, NULL, 2),
 (8, 'Croft', 'Lara', NULL, NULL, NULL, 2),
-(9, 'klcidhsl', 'klcidhsl', 'mUcjFwxnWrbrKCMBB', '89093371902', NULL, 3);
+(9, 'klcidhsl', 'klcidhsl', 'mUcjFwxnWrbrKCMBB', '89093371902', NULL, 3),
+(10, 'Virtanen', 'Ville', NULL, NULL, NULL, 5);
 
 -- --------------------------------------------------------
 
@@ -68,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `city` varchar(255) DEFAULT NULL,
   `www` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `customer`
@@ -80,7 +81,8 @@ INSERT INTO `customer` (`id`, `customer_name`, `customer_description`, `street_a
 (4, 'MikkoStone', NULL, 'Aleksanterinkatu 17', '96100', 'Rovaniemi', 'www.mikkostone.fi'),
 (5, 'BelleVue', NULL, 'Nahkurinkatu 20', '03100', 'Nummela', 'www.bellevue.fi'),
 (6, 'GrafiArt', 'graafista suunnittelua', '', '', 'Iisalmi', 'www.grafiart.fi'),
-(8, 'FinnArt Oy', NULL, NULL, NULL, NULL, NULL);
+(8, 'FinnArt Oy', NULL, NULL, NULL, NULL, NULL),
+(9, 'Elli-ääni Oy', NULL, 'Koulutie 1', '99123', 'Sodankylä', NULL);
 
 -- --------------------------------------------------------
 
@@ -139,26 +141,27 @@ CREATE TABLE IF NOT EXISTS `person` (
   `phone_number` varchar(255) DEFAULT NULL,
   `user_id` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `language_id` int(11) DEFAULT NULL,
-  `account_type` int(11) DEFAULT NULL,
+  `language_id` int(11) NOT NULL,
+  `account_type` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`),
   KEY `fk_person_language` (`language_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `person`
 --
 
 INSERT INTO `person` (`id`, `surname`, `firstname`, `title`, `email`, `phone_number`, `user_id`, `password`, `language_id`, `account_type`) VALUES
-(1, 'Testaaja', 'Tauno', NULL, '', NULL, 'taunot', '1c25f83b8b5676a8ad0bd280fbfcf111', 1, 2),
-(2, 'Koodaaja ', 'Kaisa', NULL, '', NULL, 'kaisak', '1c25f83b8b5676a8ad0bd280fbfcf111', 1, 2),
-(3, 'Aaltonen ', 'Alli', NULL, '', NULL, 'allia', '1c25f83b8b5676a8ad0bd280fbfcf111', 2, 2),
-(4, 'Virtanen', 'Ville', NULL, '', NULL, 'villev', '1c25f83b8b5676a8ad0bd280fbfcf111', 2, 2),
-(5, 'Oppilas', 'Oili', NULL, '', NULL, 'oilio', '1c25f83b8b5676a8ad0bd280fbfcf111', 1, 2),
-(6, 'Päivänlahti', 'Paavo', NULL, '', NULL, 'paavop', '1c25f83b8b5676a8ad0bd280fbfcf111', 1, 2),
-(8, 'admin', 'admin', NULL, '', NULL, 'admin', 'e00cf25ad42683b3df678c61f42c6bda', 2, 1),
-(9, 'testi', 'testi', NULL, '', '1234567', 'testi', 'e25cc21e72732ca1c937fbd5ce32ae8c', 2, 2);
+(1, 'Testaaja', 'Tauno', NULL, '', NULL, 'taunot', MD5('taunot14'), 1, 2),
+(2, 'Koodaaja ', 'Kaisa', NULL, '', NULL, 'kaisak', MD5('kaisak14'), 1, 2),
+(3, 'Aaltonen', 'Alli', 'Programmer', NULL, '1234567', 'allia', MD5('allia14'), 1, 2),
+(4, 'Virtanen', 'Ville', NULL, '', NULL, 'villev', MD5('villev14'), 2, 2),
+(5, 'Oppilas', 'Oili', NULL, '', NULL, 'oilio', MD5('oilio14'), 1, 2),
+(6, 'Päivänlahti', 'Paavo', NULL, '', NULL, 'paavop', MD5('paavop14'), 1, 2),
+(8, 'admin', 'admin', 'Manager', NULL, NULL, 'admin', MD5('14admin'), 2, 1),
+(9, 'testi', 'testi', NULL, '', '1234567', 'testi', MD5('testi14'), 2, 2),
+(10, 'Ääninen', 'Äijä', NULL, '', NULL, 'aijaa', MD5('aijaa14'), 2, 2);
 
 -- --------------------------------------------------------
 
@@ -193,20 +196,20 @@ CREATE TABLE IF NOT EXISTS `product_backlog` (
   `backlog_name` varchar(255) NOT NULL,
   `product_visio` varchar(1000) DEFAULT NULL,
   `product_current_state` varchar(1000) DEFAULT NULL,
-  `product_owner` varchar(255) DEFAULT NULL,
+  `product_owner` int(11) DEFAULT NULL,
   `project_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_product_backlog_project` (`project_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `product_backlog`
 --
 
 INSERT INTO `product_backlog` (`id`, `backlog_name`, `product_visio`, `product_current_state`, `product_owner`, `project_id`) VALUES
-(4, 'testinimi', 'testivisio', 'testitila', '1', 4),
-(5, 'Music Club ', 'To design and implement web pages to a music club that doesn''t have any yet.', 'Nothing has not been implemented.', '3', 6),
-(6, 'testi', NULL, NULL, '2', 4);
+(5, 'Music Club ', 'To design and implement web pages to a music club that doesn''t have any yet.', 'Nothing has not been implemented.', 3, 6),
+(6, 'just testing', NULL, NULL, 2, 4),
+(7, 'Test backlog', 'Just testing this application', 'Nothing has been done yet', 3, 8);
 
 -- --------------------------------------------------------
 
@@ -233,17 +236,22 @@ CREATE TABLE IF NOT EXISTS `product_backlog_item` (
   KEY `fk_product_backlog_item_product_backlog` (`product_backlog_id`),
   KEY `fk_product_backlog_item_item_type` (`item_type_id`),
   KEY `fk_product_backlog_item_status` (`status_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `product_backlog_item`
 --
 
 INSERT INTO `product_backlog_item` (`id`, `item_name`, `item_description`, `priority`, `business_value`, `estimate_points`, `effort_estimate_hours`, `acceptance_criteria`, `release_target`, `product_backlog_id`, `item_type_id`, `status_id`, `is_part_of_id`, `start_date`) VALUES
-(5, 'testi', 'testi', 1, 2, 3, 4, 'testi', '1. release', 4, 1, 2, NULL, '2012-12-27'),
 (6, 'Find a web hotel', 'As an site owner I want to have reliable but not very expensive web hotel. ', 1, 10, NULL, 15, 'The web hotel have been chosen.', NULL, 5, 1, 1, NULL, '2013-01-06'),
 (7, 'Contents of a site', 'As a person interested in the music I need to find out ....', 1, 10, NULL, NULL, 'The mid map of the contents site has been created.', NULL, 5, 1, 1, NULL, '2013-01-06'),
-(8, 'The outlook of the site', 'As a user when scanning the site pages I want to see very easily the data blocks in the pages.', 1, 10, NULL, NULL, 'The fonts, colors and images of the site has been defined. ', NULL, 5, 1, 1, NULL, '2013-01-13');
+(8, 'The outlook of the site', 'As a user when scanning the site pages I want to see very easily the data blocks in the pages.', 1, 10, NULL, NULL, 'The fonts, colors and images of the site has been defined. ', NULL, 5, 1, 1, NULL, '2013-01-13'),
+(9, 'Item1', 'As a user I want hear good sounds so that ...', NULL, NULL, NULL, 10, NULL, NULL, 7, 1, 1, NULL, '2014-05-11'),
+(10, 'Item2', 'As a user want to XXXXXXXXXXX so that YYYYYYYYYYYYYY', NULL, NULL, NULL, 20, NULL, NULL, 7, 1, 1, NULL, '2014-05-12'),
+(11, 'item3', 'Third user story in the backlog', NULL, NULL, NULL, 30, NULL, NULL, 7, 1, 1, NULL, '2014-05-13'),
+(12, 'item4', 'Fourth user story in the backlog', NULL, NULL, NULL, 40, NULL, NULL, 7, 1, 1, NULL, '2014-05-13'),
+(13, 'Item5', 'Fifth user story in the backlog', NULL, NULL, NULL, 5, NULL, NULL, 7, 1, 1, NULL, '2014-05-18'),
+(14, 'item6', 'Sixth user story in the backlog', NULL, NULL, NULL, 60, NULL, NULL, 7, 1, 1, NULL, '2014-05-04');
 
 -- --------------------------------------------------------
 
@@ -253,27 +261,26 @@ INSERT INTO `product_backlog_item` (`id`, `item_name`, `item_description`, `prio
 
 CREATE TABLE IF NOT EXISTS `project` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `project_name` varchar(255) DEFAULT NULL,
+  `project_name` varchar(255) NOT NULL,
   `project_description` text,
   `project_start_date` date DEFAULT NULL,
   `project_end_date` date DEFAULT NULL,
-  `type_id` int(11) DEFAULT NULL,
   `customer_id` int(11) DEFAULT NULL,
-  `project_type` int(11) DEFAULT NULL,
-  `active` int(11) DEFAULT NULL,
+  `project_type` int(11) NOT NULL,
+  `active` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_project_projecttype` (`type_id`),
   KEY `fk_project_customer` (`customer_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `project`
 --
 
-INSERT INTO `project` (`id`, `project_name`, `project_description`, `project_start_date`, `project_end_date`, `type_id`, `customer_id`, `project_type`, `active`) VALUES
-(2, 'ShopTesting', 'Testing project of a web shop', '2012-08-20', NULL, 2, 3, 1, 2),
-(4, 'GrafUx', 'User experience study', '2012-09-10', '2012-12-22', 2, 6, 2, 1),
-(6, 'Music Club ', 'Web pages for a music club. ', '2013-01-06', '2013-02-28', NULL, 4, 2, 2);
+INSERT INTO `project` (`id`, `project_name`, `project_description`, `project_start_date`, `project_end_date`, `customer_id`, `project_type`, `active`) VALUES
+(2, 'ShopTesting', 'Testing project of a web shop', '2012-08-20', NULL, 3, 1, 2),
+(4, 'GrafUx', 'User experience study', '2012-09-10', '2012-12-22', 6, 2, 1),
+(6, 'Music Club ', 'Web pages for a music club. ', '2014-01-05', '2014-07-31', 4, 2, 2),
+(8, 'Testproject Voices', 'Something about voices and videos', '2014-04-06', '2014-05-29', 8, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -317,7 +324,7 @@ CREATE TABLE IF NOT EXISTS `project_staff` (
   KEY `fk_projectstaff_project` (`project_id`),
   KEY `fk_projectstaff_person` (`person_id`),
   KEY `fk_projectstaff_personrole` (`person_role_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
 
 --
 -- Dumping data for table `project_staff`
@@ -331,33 +338,18 @@ INSERT INTO `project_staff` (`id`, `project_id`, `person_id`, `person_role_id`, 
 (5, 2, 2, 1, '2012-08-20', NULL),
 (6, 2, 3, 3, '2012-08-20', NULL),
 (14, 2, 4, 1, '2012-08-20', NULL),
-(15, 6, 6, 3, '2013-01-06', NULL),
+(15, 6, 6, 1, '2013-01-31', '2014-05-04'),
 (16, 6, 3, 2, '2013-01-06', NULL),
 (18, 6, 1, 1, '2013-01-06', NULL),
 (19, 6, 2, 1, '2013-01-06', NULL),
-(20, 6, 9, 1, '2011-08-17', '2013-09-17'),
-(22, 6, 8, 3, '2011-11-15', NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `project_type`
---
-
-CREATE TABLE IF NOT EXISTS `project_type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type_name` varchar(255) NOT NULL,
-  `type_description` text,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `project_type`
---
-
-INSERT INTO `project_type` (`id`, `type_name`, `type_description`) VALUES
-(1, 'Scrum', 'An agile project'),
-(2, 'Traditional', NULL);
+(22, 6, 8, 3, '2011-11-15', NULL),
+(23, 2, 6, NULL, '2014-05-04', NULL),
+(25, 8, 2, 1, '2014-05-11', NULL),
+(26, 8, 3, 3, '2014-05-11', NULL),
+(39, 8, 5, 1, '2014-04-27', NULL),
+(40, 8, 9, NULL, '2014-05-04', NULL),
+(42, 6, 10, 1, '2014-05-04', NULL),
+(43, 2, 8, 1, '2014-05-04', NULL);
 
 -- --------------------------------------------------------
 
@@ -369,20 +361,21 @@ CREATE TABLE IF NOT EXISTS `sprint_backlog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_backlog_id` int(11) NOT NULL,
   `sprint_name` varchar(255) NOT NULL,
-  `sprint_description` varchar(1000) NOT NULL,
-  `start_date` date DEFAULT NULL,
-  `end_date` date NOT NULL,
+  `sprint_description` varchar(1000) DEFAULT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_sprint_backlog_product_backlog` (`product_backlog_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `sprint_backlog`
 --
 
 INSERT INTO `sprint_backlog` (`id`, `product_backlog_id`, `sprint_name`, `sprint_description`, `start_date`, `end_date`) VALUES
-(1, 4, 'testi', 'testi', '2012-12-21', '2012-12-28'),
-(2, 5, 'The contents and the outlook of the site', 'The contents, navigation and outlook of the site.', '2013-01-06', '2013-01-17');
+(2, 5, 'The contents and the outlook of the site', 'The contents, navigation and outlook of the site.', '2014-06-02', '2014-06-30'),
+(10, 7, 'First sprint', NULL, '2014-05-16', '2014-05-29'),
+(17, 7, 'Second sprint', NULL, '2014-05-04', '2014-05-16');
 
 -- --------------------------------------------------------
 
@@ -397,7 +390,7 @@ CREATE TABLE IF NOT EXISTS `sprint_backlog_item` (
   PRIMARY KEY (`id`),
   KEY `fk_sprint_backlog_item_sprint_backlog` (`sprint_backlog_id`),
   KEY `fk_sprint_backlog_item_product_backlog_item` (`product_backlog_item_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `sprint_backlog_item`
@@ -405,7 +398,12 @@ CREATE TABLE IF NOT EXISTS `sprint_backlog_item` (
 
 INSERT INTO `sprint_backlog_item` (`id`, `sprint_backlog_id`, `product_backlog_item_id`) VALUES
 (1, 2, 7),
-(2, 2, 8);
+(2, 2, 8),
+(3, 10, 9),
+(4, 10, 10),
+(6, 10, 12),
+(7, 17, 11),
+(8, 17, 13);
 
 -- --------------------------------------------------------
 
@@ -425,7 +423,7 @@ CREATE TABLE IF NOT EXISTS `sprint_task` (
   KEY `fk_sprint_task_status` (`status_id`),
   KEY `fk_sprint_task_sprint_backlog_item` (`sprint_backlog_item_id`),
   KEY `fk_sprint_task_task_type` (`task_type_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `sprint_task`
@@ -434,7 +432,10 @@ CREATE TABLE IF NOT EXISTS `sprint_task` (
 INSERT INTO `sprint_task` (`id`, `task_name`, `task_description`, `effort_estimate_hours`, `status_id`, `sprint_backlog_item_id`, `task_type_id`) VALUES
 (1, 'Contents of the site', 'Create a mind map of the site, write notes about each node of the mind map', 15, 1, 1, 1),
 (2, 'Fonts & colors of the site', 'Create at least three different outlooks for the site to choose from.', 20, 1, 2, 1),
-(3, 'Images of the site', 'Collect possible images (CC licensed). ', 7, 1, 2, 1);
+(3, 'Images of the site', 'Collect possible images (CC licensed). ', 7, 1, 2, 1),
+(4, 'item1, task1', NULL, 10, 1, 3, 1),
+(5, 'item1, task2', NULL, 9, 1, 3, 1),
+(7, 'aaaaaaaa', NULL, 12, 1, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -444,13 +445,13 @@ INSERT INTO `sprint_task` (`id`, `task_name`, `task_description`, `effort_estima
 
 CREATE TABLE IF NOT EXISTS `sprint_task_person` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sprint_task_id` int(11) DEFAULT NULL,
-  `person_id` int(11) DEFAULT NULL,
+  `sprint_task_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
   `estimate_work_effort_hours` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_sprint_task_person_sprint_task` (`sprint_task_id`),
   KEY `fk_sprint_task_person_person` (`person_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
 
 --
 -- Dumping data for table `sprint_task_person`
@@ -458,8 +459,12 @@ CREATE TABLE IF NOT EXISTS `sprint_task_person` (
 
 INSERT INTO `sprint_task_person` (`id`, `sprint_task_id`, `person_id`, `estimate_work_effort_hours`) VALUES
 (1, 1, 1, 7),
-(2, 1, 2, 7),
-(3, 3, 3, 7);
+(2, 1, 2, 6),
+(3, 3, 3, 7),
+(4, 4, 2, 3),
+(10, 4, 3, 3),
+(11, 4, 5, 4),
+(40, 7, 3, 4);
 
 -- --------------------------------------------------------
 
@@ -543,8 +548,8 @@ CREATE TABLE IF NOT EXISTS `task_person` (
   `start_date` date NOT NULL,
   `end_date` date DEFAULT NULL,
   `effort_estimate_hours` int(11) NOT NULL,
-  `task_id` int(11) DEFAULT NULL,
-  `person_id` int(11) DEFAULT NULL,
+  `task_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_task_person_task` (`task_id`),
   KEY `fk_task_person_person` (`person_id`)
@@ -593,8 +598,8 @@ CREATE TABLE IF NOT EXISTS `task_work` (
   `work_hours` decimal(5,1) NOT NULL,
   `work_date` date NOT NULL,
   `description` varchar(1000) DEFAULT NULL,
-  `task_id` int(11) DEFAULT NULL,
-  `person_id` int(11) DEFAULT NULL,
+  `task_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_task_work_task` (`task_id`),
   KEY `fk_task_work_person` (`person_id`)
@@ -634,8 +639,7 @@ ALTER TABLE `product_backlog_item`
 -- Constraints for table `project`
 --
 ALTER TABLE `project`
-  ADD CONSTRAINT `fk_project_customer` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_project_projecttype` FOREIGN KEY (`type_id`) REFERENCES `project_type` (`id`) ON DELETE SET NULL;
+  ADD CONSTRAINT `fk_project_customer` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `project_period`

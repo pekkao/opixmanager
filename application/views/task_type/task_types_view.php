@@ -4,16 +4,21 @@
  * Task_types_view to be used to show all task types in an html table..
  * 
  * @param $data = array(
- *               'id' => $status[0]->id,
- *               'task_type_name' => $status[0]->task_type_name,
- *               'task_type_description' => $status[0]->task_type_description
+ *               'id',
+ *               'task_type_name',
+ *               'task_type_description' 
  *              );
  * 
  * @param $data['pagetitle'] Title and heading of the page
  * @param $data['add'] Hide or show the Reset button (false/true).
  * @param $data['heading'] Heading for the error message.
  * @param $data['error_message'] The error message to be printed.
- *
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
+ * @package opix
+ * @category View
+ * @author Tuukka Kiiskinen, Roni Kokkonen
  */
 ?>
 

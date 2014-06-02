@@ -20,6 +20,7 @@ $lang['link_edit']='Muokkaa';
 $lang['link_sprint_task_person']='Sprintin tehtävän henkilöt';
 
 $lang['missing_name']='Nimi';
+$lang['missing_eweh']="Tehtävän arvioidut tunnit.";
 $lang['missing_sprint_backlog_item']='Sprintin tehtävän henkilöitä ei löydy tietokannasta';
 $lang['invalid_hours']="Työntekijöiden tunnit eivät voi ylittää sprintin tehtävän tuntimäärää.";
 $lang['remaining_hours']="Sprintin tehtävän jäljellä oleva työtuntimäärä: ";

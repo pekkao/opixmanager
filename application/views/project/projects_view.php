@@ -5,15 +5,15 @@
  * Show customers and with each customer a link to edit and delete a customer.
  * 
  * @param  $data = array(
- *       'id' => '',
- *       'project_name' => '',
- *       'project_description' => '',
- *       'project_start_date' => '',
- *       'project_end_date' => '',
- *       'type_id' => '',
- *       'customer_id' => '',
- *       'type_name' => '',
- *       'customer_name' => ''
+ *       'id',
+ *       'project_name',
+ *       'project_description', 
+ *       'project_start_date', 
+ *       'project_end_date', 
+ *       'customer_id', 
+ *       'customer_name', 
+ *       'project_type', 
+ *       'active'
  *   );
  * @param $data['projects'] All projects in an array.
  * @param $data['pagetitle'] Title and heading of the page
@@ -21,10 +21,13 @@
  * @param $data['error_message'] The error message to be printed.
  * @param $data['start_date'] The start date of the search.
  * @param $data['end_date'] The end date of the search.
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
  * 
  * @package opix
  * @category View
- * @author Arto Ruonala, Pipsa Korkiakoski, Antti Aho, Liisa Auer
+ * @author Arto Ruonala, Pipsa Korkiakoski, Antti Aho, Liisa Auer,
+ *      Tuukka Kiiskinen, Roni Kokkonen
  */
 ?>
 
@@ -130,9 +133,6 @@ echo form_fieldset_close();
         <tr>
             <?php
             echo '<th style="width: 250px">' . $this->lang->line('label_project_name') . '</th>';
-            #echo '<th>' . $this->lang->line('label_project_description') . '</th>';
-            #echo '<th>' . $this->lang->line('label_project_start_date') . '</th>';
-            #echo '<th>' . $this->lang->line('label_project_end_date') . '</th>';
             echo '<th>' . $this->lang->line('label_project_type') . '</th>';
             echo '<th>' . $this->lang->line('label_customer_name') . '</th>';
             echo '<th>' . $this->lang->line('label_active') . '</th>';  
@@ -147,9 +147,6 @@ echo form_fieldset_close();
                 
                 echo '<tr>';
                 echo '<td>' . $project->project_name . '</td>';
-                #echo '<td>' . $project->project_description . '</td>';
-                #echo '<td>' . $project->project_start_date . '</td>';
-                #echo '<td>' . $project->project_end_date . '</td>';
                 echo '<td>' . Project::toString($project->project_type) . '</td>';
                 echo '<td>' . $project->customer_name . '</td>';
                 echo '<td>' . Project::toString2($project->active) . '</td>';
@@ -181,7 +178,7 @@ echo form_fieldset_close();
                          $project->project_start_date . ' - ' .
                          $project->project_end_date;      
                 echo '</div>'; 
-                echo '<a href="#" class="trigger">' . img('application/img/information.jpg') . '</a>';
+                echo '<a href="#" class="trigger">' . img('img/information.jpg') . '</a>';
                 echo '</td>';
                 echo '</tr>';               
             }

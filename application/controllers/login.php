@@ -37,10 +37,8 @@ class Login extends CI_Controller {
     public function index()
     {
         $data = array(
-            'id' => '',
-            'login_user_id' => '',
-            'password' => '',
-            'account_type' => ''
+            'user_id' => '',
+            'password' => ''
         );
         
         $data['main_content'] = 'login_view';
@@ -48,8 +46,6 @@ class Login extends CI_Controller {
         $this->load->helper(array('form'));
         $this->load->view('template', $data);
     }
-    
-    
 }
 
 ?>

@@ -35,17 +35,7 @@ class Task_Person_Model extends CI_Model
      * @return int Returns the primary key of the new task person. 
      */
     public function create($data)
-    {    
-        if (empty($data['effort_estimate_hours']))
-        {
-            $data['effort_estimate_hours'] = NULL;
-        }
-        
-        if (empty($data['start_date']))
-        {
-            $data['start_date'] = NULL;
-        }
-        
+    {            
         if (empty($data['end_date']))
         {
             $data['end_date'] = NULL;
@@ -225,17 +215,7 @@ class Task_Person_Model extends CI_Model
      * @param <array> $data task person data to be updated in the table. 
      */
     public function update($data)
-    {  
-        if (empty($data['effort_estimate_hours']))
-        {
-            $data['effort_estimate_hours'] = NULL;
-        }
-        
-        if (empty($data['start_date']))
-        {
-            $data['start_date'] = NULL;
-        }
-        
+    {        
         if (empty($data['end_date']))
         {
             $data['end_date'] = NULL;

@@ -1,17 +1,21 @@
 <?php
 
 /**
- * Sprint_backlog_items_view to be used to insert and update sprint_backlog_items.
+ * Sprint_backlog_items_view to list sprint_backlog_items.
  * 
- * @param $data = array(
-                'id'         => $sprint_backlog_item[0]->id,
-                'sprint_backlog_id'    => $sprint_backlog_item[0]->sprint_backlog_id,
-                'product_backlog_item_id'  => $sprint_backlog_item[0]->product_backlog_item_id               
-            );
- * 
+ * @param $data['project_id'] Selected project
+ * @param $data['sprint_backlog_id'] Selected sprint backlog
+ * @param $data['sprint_backlog_items'] Items in a selected sprint backlog
+ * @param $data['product_backlog_id'] Selected product backlog
  * @param $data['pagetitle'] Title and heading of the page
- * @param $data['add'] Hide or show the Reset button (false/true).
- * @author Roni Kokkonen, Tuukka Kiiskinen
+ * @param $data['heading'] Heading for the error message.
+ * @param $data['error_message'] The error message to be printed.
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
+ * @package opix
+ * @category View
+ * @author Tuukka Kiiskinen, Roni Kokkonen
  */
 
 ?>
@@ -59,9 +63,10 @@ echo '</p>';
 
 <p>
     <?php   
-    if ($currentid > 0)
+    if ($sprint_backlog_id > 0)
     {
-        echo '<p>' . anchor('sprint_backlog_item/add/' . $project_id . '/' . $currentid, $this->lang->line('link_add_sprint_backlog_item') . ' ') . '</p>';
+        echo '<p>' . anchor('sprint_backlog_item/add/' . $sprint_backlog_id . '/' . $product_backlog_id . '/' . $project_id, 
+                $this->lang->line('link_add_sprint_backlog_item') . ' ') . '</p>';
     }
     ?>
   </p>
@@ -97,7 +102,7 @@ echo '</p>';
                     echo '<td class="reuna">';
                          echo form_open('sprint_backlog_item/delete');
                          echo form_hidden('txt_sprint_backlog_id', set_value('sprint_backlog_id',
-                                 $currentid));
+                                 $sprint_backlog_id));
                          echo form_hidden('txt_project_id', set_value('project_id', $project_id));
                          echo form_hidden('txt_id', set_value('id', $sprint_backlog_item->id));
                          echo '<input type="submit" value = "X" onclick="return deleteconfirm();" />';

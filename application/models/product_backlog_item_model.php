@@ -37,17 +37,6 @@ class Product_Backlog_Item_Model extends CI_Model
      */
     public function create($data)
     {
-        
-        if ($data['item_type_id'] == 0)
-        {
-            $data['item_type_id'] = NULL;
-        }
-        
-        if ($data['status_id'] == 0)
-        {
-            $data['status_id'] = NULL;
-        }
-        
         if (empty($data['item_description']))
         {
             $data['item_description'] = NULL;
@@ -88,7 +77,7 @@ class Product_Backlog_Item_Model extends CI_Model
             $data['start_date'] = NULL;
         }
         
-        // not handled yet
+        // not handled yet, recursive reference to oneself is not implemented yet
         $data['is_part_of_id'] = NULL;
 
         $this->db->insert('product_backlog_item', $data);
@@ -98,6 +87,8 @@ class Product_Backlog_Item_Model extends CI_Model
     /**
      * Read all the product_backlog_items from the product_backlog_item table
      * 
+     * @param int product_backlog_id Optional, what product backlog items are to be read.
+     *  
      * @return <array> product_backlog_items. 
      */
     public function read_all($product_backlog_id = 0)
@@ -143,6 +134,7 @@ class Product_Backlog_Item_Model extends CI_Model
      * Read product_backlog_item from the product_backlog_item table using primary key.
      * 
      * @param int $id Primary key of the product_backlog_item
+     * 
      * @return <array> Product_backlog_item data 
      */
     public function read($id)
@@ -153,9 +145,9 @@ class Product_Backlog_Item_Model extends CI_Model
     }
     
     /**
-     * Read product_item_types from the item_type table.
+     * Read Item types.
      * 
-     * @return <array> Product_type_items data 
+     * @return <array> Item types with ids 
      */
     public function read_item_types()
     {
@@ -167,17 +159,18 @@ class Product_Backlog_Item_Model extends CI_Model
     }
     
     /**
-     * Read status from the status table.
+     * Read statuses .
      * 
-     * @return <array> Status data 
+     * @return <array> Status data with ids 
      */
-    public function read_status()
+ /*   public function read_status()
     {
         $this->db->select('id, status_name');
         $this->db->from('status');
         $query = $this->db->get();
         return $query->result_array();
     }    
+   */
     
     /**
      * Update product_backlog_item in the product_backlog_item table.
@@ -185,22 +178,7 @@ class Product_Backlog_Item_Model extends CI_Model
      * @param <array> $data product_backlog_item data to be updated in the table. 
      */
     public function update($data) 
-    {
-        if ($data['product_backlog_id'] == 0)
-        {
-            $data['product_backlog_id'] = NULL;
-        }
-        
-        if ($data['item_type_id'] == 0)
-        {
-            $data['item_type_id'] = NULL;
-        }
-        
-        if ($data['status_id'] == 0)
-        {
-            $data['status_id'] = NULL;
-        }
-                
+    {                
         if (empty($data['item_description']))
         {
             $data['item_description'] = NULL;
@@ -241,7 +219,7 @@ class Product_Backlog_Item_Model extends CI_Model
             $data['start_date'] = NULL;
         }
         
-        // not handled yet
+        // not handled yet, recursive reference to oneself is not implemented yet
         $data['is_part_of_id'] = NULL;
         
         $this->db->where('id', $data['id']);

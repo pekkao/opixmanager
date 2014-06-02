@@ -5,21 +5,32 @@
  * Show persons and with each person a link to edit and delete a person.
  * 
  * @param $data = array(
- *           'id' => '',
- *           'surname' => '',
- *           'firstname' => '',
- *           'title' => '',
- *           'email' => '',
- *           'phone_number' =>'',
- *           'user_id' => '',
- *           'password' => '',
+ *           'id',
+ *           'surname', 
+ *           'firstname', 
+ *           'title', 
+ *           'email', 
+ *           'phone_number', 
+ *           'user_id,
+ *           'password',
+ *           'language_id',
+ *           'language_long',
+ *           'account_type'
  *           );
+ * 
  * @param $data['persons'] All customers in an array.
  * @param $data['pagetitle'] Title and heading of the page
  * @param $data['heading'] Heading for the error message.
  * @param $data['error_message'] The error message to be printed.
- 
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
+ * @package opix
+ * @category View
+ * @author Wang Yuqing, Tuukka Kiiskinen, Roni Kokkonen
  */
+
+
 ?>
 <script type="text/javascript">
        $(document).ready(function() {
@@ -94,7 +105,7 @@
     echo '<input type="button" value="' . $this->lang->line('button_reset').
             '" onclick="location.href=' . "'" . base_url() .
             'index.php/person/clear' . "'" . '" />';
-    echo anchor('person' ,$this->lang->line('link_all'), 'class="returnlink"');
+    echo anchor('person' ,$this->lang->line('link_all_persons'), 'class="returnlink"');
     
     echo form_close();
     echo form_fieldset_close();?>
@@ -107,11 +118,6 @@
             <?php   
             echo '<th>' . $this->lang->line('label_person_surname') . '</th>';
             echo '<th>' . $this->lang->line('label_person_firstname') . '</th>'; 
-           /* echo '<th>' . $this->lang->line('label_person_title') . '</th>'; 
-            echo '<th>' . $this->lang->line('label_person_email') . '</th>'; 
-            echo '<th>' . $this->lang->line('label_person_phone_number') . '</th>'; 
-            echo '<th>' . $this->lang->line('label_person_user_id') . '</th>';
-            echo '<th>' . $this->lang->line('label_person_language') . '</th>'; */
             echo '<th colspan="6"></th>';
             ?>
         </tr>
@@ -123,9 +129,7 @@
             foreach ($persons as $person) {
                 echo '<tr>';
                 echo '<td>' . $person->surname . '</td>';        
-                echo '<td>' . $person->firstname . '</td>'; 
-                //echo '<td>'.$person->password .'</td>';
-                
+                echo '<td>' . $person->firstname . '</td>';                 
                 echo '<td>' . anchor('person/edit/' . $person->id, 
                         $this->lang->line('link_edit')) . '</td>';
                 echo '<td>';
@@ -153,7 +157,7 @@
                             $this->lang->line('label_person_language') . ': ' . $person->language_long . '</br>' .
                             $this->lang->line('label_account_type') . ': ' . Person::toString($person->account_type);
                 echo '</div>';
-                echo '<a href="#" class="trigger">' . img('application/img/information.jpg') . '</a>';
+                echo '<a href="#" class="trigger">' . img('img/information.jpg') . '</a>';
                 echo '</td>';                
                 echo '</tr>';
             }

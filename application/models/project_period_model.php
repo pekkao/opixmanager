@@ -35,32 +35,12 @@ class Project_Period_Model extends CI_Model
      * @return int Returns the primary key of the new project period. 
      */
     public function create($data)
-    {        
-        if($data['project_id'] == 0)
-        {           
-            $data['project_id'] = NULL;
-        }
-        
-        if(empty($data['period_name']))
-        {            
-            $data['period_name'] = NULL;
-        }
-        
+    {                
         if(empty($data['period_description']))
         {            
             $data['period_description'] = NULL;
         }
-        
-        if(empty($data['period_start_date']))
-        {           
-            $data['period_start_date'] = NULL;
-        }
-        
-        if(empty($data['period_end_date']))
-        {            
-            $data['period_end_date'] = NULL;
-        }
-        
+                
         if(empty($data['milestone']))
         {            
             $data['milestone'] = NULL;
@@ -127,31 +107,12 @@ class Project_Period_Model extends CI_Model
      */
     public function update($data)
     {       
-        if($data['project_id'] == 0)
-        {          
-            $data['project_id'] = NULL;
-        }
-        
-        if(empty($data['period_name']))
-        {            
-            $data['period_name'] = NULL;
-        }
         
         if(empty($data['period_description']))
         {            
             $data['period_description'] = NULL;
         }
-        
-        if(empty($data['period_start_date']))
-        {           
-            $data['period_start_date'] = NULL;
-        }
-        
-        if(empty($data['period_end_date']))
-        {           
-            $data['period_end_date'] = NULL;
-        }
-        
+                
         if(empty($data['milestone']))
         {           
             $data['milestone'] = NULL;
@@ -159,7 +120,6 @@ class Project_Period_Model extends CI_Model
         
         $this->db->where('id', $data['id']);
         $query = $this->db->update('project_period', $data);        
-        
     }     
     
     /**

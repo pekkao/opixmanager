@@ -4,16 +4,21 @@
  * Product_backlogs_view to be used to view product_backlogs.
  * 
  * @param $data = array(
- *               'id' => $product_backlog[0]->id,
- *               'product_backlog_name' => $product_backlog[0]->product_backlog_name,
- *               'product_visio' => $product_backlog[0]->product_visio
- *               'product_current_state' => $product_backlog[0]->product_current_state,
- *               'product_owner' => $product_backlog[0]->product_owner,
+ *               'id',
+ *               'product_backlog_name',
+ *               'product_visio',
+ *               'product_current_state',
+ *               'product_owner'
  *              );
  * 
  * @param $data['pagetitle'] Title and heading of the page
  * @param $data['add'] Hide or show the Reset button (false/true).
- *
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
+ * @package opix
+ * @category View
+ * @author Wang Yuqing, Tuukka Kiiskinen, Roni Kokkonen
  */
 
 ?>

@@ -238,7 +238,6 @@ class Task_Type extends CI_Controller {
      * 
      * Deletes a task type using the primary key.
      * 
-     * @param int $id Primary key of the task type. 
      */
     public function delete() 
     {

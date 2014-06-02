@@ -1,19 +1,20 @@
 <?php
 
 /**
- * Sprint_backlogs_view to be used to insert and update sprint_backlogs.
+ * Sprint_backlogs_view to list sprint_backlogs.
  * 
- * @param $data = array(
-                'id'         => $product_backlog[0]->id,
-                'backlog_name'    => $product_backlog[0]->backlog_name,
-                'product_visio'  => $product_backlog[0]->product_visio,
-                'product_current_state' => $product_backlog[0]->product_current_state,
-                'product_owner'      => $product_backlog[0]->product_owner,
-                'project_id'      => $product_backlog[0]->project_id,                 
-            );
- * 
+ * @param $data['sprint_bacglogs'] Sprint backlogs of a selected product backlog data
+ * @param $data['currentproductbacklogid'] Selected product backlog id
+ * @param $data['productbacklog'] Selected product backlog data
+ * @param $data['project_id'] Selected product
  * @param $data['pagetitle'] Title and heading of the page
- * @param $data['add'] Hide or show the Reset button (false/true).
+ * @param $data['heading'] Heading for the error message.
+ * @param $data['error_message'] The error message to be printed.
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
+ * @package opix
+ * @category View 
  * @author Tuukka Kiiskinen, Roni Kokkonen
  * 
  */
@@ -78,7 +79,7 @@ echo '<p class="polku">' . anchor('product_backlog/index/' . $project_id, $this-
             echo '<table>';
             echo '<tbody>';
                 echo '<tr>';                       
-                    echo '<td class="reuna">' . anchor ('sprint_backlog/edit/' . 
+                    echo '<td class="reuna">' . anchor ('sprint_backlog/edit/' .  $project_id . '/' .
                             $currentproductbacklogid . 
                             '/' . $sprint_backlog->id,
                             $this->lang->line('link_edit')) . '</td>';

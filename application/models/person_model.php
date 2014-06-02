@@ -29,6 +29,7 @@ class Person_Model extends CI_Model
      * Read person from the person table using primary key.
      * 
      * @param int $id Primary key of the person
+     * 
      * @return <array> person data 
      */
     public function read($id)
@@ -43,6 +44,7 @@ class Person_Model extends CI_Model
      * Insert person into the person table.
      * 
      * @param <array> $data Person data
+     * 
      * @return int Returns the primary key of the new person. 
      */
     public function create($data)
@@ -56,32 +58,17 @@ class Person_Model extends CI_Model
         {
             $data['phone_number'] = NULL;
         }
-        
-        if (empty($data['user_id']))
+
+        if (empty($data['email']))
         {
-            $data['user_id'] = NULL;
-        }
-        
-        if (empty($data['password']))
-        {
-            $data['password'] = NULL;
-        }
-        
-        if (empty($data['language_id']))
-        {
-            $data['language_id'] = NULL;
-        }
-        
-        if (empty($data['account_type']))
-        {
-            $data['account_type'] = NULL;
+            $data['email'] = NULL;
         }
         
         $this->db->insert('person', $data);
         return $this->db->insert_id(); 
     }
     
-        /**
+     /**
      * Update person in the person table.
      * 
      * @param <array> $data Person data to be updated in the table. 
@@ -97,27 +84,12 @@ class Person_Model extends CI_Model
         {
             $data['phone_number'] = NULL;
         }
-        
-        if (empty($data['user_id']))
+
+        if (empty($data['email']))
         {
-            $data['user_id'] = NULL;
+            $data['email'] = NULL;
         }
-        
-       /* if (empty($data['password']))
-        {
-            $data['password'] = NULL;
-        }*/
-        
-        if (empty($data['language_id']))
-        {
-            $data['language_id'] = NULL;
-        }
-        
-        if (empty($data['account_type']))
-        {
-            $data['account_type'] = NULL;
-        }
-        
+                
         $this->db->where('id', $data['id']);
         $query = $this->db->update('person', $data);
     }
@@ -133,9 +105,13 @@ class Person_Model extends CI_Model
         $this->db->delete('person');
     }
     
+    
     /**
      * Find a person from the person table.
-     *  
+     * 
+     * @param string $field Field to be used in search
+     * @param string $criteria Criteria to be used in search
+     * @return <array> Persons
      */
     public function find_person_by_name($field, $criteria)
     {
@@ -143,8 +119,8 @@ class Person_Model extends CI_Model
             person.firstname AS firstname, person.title AS title, person.email AS email, 
             person.phone_number AS phone_number,' .
             'person.user_id AS user_id, person.password AS password, 
-                person.account_type AS account_type, person.language_id AS language_id,
-                language.language_long AS language_long'
+             person.account_type AS account_type, person.language_id AS language_id,
+             language.language_long AS language_long'
         );
         
         $this->db->from('person');
@@ -154,14 +130,14 @@ class Person_Model extends CI_Model
         $this->db->order_by("surname", "asc");
         $query = $this->db->get();
         return $query->result();
-        throw new Exception("NotImplemented");
-       
     }
     
     /**
      * Read persons project from the project table.
      * 
      * @param int $id Primary key of the person to read. 
+     * 
+     * @return <array> Person's project
      */
     public function read_persons_project($id)
     {   
@@ -179,7 +155,7 @@ class Person_Model extends CI_Model
         
         $this->db->from('project_staff');
         $this->db->join('person_role', 
-                'project_staff.person_role_id  = person_role.id');
+                'project_staff.person_role_id  = person_role.id', 'left');
         $this->db->join('project', 
                 'project_staff.project_id = project.id');
         $this->db->join('person', 
@@ -193,7 +169,10 @@ class Person_Model extends CI_Model
     
     /*
      * Reads person's projects from database.
+     * 
      * @param int $id Primary key of the person to read.
+     * 
+     * @return <array> Person's project
      */
     public function read_person_projects($id)
     {   
@@ -210,23 +189,20 @@ class Person_Model extends CI_Model
             'project.project_start_date AS project_start_date,' .
             'project.project_end_date AS project_end_date,' .
             'project.project_type AS project_type,' .
-            'project.type_id AS type_id, project.customer_id AS customer_id,' .
-            'project_type.type_name AS type_name,' . 
+            'project.customer_id AS customer_id,' .
             'customer.customer_name AS customer_name,' .
             'project.active AS active'
         );
         
         $this->db->from('project_staff');
         $this->db->join('person_role', 
-                'project_staff.person_role_id  = person_role.id');
+                'project_staff.person_role_id  = person_role.id', 'left');
         $this->db->join('project', 
                 'project_staff.project_id = project.id');
         $this->db->join('person', 
                 'project_staff.person_id = person.id');
         $this->db->join('customer', 
                 'project.customer_id = customer.id', 'left');      
-        $this->db->join('project_type', 
-                'project.type_id = project_type.id', 'left');
         $this->db->where('person_id', $id);
         $this->db->order_by("project_name", "asc");
         $query = $this->db->get();
@@ -234,9 +210,11 @@ class Person_Model extends CI_Model
     }
         
     /**
-     * Read language from the language table.
+     * Read languages from the language table.
      * 
-     * @param int $id Primary key of the person to delete. 
+     * @param int $id Primary key of the person to delete.
+     * 
+     * @return <array> Languages 
      */
     public function read_language()
     {
@@ -249,6 +227,7 @@ class Person_Model extends CI_Model
     
     /**
      * Read all the person names and ids from the person table
+     * 
      * @return <result_array> Persons
      */
     public function read_names()
@@ -263,7 +242,10 @@ class Person_Model extends CI_Model
     
     /*
      * Reads person name from database.
+     * 
      * @param int $id Primary key of the person to read.
+     * 
+     * @return <array> Person name
      */
     public function read_name($person_id)
     {   
@@ -275,8 +257,9 @@ class Person_Model extends CI_Model
     }
     
     /**
+     * Reads person data with language name
      * 
-     * @return type 
+     * @return <array> Persons 
      */
     public function read_all_with_group()
     {
@@ -291,10 +274,8 @@ class Person_Model extends CI_Model
         );
         
         $this->db->from('person');
-        // left join because customer_id can be null 
         $this->db->join('language', 
-                'person.language_id = language.id', 'left');
-        // left join because type_id can be null 
+                'person.language_id = language.id');
         $this->db->order_by('surname');
         
         $query = $this->db->get();
@@ -303,23 +284,23 @@ class Person_Model extends CI_Model
     
     /**
      * Updates person's password.
-     * @param string $data 
+     * 
+     * @param string $data id and password of a person
      */
     public function update_password($data)
     {
-        if (empty($data['password']))
-        {
-            $data['password'] = NULL;
-        }
-        
         $this->db->where('id', $data['id']);
         $query = $this->db->update('person', $data);
     }
     
     /*
      * Login function that checks if user_id and password matches the database.
-     * @param string $user_id, int $password.
+     * 
+     * @param string $user_id Person's user id
+     * @param int $password Person's password
+     * @return boolean (not succeed) or <array> Person login data (succeed)
      */
+    
     public function login($user_id, $password)
     {
         $this->db->select('id, user_id, password, account_type');
@@ -338,7 +319,5 @@ class Person_Model extends CI_Model
             return false;
         }
     }
-       
 }
-
 ?>

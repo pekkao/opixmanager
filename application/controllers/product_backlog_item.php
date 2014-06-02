@@ -14,7 +14,7 @@
  * to handle Product_backlog_item listing, inserting, editing and deleting Product_backlog_items.
  * Extends CI_Controller.
  * 
- * @author Wang Yuqing
+ * @author Wang Yuqing, Roni Kokkonen, Tuukka Kiiskinen
  * @package opix
  * @subpackage controllers
  * @category Product_backlog_item
@@ -34,17 +34,22 @@ class Product_Backlog_Item extends CI_Controller
          $this->load->model('product_backlog_model');
          $this->load->model('product_backlog_item_model');
          $this->load->model('project_model');
+         $this->load->model('status_model');
          
          $this->lang->load('product_backlog_item');
 
          $this->load->library('session');
          $this->load->library('form_validation');
      }
+     
      /**
      * Listing of all product backlog items.
      * 
      * Reads all product backlog items from the product_backlog_item table in the database. 
      * Uses the product_backlog_item/product_backlog_item_view.
+     * 
+     * @param type $project_id Primary key of a project
+     * @param type $product_backlog_id Primary key of a product backlog
      * 
      */
      public function index($project_id = 0, $product_backlog_id = 0)
@@ -93,9 +98,12 @@ class Product_Backlog_Item extends CI_Controller
      * Add a product_backlog_item to the database.
      * 
      * Creates an empty product_backlog_item and shows it via product_backlog_item/product_backlog_item_view.
+     * 
+     * @param type $project_id Primary key of a project
+     * @param type $product_backlog_id Primary key of a product backlog
      */
-    public function add($project_id, $product_backlog_id = 0)
-    {
+     public function add($project_id, $product_backlog_id = 0)
+     {
         if ($this->session->userdata('logged_in'))
         {
             $session_data = $this->session->userdata('logged_in');
@@ -125,19 +133,21 @@ class Product_Backlog_Item extends CI_Controller
                 );
 
                 $data['project_id'] = $project_id;
-                $data['error_message'] = $this->session->flashdata('$error_message');
                 
-                // item type and status methods are in a wrong model !!!
+                // item type method is in a wrong model !!!
                 $item_types_from_db = $this->product_backlog_item_model->read_item_types();         
                 $this->load->helper("form_input_helper");
                 $item_types = convert_db_result_to_dropdown(
                 $item_types_from_db, 'id', 'item_type_name');        
                 $data['item_types'] = $item_types;
 
-                $status_from_db = $this->product_backlog_item_model->read_status();         
                 $this->load->helper("form_input_helper");
+                $status_from_db = $this->status_model->read_names();         
+                // new text in the beginning of array
+                $a = array('id' => "0", 'status_name' => $this->lang->line('select_status') );
+                array_unshift($status_from_db, $a);
                 $status = convert_db_result_to_dropdown(
-                $status_from_db, 'id', 'status_name');        
+                    $status_from_db, 'id', 'status_name');        
                 $data['status'] = $status;
 
                 $data['product_backlog_id'] = $product_backlog_id;
@@ -174,7 +184,8 @@ class Product_Backlog_Item extends CI_Controller
      * Reads a product_backlog_item from the database using the primary key. 
      * If no product_backlog_item is found redirects to index with error message in flash data.
      * 
-     * @param int $id Primary key of the project_id. 
+     * @param int $project_id Primary key of the project_id. 
+     * @param int $id Primary key of a product backlog
      */
     public function edit($project_id, $id)
     {
@@ -219,8 +230,12 @@ class Product_Backlog_Item extends CI_Controller
                     $item_types_from_db, 'id', 'item_type_name');        
                     $data['item_types'] = $item_types;
 
-                    $status_from_db = $this->product_backlog_item_model->read_status();         
+                    $status_from_db = $this->status_model->read_names();
                     $this->load->helper("form_input_helper");
+                    // new text in the beginning of array
+                    $a = array('id' => "0", 'status_name' => $this->lang->line('select_status') );
+                    array_unshift($status_from_db, $a);
+
                     $status = convert_db_result_to_dropdown(
                     $status_from_db, 'id', 'status_name');        
                     $data['status'] = $status;
@@ -322,9 +337,14 @@ class Product_Backlog_Item extends CI_Controller
         $this->form_validation->set_rules(
                 'dtm_start_date', $this->lang->line('label_start_date'), 'xss_clean|check_date');
         
+        // callback function to validate that status is selected
+        // error message for that callback function
+        $this->form_validation->set_message('check_status', $this->lang->line('missing_status'));
+        $this->form_validation->set_rules(
+                        'ddl_status', null, 'callback_check_status');
+        
         if ($this->form_validation->run() == FALSE) 
-        {
-          
+        {          
             // item type and status methods are in a wrong model !!!
             $item_types_from_db = $this->product_backlog_item_model->read_item_types();         
             $this->load->helper("form_input_helper");
@@ -332,8 +352,11 @@ class Product_Backlog_Item extends CI_Controller
             $item_types_from_db, 'id', 'item_type_name');        
             $data['item_types'] = $item_types;
         
-            $status_from_db = $this->product_backlog_item_model->read_status();         
+            $status_from_db = $this->status_model->read_names();   
             $this->load->helper("form_input_helper");
+            // new text in the beginning of array
+            $a = array('id' => "0", 'status_name' => $this->lang->line('select_status') );
+            array_unshift($status_from_db, $a);
             $status = convert_db_result_to_dropdown(
             $status_from_db, 'id', 'status_name');        
             $data['status'] = $status;
@@ -377,12 +400,26 @@ class Product_Backlog_Item extends CI_Controller
                     $project_id . '/' . $data['product_backlog_id']);
         }
     }
+    
+    /**
+    * Checks that status is selected
+    * @param int $status what status is selected
+    * @return boolean 
+    */
+    function check_status($status) {
+           if ($status > 0) {
+                   return true;
+           }
+           else {
+                   return false;
+           }
+    }
+    
     /**
      * Delete a product backlog item.
      * 
      * Deletes a product backlog item using the primary key.
      * 
-     * @param int $id Primary key of the product_backlog_id. 
      */
     public function delete()
     {

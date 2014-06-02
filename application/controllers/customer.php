@@ -39,7 +39,6 @@ class Customer extends CI_Controller
      * 
      * Reads all customers from the customer table in the database. 
      * Uses the customer/customers_view.
-     * 
      */
     
     public function index() 
@@ -120,6 +119,7 @@ class Customer extends CI_Controller
      * 
      * Reads a customer from the database using the primary key. 
      * If no customer is found redirects to index with error message in flash data.
+     * Uses customer/customer_view
      * 
      * @param int $id Primary key of the customer. 
      */
@@ -186,10 +186,10 @@ class Customer extends CI_Controller
             // data from a page
             $data = array(
                   'id'                 => $this->input->post('txt_id'),
-                  'customer_name'      => $this->input->post('txt_customername'),
-                  'customer_description'  => $this->input->post('txt_customerdescription'),
-                  'street_address'   => $this->input->post('txt_streetaddress'),
-                  'post_code'   => $this->input->post('txt_postcode'),
+                  'customer_name'      => $this->input->post('txt_customer_name'),
+                  'customer_description'  => $this->input->post('txt_customer_description'),
+                  'street_address'   => $this->input->post('txt_street_address'),
+                  'post_code'   => $this->input->post('txt_post_code'),
                   'city'   => $this->input->post('txt_city'),
                   'www'   => $this->input->post('txt_www')
                 );
@@ -205,15 +205,15 @@ class Customer extends CI_Controller
             $this->form_validation->set_error_delimiters('<span class="error">', '</span>');
 
             $this->form_validation->set_rules(
-                    'txt_customername', $this->lang->line('missing_name'), 'trim|required|max_length[255]|xss_clean|alpha_numeric');
+                    'txt_customer_name', $this->lang->line('missing_name'), 'trim|required|max_length[255]|xss_clean');
             $this->form_validation->set_rules(
-                    'txt_customerdescription', 'trim|max_length[1000]|xss_clean');
+                    'txt_customer_description', 'trim|max_length[1000]|xss_clean');
             $this->form_validation->set_rules(
-                    'txt_streetaddress', 'trim|max_length[255]|xss_clean');
+                    'txt_street_address', 'trim|max_length[255]|xss_clean');
             $this->form_validation->set_rules(
-                    'txt_postcode', $this->lang->line('invalid_postcode'), 'max_length[255]|alpha_numeric');
+                    'txt_post_code', $this->lang->line('invalid_postcode'), 'max_length[255]');
             $this->form_validation->set_rules(
-                    'txt_city', $this->lang->line('invalid_city'), 'trim|max_length[255]|xss_clean|alpha');
+                    'txt_city', $this->lang->line('invalid_city'), 'trim|max_length[255]|xss_clean');
             $this->form_validation->set_rules(
                     'txt_www', 'trim|max_length[255]|xss_clean');
 
@@ -262,7 +262,6 @@ class Customer extends CI_Controller
      * 
      * Deletes a customer using the primary key.
      * 
-     * @param int $id Primary key of the customer. 
      */
     public function delete()
     {
@@ -292,11 +291,11 @@ class Customer extends CI_Controller
     }  
     
     /**
-     * Delete a customer.
+     * Find customers.
      * 
-     * Deletes a customer using the primary key.
+     * Finds customers according to the start of the name.
+     * Uses customer/customers_view
      * 
-     * @param int $id Primary key of the customer. 
      */
     public function find()
     {
@@ -341,9 +340,12 @@ class Customer extends CI_Controller
         }
     }
     
+    
     /**
-    * show the page with no customer data
-    */
+     * Show the page with no customer data.
+     * Uses customer/customers_view'
+     * 
+     */
     public function clear()
     {
         if ($this->session->userdata('logged_in'))

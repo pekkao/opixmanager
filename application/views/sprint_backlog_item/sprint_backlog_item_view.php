@@ -3,16 +3,24 @@
  *  Add Sprint backlog item view to be used to add a sprint backlog item in an html table.
  * 
  * @param  $data = array(
-            'id' => '',
-            'sprint_backlog_id' => '',
-            'product_backlog_item_id' => '',
-        );
- * @param $data['backlogs'] backlog item names and ids
+ *           'product_backlog_item_id',
+ *           'item_name', 
+ *           'selected'
+ *       );
+ * 
+ * @param $data['backlogs'] Product backlog items not currently selected in any sprint backlog
+ * @param $data['add'] Hide or show the Reset button (false/true).
+ * @param $data['product_backlog_id'] Selected product backlog
+ * @param $data['project_id'] Selected product
+ * @param $data['sprint_backlog_id'] Selected sprint backlog
  * @param $data['pagetitle'] Title and heading of the page
- 
+ * @param $data['error_message'] The error message to be printed.
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
  * @package opix
  * @category View
- * @author Roni Kokkonen, Tuukka Kiiskinen
+ * @author Tuukka Kiiskinen, Roni Kokkonen
  */
 ?>
 
@@ -21,7 +29,8 @@
 <?php 
 echo form_fieldset();
 echo form_open('sprint_backlog_item/save');
-echo form_hidden('sprint_backlog_id', $sprintbacklog_id);
+echo form_hidden('sprint_backlog_id', $sprint_backlog_id);
+echo form_hidden('txt_product_backlog_id', set_value('product_backlog_id', $product_backlog_id));
 echo form_hidden('txt_project_id', set_value('project_id', $project_id));
 
 echo '<table>';
@@ -47,10 +56,12 @@ foreach ($backlogs as $backlog)
 echo '</table>';
 echo br(1);
 echo form_submit('btn_save', $this->lang->line('button_save'));
-echo anchor('sprint_backlog_item/index/' . $project_id . '/' . $sprintbacklog_id,
+echo anchor('sprint_backlog_item/index/' . $project_id . '/' . $sprint_backlog_id,
         $this->lang->line('link_return'), 'class="returnlink"');
 
 echo form_fieldset_close();
 echo form_close();
 echo br(2);
+
+echo '<p>'.$error_message . '</p>'
 ?>

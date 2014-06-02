@@ -32,23 +32,14 @@ class Sprint_Backlog_Model extends CI_Model
      * Insert a sprint backlog into the sprint backlog table.
      * 
      * @param <array> $data sprint backlog data
+     * 
      * @return int Returns the primary key of the new sprint backlog. 
      */
     public function create($data)
     {    
-        if (empty($data['sprint_name']))
-        {
-            $data['sprint_name'] = NULL;
-        }
-        
         if (empty($data['sprint_description']))
         {
             $data['sprint_description'] = NULL;
-        }
-        
-        if (empty($data['start_date']))
-        {
-            $data['start_date'] = NULL;
         }
         
         if (empty($data['end_date']))
@@ -64,6 +55,7 @@ class Sprint_Backlog_Model extends CI_Model
      * Read sprint backlog from the sprint backlog table using primary key.
      * 
      * @param int $id Primary key of the sprint backlog
+     * 
      * @return <array> sprint backlog data 
      */
     public function read($id)
@@ -74,7 +66,9 @@ class Sprint_Backlog_Model extends CI_Model
     }
     
     /**
-     * Read all the sprint backlogs of the selected project. 
+     * Read all the sprint backlogs of the selected product backlog. 
+     * 
+     * @param int productbacklog_id Optional, primary key of a product backlog
      * 
      * @return <array> sprint_backlogs. 
      */
@@ -99,19 +93,9 @@ class Sprint_Backlog_Model extends CI_Model
      */
     public function update($data)
     {
-        if (empty($data['sprint_name']))
-        {
-            $data['sprint_name'] = NULL;
-        }
-        
         if (empty($data['sprint_description']))
         {
             $data['sprint_description'] = NULL;
-        }
-        
-        if (empty($data['start_date']))
-        {
-            $data['start_date'] = NULL;
         }
         
         if (empty($data['end_date']))
@@ -127,6 +111,8 @@ class Sprint_Backlog_Model extends CI_Model
      * Delete a sprint backlog from the sprint_backlog table.
      * 
      * @param int $id Primary key of the sprint_backlog to delete. 
+     * 
+     * @return boolean false if delete does not succeed because of child rows
      */
     public function delete($id)
     {

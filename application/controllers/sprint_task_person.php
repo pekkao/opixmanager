@@ -50,6 +50,7 @@ class Sprint_Task_Person extends CI_Controller
      * from the sprint_task_person table in the database. 
      * Uses the sprint task persons.
      * 
+     * @param int $project_id Selected project 
      * @param int $sprinttaskid Selected sprinttaskid, default is zero. 
      */
     public function index($project_id = 0, $sprinttaskid = 0) 
@@ -57,14 +58,6 @@ class Sprint_Task_Person extends CI_Controller
         if ($this->session->userdata('logged_in'))
         {
             $session_data = $this->session->userdata('logged_in');
-            $data = array(
-                'id' => '',
-                'sprint_task_id' => '',
-                'person_id' => '',
-                'estimate_work_effort_hours' => '',
-                'firstname' => '',
-                'surname' => ''
-            );
 
             $data['project_id'] = $project_id;
             $data['sprint_task_persons'] = $this->sprint_task_person_model->read_all($sprinttaskid);
@@ -72,12 +65,12 @@ class Sprint_Task_Person extends CI_Controller
             $data['main_content'] = 'sprint_task_person/sprint_task_persons_view';
 
             $sprint_task = $this->sprint_task_model->read($sprinttaskid);
-            $data['sprint_task_id'] = $sprint_task[0]->sprint_backlog_item_id;
+            
+            $data['sprint_backlog_item_id'] = $sprint_task[0]->sprint_backlog_item_id;
             $sprint_backlog_item = $this->sprint_backlog_item_model->read($sprint_task[0]->sprint_backlog_item_id);
             $data['sprint_backlog_id'] = $sprint_backlog_item[0]->sprint_backlog_id;
             $sprint_backlog = $this->sprint_backlog_model->read($sprint_backlog_item[0]->sprint_backlog_id);
             $data['product_backlog_id'] = $sprint_backlog[0]->product_backlog_id;
-            $data['sprint_backlog_item_id'] = $sprint_backlog[0]->id;
 
             $project = $this->project_model->read($project_id);
 
@@ -109,6 +102,9 @@ class Sprint_Task_Person extends CI_Controller
      * Add a sprint_task_person to the database.
      * 
      * Creates a sprint_task_person and shows it via sprint_task_person_view.
+     * 
+     * @param int $project_id Selected project
+     * @param int $id Sprint backlog item id
      */
     public function add($project_id, $id)
     {
@@ -146,9 +142,9 @@ class Sprint_Task_Person extends CI_Controller
 
             $data['project_id'] = $project_id;
             $data['estimate_work_effort_hours'] = '';       
-            $data['add'] = TRUE;        
+            $data['add'] = TRUE; // to add persons and hours       
             $data['task_persons'] = $task_persons;       
-            $data['sprinttask_id'] = $id;
+            $data['sprint_task_id'] = $id;
 
             if ($id > 0)
             {
@@ -178,9 +174,11 @@ class Sprint_Task_Person extends CI_Controller
      * Edit sprint task person's estimate work effort hours.
      * 
      * Edit sprint task person's estimate work effort hours.
-     * @param type $id primary key person_id.
+     * 
+     * @param int $project_id Selected project
+     * @param int $id Person id
+     * @param int $sprinttask_id Selected sprint task
      */
-    
     public function edit($project_id, $id, $sprinttask_id)
     {
         if ($this->session->userdata('logged_in'))
@@ -199,11 +197,10 @@ class Sprint_Task_Person extends CI_Controller
                     'surname' => $sprint_task_person[0]->surname              
                 );
 
-                $data['sprinttask_id'] = $sprinttask_id;
                 $data['project_id'] = $project_id;
                 $data['main_content'] = 'sprint_task_person/sprint_task_person_view';
                 $data['pagetitle'] = $this->lang->line('title_edit_sprint_task_person');
-                $data['add'] = FALSE; // not show reset button
+                $data['add'] = FALSE; // edit hours
                 $data['error_message'] = $this->session->flashdata('$error_message');
                 $data['login_user_id'] = $session_data['user_id'];
                 $data['login_id'] = $session_data['id'];
@@ -230,36 +227,41 @@ class Sprint_Task_Person extends CI_Controller
      */
      public function save()
      {
-        $project_id = $this->input->post('txt_project_id');
-        $sprinttask_id = $this->input->post('sprint_task_id');
-        $new_task_persons = $this->input->post('chk_new_task_person');
-        $ewehs = $this->input->post('txt_eweh');
-        $sprint_task = $this->sprint_task_model->read($sprinttask_id);
-        
-        $sprint_task_person = $this->sprint_task_person_model->read_eweh($sprinttask_id);
-        
-        if (isset($sprint_task[0])) 
+        if ($this->session->userdata('logged_in'))
         {
-            $data2 = array(
-                'effort_estimate_hours' => $sprint_task[0]->effort_estimate_hours,
-            );
-            $a = 0;
-            if (isset($sprint_task_person[0]))
+            $session_data = $this->session->userdata('logged_in');         
+            $project_id = $this->input->post('txt_project_id');
+            $sprint_task_id = $this->input->post('sprint_task_id');
+            $new_task_persons = $this->input->post('chk_new_task_person');
+            $ewehs = $this->input->post('txt_eweh');
+            $sprint_task = $this->sprint_task_model->read($sprint_task_id);                
+
+            if (isset($sprint_task[0])) 
             {
-                while ($a < count($sprint_task_person))
+                $data2 = array(
+                    'effort_estimate_hours' => $sprint_task[0]->effort_estimate_hours,
+                );
+                $a = 0;
+
+                // calculate into $data2['effort_estimate_hours'] how many hours are left for this task
+                $sprint_task_person = $this->sprint_task_person_model->read_eweh($sprint_task_id);
+                if (isset($sprint_task_person[0]))
                 {
-                    $data2['effort_estimate_hours'] = $data2['effort_estimate_hours'] - $sprint_task_person[$a]->estimate_work_effort_hours;
-                    $a++;
+                    while ($a < count($sprint_task_person))
+                    {
+                        $data2['effort_estimate_hours'] = $data2['effort_estimate_hours'] - $sprint_task_person[$a]->estimate_work_effort_hours;
+                        $a++;
+                    }
                 }
             }
-        }      
+            
+            // new hours inserted
             if (!empty($new_task_persons)) 
             {
                 $hours = 0;
                 $h = 0;
-                $i = 0;
-                $j = -1;
-                
+
+                // sum up just inserted estimate effort hours
                 while ($h < count($ewehs))
                 {
                     if (!empty($ewehs[$h]))
@@ -268,42 +270,42 @@ class Sprint_Task_Person extends CI_Controller
                     }
                     $h++;
                 }
-                
+
+                // is the enough hours left to use just inserted hours
                 if ($hours <= $data2['effort_estimate_hours'])
                 {
-                    foreach ($new_task_persons as $task_person)
+                    $i = 0;
+                    // insert hours for each selected person
+                    foreach ($ewehs as $hours_person)
                     {
-
-                        $i = $j +1;
-                        while ($i < count($ewehs))
-                        {                       
-                            if (!empty($ewehs[$i]))
-                            {
-                                $data = array(                                  
-                                    'sprint_task_id'  => $sprinttask_id,
-                                    'person_id' => $task_person,
-                                    'estimate_work_effort_hours' => $ewehs[$i]
-                                );
-                                $j = $i;
-                                $i = count($ewehs);
-                                $this->sprint_task_person_model->create($data);
-                            }
+                        // if there are hours, find a person by index
+                        if ($hours_person != "")
+                        {
+                            $data = array(                                  
+                                'sprint_task_id'  => $sprint_task_id,
+                                'person_id' => $new_task_persons[$i],
+                                'estimate_work_effort_hours' => $hours_person);                            
+                        
+                            $this->sprint_task_person_model->create($data);
                             $i++;
                         }
                     }
-                    redirect('sprint_task_person/index/' . $project_id . '/' . $sprinttask_id);
+                    redirect('sprint_task_person/index/' . $project_id . '/' . $sprint_task_id);
                 }
-                
-                else
-                {
+                else // inserted hours are more than is left for this task
+                {                    
                     $error_message = $this->lang->line('invalid_hours') . '</br>' .
                         $this->lang->line('remaining_hours') .
                         $data2['effort_estimate_hours'];
                     $data['error_message'] = $this->session->set_flashdata('$error_message', $error_message);
-                    redirect('sprint_task_person/add/' . $project_id . '/' . $sprinttask_id);
+                    redirect('sprint_task_person/add/' . $project_id . '/' . $sprint_task_id);
                 }
-            }
-                
+           }
+        }
+        else
+        {
+            redirect('login','refresh');
+        } 
     }
     
     /**
@@ -313,83 +315,114 @@ class Sprint_Task_Person extends CI_Controller
      */
     
     public function save_edit()
-     {     
-        $project_id = $this->input->post('txt_project_id');
-        $sprint_task_id = $this->input->post('sprint_task_id');
-
-        $data = array(
-            'person_id' => $this->input->post('person_id'),
-            'sprint_task_id' => $this->input->post('sprint_task_id'),
-            'estimate_work_effort_hours'=>$this->input->post('txt_eweh')
-        );
-
-        $sprint_task = $this->sprint_task_model->read($data['sprint_task_id']);
-
-        $sprint_task_person = $this->sprint_task_person_model->read_eweh($data['sprint_task_id']);       
-
-        if (isset($sprint_task[0])) 
+    {     
+        if ($this->session->userdata('logged_in'))
         {
-            $data2 = array(
-                'effort_estimate_hours' => $sprint_task[0]->effort_estimate_hours,
+            $session_data = $this->session->userdata('logged_in');
+            $project_id = $this->input->post('txt_project_id');
+            $sprint_task_id = $this->input->post('sprint_task_id');
+
+            $data = array(
+                'person_id' => $this->input->post('person_id'),
+                'sprint_task_id' => $this->input->post('sprint_task_id'),
+                'estimate_work_effort_hours'=>$this->input->post('txt_eweh')
             );
-            $a = 0;
-            if (isset($sprint_task_person[0]))
+
+            $sprint_task = $this->sprint_task_model->read($data['sprint_task_id']);
+
+            $sprint_task_persons = $this->sprint_task_person_model->read_eweh($data['sprint_task_id']);
+
+            if (isset($sprint_task[0])) 
             {
-                while ($a < count($sprint_task_person))
+                $data2 = array(
+                    'effort_estimate_hours' => $sprint_task[0]->effort_estimate_hours,
+                );
+                $a = 0;
+                if (isset($sprint_task_persons[0]))
                 {
-                    if ($sprint_task_person[$a]->person_id != $data['person_id'])
+                    while ($a < count($sprint_task_persons))
                     {
-                        $data2['effort_estimate_hours'] = $data2['effort_estimate_hours'] - $sprint_task_person[$a]->estimate_work_effort_hours;
-                        $a++;
-                    }
-                    else
-                    {
-                        $a++;
+                        if ($sprint_task_persons[$a]->person_id != $data['person_id'])
+                        {
+                            $data2['effort_estimate_hours'] = $data2['effort_estimate_hours'] - $sprint_task_persons[$a]->estimate_work_effort_hours;
+                            $a++;
+                        }
+                        else
+                        {
+                            $a++;
+                        }
                     }
                 }
-            }
-        }        
+            }        
 
-        $this->load->library('form_validation');
-        $this->form_validation->set_error_delimiters('<span class= "error">', '</span>');
+            $this->load->library('form_validation');
+            $this->form_validation->set_error_delimiters('<span class= "error">', '</span>');
 
-        $this->form_validation->set_rules(
-             'txt_eweh', $this->lang->line('missing_eweh'), 'trim|required|xss_clean');
+            $this->form_validation->set_rules(
+                 'txt_eweh', $this->lang->line('missing_eweh'), 'trim|xss_clean|numeric');
 
-        if ($this->form_validation->run() == FALSE)
-        {
-            $data['project_id'] = $project_id;
-            $data['pagetitle'] = $this->lang->line('title_edit_sprint_task_person');
-            redirect('sprint_task_person/edit/' . $project_id . '/' . $data['person_id'] . '/' .
-                        $sprint_task_id);
-        }
-
-        else
-        {
-            if ($data['estimate_work_effort_hours'] <= $data2['effort_estimate_hours'])
+            if ($this->form_validation->run() == FALSE)
             {
-                $this->sprint_task_person_model->update($data);
-                redirect('sprint_task_person/index/' . $project_id . '/' . $data['sprint_task_id']);
-            }
-            else
-            {
+                $sprint_task_person = $this->sprint_task_person_model->read_by_person($data['person_id'], $data['sprint_task_id']);
+                $data = array(
+                    'id' => $sprint_task_person[0]->id,
+                    'person_id' => $this->input->post('person_id'),
+                    'sprint_task_id' => $this->input->post('sprint_task_id'),
+                    'estimate_work_effort_hours'=>$this->input->post('txt_eweh'),
+                    'firstname' => $sprint_task_person[0]->firstname,
+                    'surname' => $sprint_task_person[0]->surname              
+                );
                 $data['project_id'] = $project_id;
                 $data['pagetitle'] = $this->lang->line('title_edit_sprint_task_person');
-                $error_message = $this->lang->line('invalid_hours') . '</br>' .
-                    $this->lang->line('remaining_hours') .
-                    $data2['effort_estimate_hours'];
-                $data['error_message'] = $this->session->set_flashdata('$error_message', $error_message);
-                redirect('sprint_task_person/edit/' . $project_id . '/' . $data['person_id'] . '/' .
-                        $sprint_task_id);
+                $data['main_content'] = 'sprint_task_person/sprint_task_person_view';
+                $data['add'] = FALSE; 
+                $data['error_message'] = "";
+                $data['login_user_id'] = $session_data['user_id'];
+                $data['login_id'] = $session_data['id'];                
+                $this->load->view('template', $data);
+            }
+
+            else
+            {
+                if ($data['estimate_work_effort_hours'] <= $data2['effort_estimate_hours'])
+                {
+                    $this->sprint_task_person_model->update($data);
+                    redirect('sprint_task_person/index/' . $project_id . '/' . $data['sprint_task_id']);
+                }
+                else
+                {
+                    $sprint_task_person = $this->sprint_task_person_model->read_by_person($data['person_id'], $data['sprint_task_id']);
+                    $data = array(
+                        'id' => $sprint_task_person[0]->id,
+                        'person_id' => $this->input->post('person_id'),
+                        'sprint_task_id' => $this->input->post('sprint_task_id'),
+                        'estimate_work_effort_hours'=>$this->input->post('txt_eweh'),
+                        'firstname' => $sprint_task_person[0]->firstname,
+                        'surname' => $sprint_task_person[0]->surname              
+                    );
+                    $data['project_id'] = $project_id;
+                    $data['pagetitle'] = $this->lang->line('title_edit_sprint_task_person');
+                    $data['main_content'] = 'sprint_task_person/sprint_task_person_view';
+                    $data['add'] = FALSE; 
+                    $data['error_message'] = $this->lang->line('invalid_hours') . '</br>' .
+                        $this->lang->line('remaining_hours') .
+                        $data2['effort_estimate_hours'];
+
+                    $data['login_user_id'] = $session_data['user_id'];
+                    $data['login_id'] = $session_data['id'];                
+                    $this->load->view('template', $data);
+                }
             }
         }
-         
+        else
+        {
+            redirect('login','refresh');
+        }         
      }
      
     /**
      * Delete a sprint_task_person.
      * 
-     * @param int $id Primary key of the sprint_task_person. 
      */
     public function delete()
     {

@@ -178,7 +178,6 @@ class Project_Type extends CI_Controller
      * 
      * Deletes a project type using the primary key.
      * 
-     * @param int $id Primary key of the project type. 
      */
     public function delete()
     {

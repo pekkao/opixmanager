@@ -44,9 +44,12 @@ class Task extends CI_Controller
     /**
      * Listing of all tasks.
      * 
-     * Reads all tasks from the task table in the database. 
+     * Reads all tasks from the task table in the database of the selected 
+     * project and project period. 
      * Uses the task/tasks_view.
      * 
+     * @param int $project_id Selected project
+     * @param int $projectperiod_id Selected project period, optional
      */
     public function index($project_id = 0, $projectperiod_id = 0)
     {    
@@ -103,7 +106,9 @@ class Task extends CI_Controller
      * Add a task to the database.
      * 
      * Creates an empty task and shows it via task/task_view.
-     * @param int $currentprojectperiod_id Primary key of the task. 
+     * 
+     * @param int $currentprojectperiod_id Selected project period. 
+     * @param int $project_id Primary key of the selected project. 
      */
     public function add($project_id, $currentprojectperiod_id = 0)
     {    
@@ -167,7 +172,9 @@ class Task extends CI_Controller
      * Reads a task from the database using the primary key. 
      * If no task is found redirects to index with error message in flash data.
      * 
-     * @param int $currentprojectperiod_id, $task_id Primary key of the task. 
+     * @param int $project_id Primary key of the selected project.
+     * @param int $currentprojectperiod_id Selected project period, 
+     * @param int $task_id Primary key of the task. 
      */
     public function edit($project_id, $currentprojectperiod_id, $task_id)
     {     
@@ -395,7 +402,6 @@ class Task extends CI_Controller
      * 
      * Deletes a task using the primary key.
      * 
-     * @param int $id Primary key of the task. 
      */
     public function delete() 
     {

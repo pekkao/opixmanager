@@ -44,6 +44,18 @@ class Task_Type_Model extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+
+    /**
+     * Read all the task_type names and ids from the task_type table
+     * @return <result_array> Task_types
+     */
+    public function read_names() {
+        $this->db->select('id, task_type_name');
+        $this->db->from('task_type');
+        $this->db->order_by('task_type_name');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     
      /**
      * Read task_type from the task_type table using primary key.
@@ -110,17 +122,4 @@ class Task_Type_Model extends CI_Model {
             return TRUE;
         }
     }
-    
-    /**
-     * Read all the task_type names and ids from the task_type table
-     * @return <result_array> Task_types
-     */
-    public function read_names() {
-        $this->db->select('id, task_type_name');
-        $this->db->from('task_type');
-        $this->db->order_by('task_type_name');
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-    
 }

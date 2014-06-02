@@ -45,23 +45,21 @@ class Project extends CI_Controller
      * Constructor of a project model.
      * 
      * Constructor of a project model. Loads project_model,
-     * customer_model, project_type_model and language package.
+     * customer_model, and language package.
      */
     public function __construct()
     {
         parent::__construct();
         $this->lang->load('project');
-        
         $this->load->model('project_period_model');
         $this->load->model('product_backlog_model');
         $this->load->model('project_model');
         $this->load->model('customer_model');
-        $this->load->model('project_type_model');
         $this->load->library('session'); // to send error message with redirect
     }
     
     /**
-     * Listing of all active projects.
+     * Listing of all active projects. 
      * 
      * Reads all active projects from the project table in the database. 
      * Uses the project/project_view.
@@ -80,9 +78,7 @@ class Project extends CI_Controller
                     'project_description' => '',
                     'project_start_date' => '',
                     'project_end_date' => '',
-                    'type_id' => '',
                     'customer_id' => '',
-                    'type_name' => '',
                     'customer_name' => '',
                     'project_type' => '',
                     'active' => ''
@@ -133,9 +129,7 @@ class Project extends CI_Controller
                     'project_description' => '',
                     'project_start_date' => '',
                     'project_end_date' => '',
-                    'type_id' => '',
                     'customer_id' => '',
-                    'type_name' => '',
                     'customer_name' => '',
                     'project_type' => '',
                     'active' => ''
@@ -256,16 +250,7 @@ class Project extends CI_Controller
                 array_unshift($customers_from_db, $a);
                 $customers = convert_db_result_to_dropdown(
                         $customers_from_db, 'id', 'customer_name');        
-                $data['customers'] = $customers;        
-
-                // dropdown listbox of types
-                $types_from_db = $this->project_type_model->read_names();
-                // new text in the beginning of array
-                $a = array('id' => "0", 'type_name' => $this->lang->line('select_type') );
-                array_unshift($types_from_db, $a);
-                $types = convert_db_result_to_dropdown(
-                        $types_from_db, 'id', 'type_name');        
-                $data['project_types'] = $types;        
+                $data['customers'] = $customers;             
 
                 $data['main_content'] = 'project/project_view';
                 $data['pagetitle'] = $this->lang->line('title_insert_project');
@@ -293,7 +278,7 @@ class Project extends CI_Controller
      * Reads a project from the database using the primary key. 
      * If no customer is found redirects to index with error message in flash data.
      * 
-     * @param int $id Primary key of the customer 
+     * @param int $id Primary key of the project 
      */
     function edit($id)
     {
@@ -312,7 +297,6 @@ class Project extends CI_Controller
                         'project_description' => $project[0]->project_description,
                         'project_start_date' => $project[0]->project_start_date,
                         'project_end_date' => $project[0]->project_end_date,
-                        'type_id' => $project[0]->type_id,
                         'customer_id' => $project[0]->customer_id,
                         'project_type' => $project[0]->project_type,
                         'active' => $project[0]->active
@@ -331,15 +315,6 @@ class Project extends CI_Controller
                     $customers = convert_db_result_to_dropdown(
                             $customers_from_db, 'id', 'customer_name');        
                     $data['customers'] = $customers;        
-
-                    // dropdown listbox of types
-                    $types_from_db = $this->project_type_model->read_names();
-                    // new text in the beginning of array
-                    $a = array('id' => "0", 'type_name' => $this->lang->line('select_type') );
-                    array_unshift($types_from_db, $a);
-                    $types = convert_db_result_to_dropdown(
-                            $types_from_db, 'id', 'type_name');        
-                    $data['project_types'] = $types;   
 
                     $data['main_content'] = 'project/project_view';
                     $data['pagetitle'] = $this->lang->line('title_edit_project');
@@ -390,7 +365,6 @@ class Project extends CI_Controller
                 'project_description' => $this->input->post('txt_project_description'),
                 'project_start_date' => $this->input->post('dtm_project_start_date'),
                 'project_end_date' => $this->input->post('dtm_project_end_date'),
-                'type_id' => $this->input->post('ddl_project_type'),
                 'customer_id' => $this->input->post('ddl_customer'),
                 'project_type' => $this->input->post('rdo_project_type'),
                 'active' => $this->input->post('rdo_active')
@@ -443,15 +417,7 @@ class Project extends CI_Controller
                 $customers = convert_db_result_to_dropdown(
                         $customers_from_db, 'id', 'customer_name');        
                 $data['customers'] = $customers;        
-
-                // dropdown listbox of types
-                $types_from_db = $this->project_type_model->read_names();
-                // new text in the beginning of array
-                $a = array('id' => "0", 'type_name' => $this->lang->line('select_type') );
-                array_unshift($types_from_db, $a);
-                $types = convert_db_result_to_dropdown(
-                        $types_from_db, 'id', 'type_name');        
-                $data['project_types'] = $types;   
+ 
                 $data['login_user_id'] = $session_data['user_id'];
                 $data['login_id'] = $session_data['id'];
                 $this->load->view('template', $data);            
@@ -514,7 +480,7 @@ class Project extends CI_Controller
 
 
     /**
-    * search project
+    * search project between start and end date
     */
     public function find() 
     {
@@ -529,9 +495,7 @@ class Project extends CI_Controller
                     'project_description' => '',
                     'project_start_date' => '',
                     'project_end_date' => '',
-                    'type_id' => '',
                     'customer_id' => '',
-                    'type_name' => '',
                     'customer_name' => '',
                     'project_type' => '',
                     'active' => ''
@@ -590,7 +554,6 @@ class Project extends CI_Controller
      * 
      * Deletes a project using the primary key.
      * 
-     * @param int $id Primary key of the project. 
      */
     function delete() 
     {
@@ -644,9 +607,7 @@ class Project extends CI_Controller
                     'project_description' => '',
                     'project_start_date' => '',
                     'project_end_data' => '',
-                    'type_id' => '',
                     'customer_id' => '',
-                    'type_name' => '',
                     'customer_name' => '',
                     'project_type' => '',
                     'active' => ''
@@ -666,9 +627,7 @@ class Project extends CI_Controller
                 $error_message = $this->lang->line('not_allowed');
                 $this->session->set_flashdata('$error_message', $error_message);
                 redirect('home');
-            }
-                    
-                
+            } 
         }
         else
         {

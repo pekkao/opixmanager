@@ -74,6 +74,7 @@ class Sprint_Task_Person_Model extends CI_Model
     /*
      * Reads sprint task persons estimate work effort hours.
      * @param int $id Primary key of the sprint_task to read.
+     * @return <array> Person's tasks
      */
     public function read_eweh($id)
     {
@@ -94,7 +95,7 @@ class Sprint_Task_Person_Model extends CI_Model
     }
     
     /**
-     * Read all the sprint task persons of the selected sprint task. 
+     * Read all the sprint tasks of the person of the selected sprint task. 
      * 
      * @return <array> sprint_task_persons. 
      */

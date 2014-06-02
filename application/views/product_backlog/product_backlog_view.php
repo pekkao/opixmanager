@@ -4,16 +4,21 @@
  * Product_backlog_view to be used to insert and update a product_backlog.
  * 
  * @param $data = array(
- *               'id' => $product_backlog[0]->id,
- *               'backlog_name' => $product_backlog[0]->backlog_name,
- *               'product_visio' => $product_backlog[0]->product_visio
- *               'product_current_state' => $product_backlog[0]->product_current_state,
- *               'product_owner' => $product_backlog[0]->product_owner,
+ *               'id',
+ *               'backlog_name',
+ *               'product_visio',
+ *               'product_current_state',
+ *               'product_owner'
  *              );
  * 
  * @param $data['pagetitle'] Title and heading of the page
  * @param $data['add'] Hide or show the Reset button (false/true).
- *
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
+ * @package opix
+ * @category View
+ * @author Wang Yuqing, Tuukka Kiiskinen, Roni Kokkonen
  */
 
 ?>
@@ -73,6 +78,7 @@ echo br(1);
 
 echo form_label($this->lang->line('label_product_owner'), 'ddl_product_owner');
 echo form_dropdown('ddl_product_owner', $persons, $product_owner);
+
 echo br(1);
 
 echo '<p>';

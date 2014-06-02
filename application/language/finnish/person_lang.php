@@ -38,7 +38,7 @@ $lang['button_search'] = 'Hae';
 $lang['link_add_person'] = "Lisää henkilö";
 $lang['link_return'] = 'Paluu';
 $lang['link_change_password'] = 'Vaihda Salasana';
-$lang['link_all'] = 'Kaikki henkilöt';
+$lang['link_all_persons'] = 'Kaikki henkilöt';
 $lang['link_edit']='Muokkaa';
 $lang['link_project']='Projektit';
 
@@ -47,6 +47,7 @@ $lang['missing_firstname']='Etunimi';
 $lang['missing_user_id']='Käyttäjätunnus';
 $lang['missing_password']='Salasana';
 $lang['missing_person']='Henkilöä ei löydy tietokannasta.';
+$lang['missing_language']='Valitse kieli';
 $lang['invalid_email'] = 'Sähköpostin muoto on väärä.';
 $lang['invalid_phonenumber'] = 'Puhelinnumero ';
 $lang['wrong_password'] = 'Väärä vanha salasana';

@@ -31,7 +31,7 @@ class Person_Role_Model extends CI_Model
     /**
      * Read all the person_roles from the person_role table
      * 
-     * @return <array> person_roles. 
+     * @return <array> Person roles. 
      */
     public function read_all()
     {
@@ -46,7 +46,7 @@ class Person_Role_Model extends CI_Model
      * Read person_role from the person_role table using primary key.
      * 
      * @param int $id Primary key of the person_role
-     * @return <array> Person_role data 
+     * @return <array> Person role data 
      */
     public function read($id)
     {
@@ -100,7 +100,9 @@ class Person_Role_Model extends CI_Model
     }
        
     /**
-     * Read role_names from the person_role table.
+     * Read role names and ids from the person_role table.
+     * 
+     * @retun <array> Roles
      */
     public function read_names()
     {

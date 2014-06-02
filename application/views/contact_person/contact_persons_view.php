@@ -5,21 +5,26 @@
  * Show contact persons and with each contact person a link to edit and delete a contact person.
  * 
  * @param $data = array(
- *           'id' => '',
- *           'surname' => '',
- *           'firstname' => '',
- *           'title' => '',
- *           'phonenumber' => '',
- *           'email' => '',
- *           'customerid' => '',
- *           'customer_name' => ''
+ *           'id',
+ *           'surname',
+ *           'firstname',
+ *           'title',
+ *           'phonenumber',
+ *           'email',
+ *           'customerid',
+ *           'customer_name'
  *           );
  * @param $data['contact_persons'] All contact persons in an array.
  * @param $data['pagetitle'] Title and heading of the page
  * @param $data['heading'] Heading for the error message.
  * @param $data['error_message'] The error message to be printed.
  * @param $data['currentcustomerid] The customerid of customer contacts, zero means all contacts.
- 
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
+ * 
+ * @package opix
+ * @category View
+ * @author Liisa Auer
  */
 ?>
 <script type="text/javascript">
@@ -61,25 +66,12 @@
         $this->lang->line('link_add_contact_person')) ?>
 </p>
 
-<?php 
-// printing the error message if exists
-if ($error_message != '')
-{
-    echo '<h4>' . $heading . '</h4>';
-    echo '<p>' . $error_message . '</p>';
-}
-?>
-
 <table>
     <thead>
         <tr>
             <?php
             echo '<th>' . $this->lang->line('label_contact_surname') . '</th>';
             echo '<th>' . $this->lang->line('label_contact_firstname') . '</th>';            
-            #echo '<th>' . $this->lang->line('label_contact_title') . '</th>';
-            #echo '<th>' . $this->lang->line('label_contact_phonenumber') . '</th>';
-            #echo '<th>' . $this->lang->line('label_contact_email') . '</th>';            
-            #echo '<th>' . $this->lang->line('label_customer_name') . '</th>';
             echo '<th colspan="2"></th>';
             ?>
         </tr>
@@ -90,12 +82,7 @@ if ($error_message != '')
             foreach ($contact_persons as $contact_person) {
                 echo '<tr>';
                 echo '<td>' . $contact_person->surname . '</td>';
-                echo '<td>' . $contact_person->firstname . '</td>';                
-                #echo '<td>' . $contact_person->title . '</td>';
-                #echo '<td>' . $contact_person->phone_number . '</td>';
-                #echo '<td>' . $contact_person->email . '</td>';
-                #echo '<td>' . $contact_person->customer_name . '</td>';
-                
+                echo '<td>' . $contact_person->firstname . '</td>';                               
                 echo '<td>';
                     echo form_open('contact_person/delete');
                     echo form_hidden('txt_id', set_value('id', $contact_person->id));
@@ -111,7 +98,7 @@ if ($error_message != '')
                             $this->lang->line('label_contact_phonenumber') . ': ' . $contact_person->phone_number . '</br>' .
                             $this->lang->line('label_contact_email') . ': ' . $contact_person->email;                       
                 echo '</div>';
-                echo '<a href="#" class="trigger">' . img('application/img/information.jpg') . '</a>';
+                echo '<a href="#" class="trigger">' . img('img/information.jpg') . '</a>';
                 echo '</td>';                
                 echo '</tr>';
             }
@@ -120,3 +107,11 @@ if ($error_message != '')
     </tbody>
 </table>
 
+<?php 
+// printing the error message if exists
+if ($error_message != '')
+{
+    echo '<h4>' . $heading . '</h4>';
+    echo '<p>' . $error_message . '</p>';
+}
+?>

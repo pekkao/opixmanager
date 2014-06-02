@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * COMMENTS SHOULD BE REWRITTEN
  * task_view to be used to insert and update a task.
  * 
  * @param $data = array(        

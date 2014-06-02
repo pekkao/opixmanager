@@ -4,19 +4,25 @@
  * Sprint_backlog_view to be used to insert and update a sprint_backlog.
  * 
  * @param $data = array(
-                'id'         => $sprint_backlog[0]->id,
-                'product_backlog_id'    => $sprint_backlog[0]->product_backlog_id,
-                'sprint_name'  => $sprint_backlog[0]->sprint_name,
-                'sprint_description'      => $sprint_backlog[0]->sprint_description,
-                'start_date'      => $sprint_backlog[0]->start_date,
-                'end_date'      => $sprint_backlog[0]->end_date,  
+ *               'id', 
+ *               'product_backlog_id', 
+ *               'sprint_name', 
+ *               'sprint_description',
+ *               'start_date',
+ *               'end_date'  
  * 
+ * @param $data['project_id'] Selected project
  * @param $data['pagetitle'] Title and heading of the page
  * @param $data['add'] Hide or show the Reset button (false/true).
- * @author Tuukka Kiiskinen, Roni Kokkonen
+ * @param $data['heading'] Heading for the error message.
+ * @param $data['error_message'] The error message to be printed.
+ * @param $data['login_user_id'] User's login id (session data)
+ * @param $data['login_id'] User's id (session data)
  * 
+ * @package opix
+ * @category View
+ * @author Tuukka Kiiskinen, Roni Kokkonen
  */
-
 ?>
 
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
