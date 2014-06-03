@@ -1,3 +1,7 @@
+DROP DATABASE IF EXISTS opixmanager;
+CREATE DATABASE IF NOT EXISTS opixmanager;
+USE opixmanager;
+
 -- phpMyAdmin SQL Dump
 -- version 3.5.2.2
 -- http://www.phpmyadmin.net
