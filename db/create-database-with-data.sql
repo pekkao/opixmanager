@@ -157,15 +157,15 @@ CREATE TABLE IF NOT EXISTS `person` (
 --
 
 INSERT INTO `person` (`id`, `surname`, `firstname`, `title`, `email`, `phone_number`, `user_id`, `password`, `language_id`, `account_type`) VALUES
-(1, 'Testaaja', 'Tauno', NULL, '', NULL, 'taunot', '21e9c84518fd9be3241f50c5e7c9fb95', 1, 2),
-(2, 'Koodaaja ', 'Kaisa', NULL, '', NULL, 'kaisak', '538dd437109e02bc3feac27de99b3647', 1, 2),
-(3, 'Aaltonen', 'Alli', 'Programmer', NULL, '1234567', 'allia', '14277cc09bf79f1197e7c9deab097827', 2, 2),
-(4, 'Virtanen', 'Ville', NULL, '', NULL, 'villev', 'cfb0be388f4623627fb54826ce4c460a', 2, 2),
-(5, 'Oppilas', 'Oili', NULL, '', NULL, 'oilio', 'be26ed798b7f402555b4af520b8225e7', 1, 2),
-(6, 'Päivänlahti', 'Paavo', NULL, '', NULL, 'paavop', '6b8e08bc3fbaea84f3d77da257d1ba14', 1, 2),
-(8, 'admin', 'admin', 'Manager', NULL, NULL, 'admin', '55340159dccd929e0cd2abd72cfe799a', 2, 1),
-(9, 'testi', 'testi', NULL, '', '1234567', 'testi', 'ade90a671931096ab508b4ebf20e0bf2', 2, 2),
-(10, 'Ääninen', 'Äijä', NULL, '', NULL, 'aijaa', '03e6bab580b3e0b2b9cbb3cc8231ac49', 2, 2);
+(1, 'Testaaja', 'Tauno', NULL, '', NULL, 'taunot', MD5('taunot14'), 1, 2),
+(2, 'Koodaaja ', 'Kaisa', NULL, '', NULL, 'kaisak', MD5('kaisak14'), 1, 2),
+(3, 'Aaltonen', 'Alli', 'Programmer', NULL, '1234567', 'allia', MD5('allia14'), 2, 2),
+(4, 'Virtanen', 'Ville', NULL, '', NULL, 'villev', MD5('villev14'), 2, 2),
+(5, 'Oppilas', 'Oili', NULL, '', NULL, 'oilio', MD5('oikio14'), 1, 2),
+(6, 'Päivänlahti', 'Paavo', NULL, '', NULL, 'paavop', MD5('paavop14'), 1, 2),
+(8, 'admin', 'admin', 'Manager', NULL, NULL, 'admin', MD5('14admin'), 2, 1),
+(9, 'testi', 'testi', NULL, '', '1234567', 'testi', MD5('testi14'), 2, 2),
+(10, 'Ääninen', 'Äijä', NULL, '', NULL, 'aijaa', MD5('aijaa14'), 2, 2);
 
 -- --------------------------------------------------------
 
