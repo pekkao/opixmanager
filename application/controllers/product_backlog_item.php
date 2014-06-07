@@ -78,6 +78,17 @@ class Product_Backlog_Item extends CI_Controller
                     $this->product_backlog_model->read($product_backlog_id);
                 $data['pagetitle'] .= $product_backlog[0]->backlog_name  . 
                         ': ';
+                
+                // admin and product owner can add backlog items
+                if ($product_backlog[0]->product_owner == $session_data['id'] || 
+                       $this->session->userdata('account_type') == 1 ) 
+                {
+                    $data['can_add'] = TRUE;
+                }
+                else
+                {
+                    $data['can_add'] = FALSE;
+                }
             }
 
             $data['pagetitle'] .= $this->lang->line('title_product_backlog_item');
@@ -291,113 +302,125 @@ class Product_Backlog_Item extends CI_Controller
      */   
     public function save()
     {
-        $data = array(
-            'id' => $this->input->post('txt_id'),
-            'item_name' => $this->input->post('txt_item_name'),
-            'item_description' => $this->input->post('txt_item_description'),
-            'priority' => $this->input->post('txt_priority'),
-            'business_value' => $this->input->post('txt_business_value'),
-            'estimate_points' => $this->input->post('txt_estimate_points'),
-            'effort_estimate_hours' => $this->input->post('txt_effort_estimate_hours'),
-            'acceptance_criteria' => $this->input->post('txt_acceptance_criteria'),
-            'release_target' => $this->input->post('txt_release_target'),
-            'product_backlog_id' => $this->input->post('txt_product_backlog_id'),
-            'item_type_id' => $this->input->post('ddl_item_type'),
-            'status_id' => $this->input->post('ddl_status'),
-            'start_date' => $this->input->post('dtm_start_date')
-        );
-    
-        $project_id = $this->input->post('txt_project_id');
-        $update = FALSE;     
-        
-        if (strlen($this->input->post("txt_id")) > 0)
+        if ($this->session->userdata('logged_in'))
         {
-            $update = TRUE; 
-        }
-        
-        $this->load->library('form_validation');
-        $this->form_validation->set_error_delimiters('<span class="error">', '</span>');
+            $session_data = $this->session->userdata('logged_in');
+            $data = array(
+                'id' => $this->input->post('txt_id'),
+                'item_name' => $this->input->post('txt_item_name'),
+                'item_description' => $this->input->post('txt_item_description'),
+                'priority' => $this->input->post('txt_priority'),
+                'business_value' => $this->input->post('txt_business_value'),
+                'estimate_points' => $this->input->post('txt_estimate_points'),
+                'effort_estimate_hours' => $this->input->post('txt_effort_estimate_hours'),
+                'acceptance_criteria' => $this->input->post('txt_acceptance_criteria'),
+                'release_target' => $this->input->post('txt_release_target'),
+                'product_backlog_id' => $this->input->post('txt_product_backlog_id'),
+                'item_type_id' => $this->input->post('ddl_item_type'),
+                'status_id' => $this->input->post('ddl_status'),
+                'start_date' => $this->input->post('dtm_start_date')
+            );
 
-        $this->form_validation->set_rules(
-                'txt_item_name', $this->lang->line('missing_item_name'), 'trim|required|max_length[255]|xss_clean');
-        $this->form_validation->set_rules(
-                'txt_item_description', 'trim|max_length[1000]|xss_clean');
-        $this->form_validation->set_rules(
-                'txt_priority', $this->lang->line('invalid_priority'), 'trim|max_length[10]|xss_clean|integer');
-        $this->form_validation->set_rules(
-                'txt_business_value', $this->lang->line('invalid_business_value'), 'trim|max_length[10]|xss_clean|integer');
-        $this->form_validation->set_rules(
-                'txt_estimate_points', $this->lang->line('invalid_estimate_points'), 'trim|max_length[10]|xss_clean|integer');
-        $this->form_validation->set_rules(
-                'txt_effort_estimate_hours', $this->lang->line('invalid_effort_estimate_hours'), 'trim|max_length[10]|xss_clean|integer');
-        $this->form_validation->set_rules(
-                'txt_acceptance_criteria', 'trim|max_length[1000]|xss_clean');
-        $this->form_validation->set_rules(
-                'txt_release_target', 'trim|max_length[255]|xss_clean');
-        $this->form_validation->set_rules(
-                'dtm_start_date', $this->lang->line('label_start_date'), 'xss_clean|check_date');
-        
-        // callback function to validate that status is selected
-        // error message for that callback function
-        $this->form_validation->set_message('check_status', $this->lang->line('missing_status'));
-        $this->form_validation->set_rules(
-                        'ddl_status', null, 'callback_check_status');
-        
-        if ($this->form_validation->run() == FALSE) 
-        {          
-            // item type and status methods are in a wrong model !!!
-            $item_types_from_db = $this->product_backlog_item_model->read_item_types();         
-            $this->load->helper("form_input_helper");
-            $item_types = convert_db_result_to_dropdown(
-            $item_types_from_db, 'id', 'item_type_name');        
-            $data['item_types'] = $item_types;
-        
-            $status_from_db = $this->status_model->read_names();   
-            $this->load->helper("form_input_helper");
-            // new text in the beginning of array
-            $a = array('id' => "0", 'status_name' => $this->lang->line('select_status') );
-            array_unshift($status_from_db, $a);
-            $status = convert_db_result_to_dropdown(
-            $status_from_db, 'id', 'status_name');        
-            $data['status'] = $status;
-            
-            $data['project_id']=$project_id;
-            
-            $product_backlog = $this->product_backlog_model->read(
-                    $data['product_backlog_id']);
-            
-            if ($update == TRUE)
+            $project_id = $this->input->post('txt_project_id');
+            $update = FALSE;     
+
+            if (strlen($this->input->post("txt_id")) > 0)
             {
-                $data['add'] = FALSE; 
-                $data['pagetitle'] = $product_backlog[0]->backlog_name  . ': ' .
-                    $this->lang->line('title_edit_product_backlog_item');                
+                $update = TRUE; 
             }
-            
+
+            $this->load->library('form_validation');
+            $this->form_validation->set_error_delimiters('<span class="error">', '</span>');
+
+            $this->form_validation->set_rules(
+                    'txt_item_name', $this->lang->line('missing_item_name'), 'trim|required|max_length[255]|xss_clean');
+            $this->form_validation->set_rules(
+                    'txt_item_description', 'trim|max_length[1000]|xss_clean');
+            $this->form_validation->set_rules(
+                    'txt_priority', $this->lang->line('invalid_priority'), 'trim|max_length[10]|xss_clean|integer');
+            $this->form_validation->set_rules(
+                    'txt_business_value', $this->lang->line('invalid_business_value'), 'trim|max_length[10]|xss_clean|integer');
+            $this->form_validation->set_rules(
+                    'txt_estimate_points', $this->lang->line('invalid_estimate_points'), 'trim|max_length[10]|xss_clean|integer');
+            $this->form_validation->set_rules(
+                    'txt_effort_estimate_hours', $this->lang->line('invalid_effort_estimate_hours'), 'trim|max_length[10]|xss_clean|integer');
+            $this->form_validation->set_rules(
+                    'txt_acceptance_criteria', 'trim|max_length[1000]|xss_clean');
+            $this->form_validation->set_rules(
+                    'txt_release_target', 'trim|max_length[255]|xss_clean');
+            $this->form_validation->set_rules(
+                    'dtm_start_date', $this->lang->line('label_start_date'), 'xss_clean|check_date');
+
+            // callback function to validate that status is selected
+            // error message for that callback function
+            $this->form_validation->set_message('check_status', $this->lang->line('missing_status'));
+            $this->form_validation->set_rules(
+                            'ddl_status', null, 'callback_check_status');
+
+            if ($this->form_validation->run() == FALSE) 
+            {          
+                $data['login_user_id'] = $session_data['user_id'];
+                $data['login_id'] = $session_data['id'];
+
+                // item type and status methods are in a wrong model !!!
+                $item_types_from_db = $this->product_backlog_item_model->read_item_types();         
+                $this->load->helper("form_input_helper");
+                $item_types = convert_db_result_to_dropdown(
+                $item_types_from_db, 'id', 'item_type_name');        
+                $data['item_types'] = $item_types;
+
+                $status_from_db = $this->status_model->read_names();   
+                $this->load->helper("form_input_helper");
+                // new text in the beginning of array
+                $a = array('id' => "0", 'status_name' => $this->lang->line('select_status') );
+                array_unshift($status_from_db, $a);
+                $status = convert_db_result_to_dropdown(
+                $status_from_db, 'id', 'status_name');        
+                $data['status'] = $status;
+
+                $data['project_id']=$project_id;
+
+                $product_backlog = $this->product_backlog_model->read(
+                        $data['product_backlog_id']);
+
+                if ($update == TRUE)
+                {
+                    $data['add'] = FALSE; 
+                    $data['pagetitle'] = $product_backlog[0]->backlog_name  . ': ' .
+                        $this->lang->line('title_edit_product_backlog_item');                
+                }
+
+                else
+                {
+                    $data['add'] = TRUE; 
+                    $data['pagetitle'] = $product_backlog[0]->backlog_name  . ': ' .
+                        $this->lang->line('title_add_product_backlog_item');
+                }
+                $data['main_content'] = 
+                    'product_backlog_item/product_backlog_item_view';
+                $this->load->view('template', $data);
+            }
+
             else
             {
-                $data['add'] = TRUE; 
-                $data['pagetitle'] = $product_backlog[0]->backlog_name  . ': ' .
-                    $this->lang->line('title_add_product_backlog_item');
+                if ($update == TRUE)  
+                {
+                    //$data['id']=intval($this->input->post('txtId'));
+                    $this->product_backlog_item_model->update($data);     
+                }
+
+                else  
+                {
+                    $this->product_backlog_item_model->create($data);
+                }
+                redirect('product_backlog_item/index/' . 
+                        $project_id . '/' . $data['product_backlog_id']);
             }
-            $data['main_content'] = 
-                'product_backlog_item/product_backlog_item_view';
-            $this->load->view('template', $data);
-        }
-        
-        else
+
+            }
+        else 
         {
-            if ($update == TRUE)  
-            {
-                //$data['id']=intval($this->input->post('txtId'));
-                $this->product_backlog_item_model->update($data);     
-            }
-            
-            else  
-            {
-                $this->product_backlog_item_model->create($data);
-            }
-            redirect('product_backlog_item/index/' . 
-                    $project_id . '/' . $data['product_backlog_id']);
+            redirect('login', 'refresh');
         }
     }
     

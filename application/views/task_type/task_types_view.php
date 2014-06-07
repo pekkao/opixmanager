@@ -36,10 +36,14 @@
 
 <h1><?php echo $pagetitle ?></h1>
 
-<p>
-    <?php echo anchor('task_type/add', $this->lang->line('link_add_task_type')) ?>
-</p>
-
+<?php
+if ($this->session->userdata('account_type') == 1)
+{
+    echo '<p>';
+    echo anchor('task_type/add', $this->lang->line('link_add_task_type'));
+    echo '</p>';
+}
+?>
 <table>
     <thead>
         <tr>
@@ -59,13 +63,21 @@
                 echo '<tr>';
                 echo '<td>' . $task_type->task_type_name . '</td>';
                 echo '<td>' . $task_type->task_type_description . '</td>';
-                echo '<td>' . anchor('task_type/edit/' . $task_type->id,
-                        $this->lang->line('link_edit')) . '</td>';
                 echo '<td>';
+                if ($this->session->userdata('account_type') == 1)
+                {
+                    echo anchor('task_type/edit/' . $task_type->id,
+                        $this->lang->line('link_edit'));
+                }    
+                echo '</td>';
+                echo '<td>';
+                if ($this->session->userdata('account_type') == 1)
+                {
                     echo form_open('task_type/delete');
                     echo form_hidden('txt_id', set_value('id', $task_type->id));
                     echo '<input type="submit" value="X" onclick="return deleteconfirm();" />';
                     echo form_close();
+                }
                 echo '</td>';
                 echo '</tr>';
             }

@@ -127,7 +127,7 @@ echo '</p>';
                             $sprint_backlog_item->release_target;
                     echo '</div>';
                     echo '<a href="#" class="trigger">' . 
-                        img('application/img/information.jpg') . '</a>';
+                        img('img/information.jpg') . '</a>';
                     echo '</td>';
                 echo '</tr>';
             echo '</tbody>';

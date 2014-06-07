@@ -6,6 +6,8 @@ $lang['label_role'] = "Rooli";
 $lang['label_start_date'] = "Alkupvm";
 $lang['label_end_date'] = "Loppupvm";
 $lang['label_project_end_date'] = "Projektin lopetuspäivämäärä: ";
+$lang['label_project_staff_edit'] = "Muokkausoikeus";
+$lang['label_project_data_edit'] = "Projektin muokkausoikeus";
 
 $lang['title_project_staffs'] = "Projektin jäsenet";
 $lang['title_edit_project_staff']="Muokkaa projektin jäsentä";
@@ -29,4 +31,5 @@ $lang['select_role']="Valitse rooli";
 
 $lang['not_allowed'] = "Sinulla ei ole oikeutta tehdä toimintoa.";
 
+$lang['yes'] = "Kyllä";
 ?>

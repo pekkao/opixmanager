@@ -55,6 +55,7 @@ class Project extends CI_Controller
         $this->load->model('product_backlog_model');
         $this->load->model('project_model');
         $this->load->model('customer_model');
+        $this->load->model('project_staff_model');
         $this->load->library('session'); // to send error message with redirect
     }
     
@@ -285,7 +286,13 @@ class Project extends CI_Controller
         if ($this->session->userdata('logged_in'))
         {
             $session_data = $this->session->userdata('logged_in');
-            if ($this->session->userdata('account_type') == 1)
+            
+            // can logged user edit project data
+            $result = $this->project_staff_model->can_edit_project_data(
+                    $session_data['id'], $id);
+            
+            if ($this->session->userdata('account_type') == 1 || 
+                    $result  == TRUE)
             {
                 $project = $this->project_model->read($id);
 

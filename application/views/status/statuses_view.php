@@ -35,9 +35,15 @@
 
 <h1><?php echo $pagetitle ?></h1>
 
-<p>
-    <?php echo anchor('status/add', $this->lang->line('link_add_status')) ?>
-</p>
+<?php
+if ($this->session->userdata('account_type') == 1)
+{
+    echo '<p>';
+    echo anchor('status/add', $this->lang->line('link_add_status'));
+    echo '</p>';
+}  
+?>
+
 <table>
     <thead>
         <tr>
@@ -57,13 +63,22 @@
                 echo '<tr>';
                 echo '<td>' . $status->status_name . '</td>';
                 echo '<td>' . $status->status_description . '</td>';
-                echo '<td>' . anchor ('status/edit/' . $status->id,
-                        $this->lang->line('link_edit')) . '</td>';
                 echo '<td>';
+                if ($this->session->userdata('account_type') == 1)
+                {
+                    echo anchor ('status/edit/' . $status->id,
+                        $this->lang->line('link_edit'));
+                }    
+                echo '</td>';
+
+                echo '<td>';
+                if ($this->session->userdata('account_type') == 1)
+                {
                      echo form_open('status/delete');
                      echo form_hidden('txt_id', set_value('id', $status->id));
                      echo '<input type="submit" value="X" onclick="return deleteconfirm();" />';
                      echo form_close();
+                }
                 echo '</td>';
                 echo '</tr>';
             }

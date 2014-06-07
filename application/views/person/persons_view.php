@@ -15,7 +15,8 @@
  *           'password',
  *           'language_id',
  *           'language_long',
- *           'account_type'
+ *           'account_type',
+ *           'can_edit'
  *           );
  * 
  * @param $data['persons'] All customers in an array.
@@ -110,8 +111,15 @@
     echo form_close();
     echo form_fieldset_close();?>
 
-<p class="add_link"><?php echo anchor('person/add', $this->lang->line('link_add_person')); ?>
-</p>
+<?php
+if ($this->session->userdata('account_type') == 1)
+{
+    echo '<p class="add_link">';
+        echo anchor('person/add', $this->lang->line('link_add_person')); 
+    echo '</p>';
+}
+
+?>
 <table>
     <thead>          
         <tr>
@@ -130,13 +138,20 @@
                 echo '<tr>';
                 echo '<td>' . $person->surname . '</td>';        
                 echo '<td>' . $person->firstname . '</td>';                 
-                echo '<td>' . anchor('person/edit/' . $person->id, 
-                        $this->lang->line('link_edit')) . '</td>';
                 echo '<td>';
-                echo form_open('person/delete');
+                if ($person->can_edit == TRUE || $this->session->userdata('account_type') == 1)
+                {
+                    echo anchor('person/edit/' . $person->id, 
+                        $this->lang->line('link_edit')) . '</td>';
+                }
+                echo '<td>';
+                if ($this->session->userdata('account_type') == 1)
+                {
+                    echo form_open('person/delete');
                     echo form_hidden('txt_id', set_value('id', $person->id));
                     echo '<input type="submit" value="X" onclick="return deleteconfirm();" />';
                     echo form_close();
+                }
                 echo '</td>';   
                 echo '<td>' . anchor('person/read_project/' . $person->id, 
                         $this->lang->line('link_project')) . '</td>';

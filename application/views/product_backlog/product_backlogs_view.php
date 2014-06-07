@@ -8,11 +8,13 @@
  *               'product_backlog_name',
  *               'product_visio',
  *               'product_current_state',
- *               'product_owner'
+ *               'product_owner',
+ *               'product_id',
+ *               'is_owner'
  *              );
  * 
  * @param $data['pagetitle'] Title and heading of the page
- * @param $data['add'] Hide or show the Reset button (false/true).
+ * @param $data['can_add'] Can user add more product backlogs or not
  * @param $data['login_user_id'] User's login id (session data)
  * @param $data['login_id'] User's id (session data)
  * 
@@ -38,10 +40,13 @@
 <h1><?php echo $pagetitle ?></h1>
 
 <p>
-    <?php   
-    if ($currentprojectid > 0){
-        echo anchor('product_backlog/add/' . $currentprojectid, $this->lang->line('link_add_product_backlog'));
-    }  
+    <?php  
+    if ($can_add == TRUE)
+    {
+        if ($currentprojectid > 0){
+            echo anchor('product_backlog/add/' . $currentprojectid, $this->lang->line('link_add_product_backlog'));
+        }
+    }
     ?>
   </p>
     <?php
@@ -83,20 +88,25 @@
             echo '<table>';
             echo '<tbody>';
                 echo '<tr>';
-                    echo '<td class="reuna">' . anchor ('product_backlog/edit/' . 
+                    echo '<td class="reuna">';
+                    if ($product_backlog['is_owner'] == TRUE)
+                    {
+                        echo anchor ('product_backlog/edit/' . 
                         $currentprojectid . 
                         '/' . $product_backlog['id'],
-                        $this->lang->line('link_edit')) . 
-                        '</td>';
+                        $this->lang->line('link_edit'));
+                    }
+                    echo '</td>';
                     echo '<td class="reuna">' . anchor ('product_backlog_item/index/' . 
                         $currentprojectid .
                         '/' . $product_backlog['id'],
                         $this->lang->line('link_product_backlog_item')) . 
                         '</td>';
-                    echo '<td class="reuna">' . anchor ('sprint_backlog/index/' . $currentprojectid . '/' .
+                    echo '<td class="reuna">' 
+                        . anchor ('sprint_backlog/index/' . $currentprojectid . '/' .
                         $product_backlog['id'],
-                        $this->lang->line('link_sprint_backlog')) . 
-                        '</td>';
+                        $this->lang->line('link_sprint_backlog'))
+                        . '</td>';
                     echo '<td class="reuna">';
                         echo form_open('product_backlog/delete');
                         echo form_hidden('txt_project_id', set_value('project_id', $currentprojectid));

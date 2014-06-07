@@ -89,10 +89,14 @@ echo anchor('customer', $this->lang->line('link_all'), 'class="returnlink"');
 echo form_close();
 echo form_fieldset_close();?>
 
-
-<p class="add_link">
-<?php echo anchor('customer/add', $this->lang->line('link_add_customer')) ?>
-</p>
+<?php 
+if ($this->session->userdata('account_type') == 1)
+{
+echo '<p class="add_link">';
+echo anchor('customer/add', $this->lang->line('link_add_customer')); 
+echo '</p>';
+}
+?>
 <table>
     <thead>     
         <tr>
@@ -108,13 +112,20 @@ echo form_fieldset_close();?>
             foreach ($customers as $customer) {
                 echo '<tr>';                
                 echo '<td>' . $customer->customer_name . '</td>';
-                echo '<td>' . anchor('customer/edit/' . $customer->id, 
-                        $this->lang->line('link_edit')) . '</td>';
                 echo '<td>';
+                if ($this->session->userdata('account_type') == 1)
+                {
+                    echo anchor('customer/edit/' . $customer->id, 
+                        $this->lang->line('link_edit')) . '</td>';
+                }
+                echo '<td>';
+                if ($this->session->userdata('account_type') == 1)
+                {
                     echo form_open('customer/delete');
                     echo form_hidden('txt_id', set_value('id', $customer->id));
                     echo '<input type="submit" value="X" onclick="return deleteconfirm();" />';
                     echo form_close();
+                }
                 echo '</td>';
                 echo '<td>' . anchor('contact_person/index/' . $customer->id, 
                         $this->lang->line('link_contacts')) . '</td>';

@@ -6,6 +6,8 @@ $lang['label_role'] = "Role";
 $lang['label_start_date'] = "Start date";
 $lang['label_end_date'] = "End date";
 $lang['label_project_end_date'] = "Project End date: ";
+$lang['label_project_staff_edit'] = "Can edit staff";
+$lang['label_project_data_edit'] = "Can edit project";
 
 $lang['title_project_staffs'] = "Project staffs";
 $lang['title_edit_project_staff']="Edit project staff";
@@ -27,5 +29,7 @@ $lang['select_role']="Select role";
 
 
 $lang['not_allowed'] = "You don't have permission to do that.";
+
+$lang['yes'] = "Yes";
 
 ?>

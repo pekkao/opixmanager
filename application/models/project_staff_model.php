@@ -56,7 +56,9 @@ class Project_Staff_Model extends CI_Model
             'person_role.role_name AS role_name,' .
             'project_staff.id AS id,' .
             'project_staff.start_date AS start_date,' .
-            'project_staff.end_date AS end_date'
+            'project_staff.end_date AS end_date, ' . 
+            'project_staff.can_edit_project_staff AS can_edit_project_staff, ' .
+            'project_staff.can_edit_project_data AS can_edit_project_data '     
         );
 
         $this->db->from('project_staff');
@@ -92,7 +94,9 @@ class Project_Staff_Model extends CI_Model
         'person_role.id AS id,' .
         'project_staff.id AS project_staff_id, ' .
         'project_staff.start_date AS start_date, ' .
-        'project_staff.end_date AS end_date'
+        'project_staff.end_date AS end_date, ' . 
+        'project_staff.can_edit_project_staff AS can_edit_project_staff, ' .
+        'project_staff.can_edit_project_data AS can_edit_project_data ' 
         );
                 
         $this->db->from('project_staff');
@@ -127,7 +131,9 @@ class Project_Staff_Model extends CI_Model
             'person_role.role_name AS role_name,' .
             'project_staff.id AS id,' .
             'project_staff.start_date AS start_date,' .
-            'project_staff.end_date AS end_date'
+            'project_staff.end_date AS end_date, ' .   
+            'project_staff.can_edit_project_staff AS can_edit_project_staff, ' .
+            'project_staff.can_edit_project_data AS can_edit_project_data '     
         );
          
         $this->db->from('project_staff');
@@ -159,7 +165,7 @@ class Project_Staff_Model extends CI_Model
     {
         $this->db->select(          
             'project_staff.person_id AS person_id,' .
-            'CONCAT(person.surname," " , person.firstname) AS name', FALSE);
+            'CONCAT(person.surname," " , person.firstname) AS name', FALSE) ;
          
         $this->db->from('project_staff');      
         $this->db->join('person', 
@@ -185,7 +191,7 @@ class Project_Staff_Model extends CI_Model
     {
         // subquery and a parameter in a query
         $sql = 'SELECT person.id AS person_id, person.surname AS surname ,' .
-                'person.firstname AS firstname '.
+                'person.firstname AS firstname '. 
                 'FROM person WHERE person.id NOT IN ( ' .
                 'SELECT person.id AS id FROM person ' .
                 'INNER JOIN project_staff ON person.id = project_staff.person_id ' .
@@ -193,6 +199,69 @@ class Project_Staff_Model extends CI_Model
         
         $query = $this->db->query($sql, array($id));
         return $query->result();
+    }
+    
+    /**
+     * Is logged in user allowed to edit project staff or not
+     * 
+     * @param int $id Logged in user
+     * @param int $project_id Selected project
+     * @return boolean true => allowed edit staff, false => not allowed edit staff
+     */
+    public function can_edit_project_staff ($id, $project_id)
+    {
+        $sql ='select can_edit_project_staff ' .
+                'FROM project_staff ' . 
+                'WHERE project_id = ? and person_id = ?';
+        $query = $this->db->query($sql, array($project_id, $id));
+        $result = $query->result();
+        if (isset($result[0]))
+        {
+            if ($result[0] -> can_edit_project_staff == "1")
+            {
+                return TRUE;
+            }
+            else 
+            {
+                return FALSE;
+            }
+        }
+        else 
+        {
+            return FALSE;
+        }
+    }
+    
+    
+    /**
+     * Is logged in user allowed to edit project data or not
+     * 
+     * @param int $id Logged in user
+     * @param int $project_id Selected project
+     * @return boolean true => allowed edit data, false => not allowed edit data
+     */
+    public function can_edit_project_data ($id, $project_id)
+    {
+        $sql ='select can_edit_project_data ' .
+                'FROM project_staff ' . 
+                'WHERE project_id = ? and person_id = ?';
+        $query = $this->db->query($sql, array($project_id, $id));
+        $result = $query->result();
+        if (isset($result[0]))
+        {
+            if ($result[0] -> can_edit_project_data == "1")
+            {
+                return TRUE;
+            }
+            else 
+            {
+                return FALSE;
+            }
+        }
+        else 
+        {
+            return FALSE;
+        }
     }
     
      /**

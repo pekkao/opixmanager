@@ -17,7 +17,7 @@
  * 
  * @param $data['product_backlog_items'] Backlog items of a selected product backlog
  * @param $data['pagetitle'] Title and heading of the page
- * @param $data['add'] Hide or show the Reset button (false/true).
+ * @param $data['can_add'] Whether a user can add, edit or delete backlog items.
  * @param $data['login_user_id'] User's login id (session data)
  * @param $data['login_id'] User's id (session data)
  * @param $data['heading'] Heading for the error message.
@@ -46,11 +46,14 @@
 
 <p>
     <?php 
-    if ($project_id > 0)
+    if ($can_add == TRUE)
+    {
+        if ($project_id > 0)
         {
         echo anchor('product_backlog_item/add/' . $project_id . '/' . $product_backlog_id,
                 $this->lang->line('link_add_product_backlog_item'));
-        }  
+        }
+    }
     ?>
 </p>
         <?php
@@ -102,12 +105,16 @@
                 echo '</tbody>';
                 echo '</table>';
                 
+                if ($can_add == TRUE)
+                {    
                 echo '<table>';
                 echo '<tbody>';
                     echo '<tr>';  
-                        echo '<td class="reuna">' . anchor ('product_backlog_item/edit/' . 
+                        echo '<td class="reuna">';
+                            echo anchor ('product_backlog_item/edit/' . 
                                 $project_id . '/' . $product_backlog_item->id,
-                                $this->lang->line('link_edit')) . '</td>';
+                                $this->lang->line('link_edit'));
+                        echo  '</td>';
                         echo '<td class="reuna">';
                              echo form_open('product_backlog_item/delete');
                              echo form_hidden('txt_project_id', 
@@ -117,11 +124,12 @@
                              echo form_hidden('txt_id', 
                                      set_value('id', $product_backlog_item->id));
                              echo '<input type="submit" value = "X" onclick="return deleteconfirm();" />';
-                             echo form_close();
+                             echo form_close();  
                         echo '</td>';
                     echo '</tr>';
                 echo '</tbody>';
                 echo '</table>';
+                }
             }
         }
         ?>

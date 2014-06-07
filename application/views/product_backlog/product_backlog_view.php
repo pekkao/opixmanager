@@ -78,7 +78,7 @@ echo br(1);
 
 echo form_label($this->lang->line('label_product_owner'), 'ddl_product_owner');
 echo form_dropdown('ddl_product_owner', $persons, $product_owner);
-
+echo form_error('ddl_product_owner');
 echo br(1);
 
 echo '<p>';

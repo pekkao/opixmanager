@@ -101,6 +101,33 @@ echo form_input($data);
 echo form_error('dtm_enddate');
 echo br(2);
 
+echo form_label($this->lang->line('label_project_staff_edit'), 'chk_can_edit');
+if ($can_edit_project_staff == 0)
+{
+    echo form_checkbox('chk_can_edit', TRUE, FALSE);
+}
+else 
+{
+    echo form_checkbox('chk_can_edit', TRUE, TRUE);
+}
+echo form_error('chk_can_edit');
+echo br(2);
+
+echo form_label($this->lang->line('label_project_data_edit'), 'chk_can_edit_project');
+if ($can_edit_project_data == 0)
+{
+    echo form_checkbox('chk_can_edit_project', TRUE, FALSE);
+}
+else 
+{
+    echo form_checkbox('chk_can_edit_project', TRUE, TRUE);
+}
+echo form_error('chk_can_edit_project');
+echo br(2);
+
+
+
+
 echo '<p>';
 echo form_submit('btn_submit', $this->lang->line('button_save'), 'class="newline"');
 echo anchor('project_staff/index/' . $project_id, $this->lang->line('link_return'), 'class="returnlink"');

@@ -69,6 +69,7 @@ class Person extends CI_Controller
         parent::__construct();
         $this->load->model('person_model');
         $this->load->model('project_model');
+        $this->load->model('project_staff_model');
         $this->lang->load('person');
         $this->lang->load('project');
         $this->load->library('session');
@@ -100,7 +101,25 @@ class Person extends CI_Controller
                 'account_type' => ''
             );
 
-            $data['persons'] = $this->person_model->read_all_with_group();
+            $persons = $this->person_model->read_all_with_group();
+            
+            if (isset($persons[0]))
+            {
+                foreach ($persons as $person)
+                {
+                    // logged in user can edit own data
+                    if ($person->id == $session_data['id'])
+                    {
+                        $person->can_edit = TRUE;
+                    }
+                    else
+                    {
+                        $person->can_edit = FALSE;
+                    }
+                }
+            }
+            
+            $data['persons'] = $persons; 
             $data['main_content'] = 'person/persons_view';
             $data['pagetitle'] = $this->lang->line('title_persons');
             $data['login_user_id'] = $session_data['user_id'];
@@ -520,7 +539,8 @@ class Person extends CI_Controller
     }
     
     /*
-     * Reads a person from person model and reads the persons projects.
+     * Reads a person from person model and reads the persons projects. 
+     * This is used from the persons views.
      * 
      * @param int id Primary key of a person
      */
@@ -530,7 +550,27 @@ class Person extends CI_Controller
         {
             $session_data = $this->session->userdata('logged_in');
             $person = $this->person_model->read($id);
-            $data['projects'] = $this->person_model->read_persons_project($id);
+            
+            $projects = $this->person_model->read_persons_project($id);
+            
+            // is there projects for this person
+            if (isset($projects[0]))
+            {
+                foreach($projects as $project)
+                {
+                    $result = $this->project_staff_model->can_edit_project_staff(
+                            $session_data['id'], $project->project_id);
+                    if ($result == TRUE)
+                    {
+                        $project->can_edit = TRUE;
+                    }
+                    else 
+                    {
+                        $project->can_edit = FALSE;
+                    }
+                }
+            }
+            $data['projects'] = $projects;
             $data['main_content'] = 'person/persons_project_view';
 
             if (isset($person[0]))
@@ -611,8 +651,7 @@ class Person extends CI_Controller
                 $person = $this->person_model->read($id);
 
                 $data = array(
-                    'id' => $person[0]->id //,
-//                    'password' => $person[0]->password            
+                    'id' => $person[0]->id           
                 );
                 $data['login_user_id'] = $session_data['user_id'];
                 $data['login_id'] = $session_data['id'];

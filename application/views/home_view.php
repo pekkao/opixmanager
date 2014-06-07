@@ -14,7 +14,8 @@
  *       'role_name',
  *       'id',
  *       'start_date',
- *       'end_date'
+ *       'end_date',
+ *       'can_edit_project_data'
  *   );
  * 
  * @param $data['projects'] Users projects in an array.
@@ -87,14 +88,28 @@
                 echo '<td>' . Home::toString2($project->project_type) . '</td>';
                 echo '<td>' . $project->customer_name . '</td>';
                 echo '<td>' . Home::toString3($project->active) . '</td>';
-                echo '<td>' . anchor('project/edit/' . $project->project_id, 
-                        $this->lang->line('link_edit')) . '</td>';
+                
+                
                 echo '<td>';
+                if ($project->can_edit_project_data == true || 
+                        ($this->session->userdata('account_type') == 1))
+                {
+                    echo anchor('project/edit/' . $project->project_id, 
+                        $this->lang->line('link_edit'));
+                }
+                echo '</td>';
+                
+                echo '<td>';
+                // only admin user can delete project
+                if ($this->session->userdata('account_type') == 1)
+                {
                     echo form_open('project/delete');
                     echo form_hidden('txt_id', set_value('id', $project->project_id));
                     echo '<input type="submit" value="X" onclick="return deleteconfirm();" />';
                     echo form_close();
+                }
                 echo '</td>';
+                
                 echo '<td>' . anchor('project_staff/index/' . $project->project_id, 
                         $this->lang->line('link_project_staff')) . '</td>';
                 

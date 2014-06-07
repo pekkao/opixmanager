@@ -43,8 +43,13 @@
 <h1><?php echo $pagetitle ?></h1>
 
 <p>
-<?php echo anchor('project_staff/add/' . $currentid, 
-     $this->lang->line('link_add_project_staff')) 
+<?php 
+    if (($this->session->userdata('account_type') == 1) ||
+           $editor == true)
+    {
+        echo anchor('project_staff/add/' . $currentid, 
+             $this->lang->line('link_add_project_staff')); 
+    }
 ?>
 </p>
 
@@ -57,7 +62,9 @@
             echo '<th>' . $this->lang->line('label_role') . '</th>';
             echo '<th>' . $this->lang->line('label_start_date') . '</th>';
             echo '<th>' . $this->lang->line('label_end_date') . '</th>';
+            echo '<th>' . $this->lang->line('label_project_staff_edit') . '</th>';
             echo '<th colspan="2"></th>';
+            echo '<th>' . $this->lang->line('label_project_data_edit') . '</th>';
             ?>
         </tr>
     </thead>
@@ -71,16 +78,41 @@
                 echo '<td>' . $staff->role_name . '</td>';
                 echo '<td>' . $staff->start_date . '</td>';
                 echo '<td>' . $staff->end_date . '</td>';
-                echo '<td>' . anchor(
+
+                echo '<td>';                
+                if ($staff->can_edit_project_staff == 1) {
+                    echo $this->lang->line('yes');
+                } 
+                echo '</td>';                
+                
+                echo '<td>';
+                if (($this->session->userdata('account_type') == 1) ||
+                       $editor == true)
+                {
+                    echo anchor(
                         'project_staff/edit/' . $staff->id ,
-                        $this->lang->line('link_edit')) . '</td>';
+                        $this->lang->line('link_edit'));
+                }
+                echo '</td>';                
+                
                 echo '<td>'; 
+                if (($this->session->userdata('account_type') == 1) ||
+                       $editor == true)
+                {
                     echo form_open('project_staff/delete');
                     echo form_hidden('txt_id', set_value('id', $staff->id));
                     echo form_hidden('txt_project_id', set_value('project_id', $staff->project_id));
                     echo '<input type="submit" value="X" onclick="return deleteconfirm();" />';
                     echo form_close();
+                }
                 echo '</td>';
+                
+                echo '<td>'; 
+                    if ($staff->can_edit_project_data == 1) {
+                        echo $this->lang->line('yes');
+                    }                     
+                echo '</td>'; 
+                
                 echo '</tr>';
             }
         }

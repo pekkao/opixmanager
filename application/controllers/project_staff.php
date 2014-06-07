@@ -47,11 +47,32 @@ class Project_Staff extends CI_Controller
      */
     public function index($projectid = 0) 
     {
+
         if ($this->session->userdata('logged_in'))
         {
             $session_data = $this->session->userdata('logged_in');
-
-            $data['project_staffs'] = $this->project_staff_model->read_project_staffs($projectid);
+            
+            $project_staffs = $this->project_staff_model->read_project_staffs($projectid);
+            $data['project_staffs'] = $project_staffs; 
+            
+            // is the logged in person allowed to edit project staff
+            $data['editor'] = FALSE;
+            if (isset($project_staffs[0]))
+            {
+                foreach($project_staffs as $editor)
+                {
+                    // can edit
+                    if ($editor->can_edit_project_staff == 1)
+                    {
+                        // same as logged in person
+                        if ($session_data['id'] == $editor->person_id)
+                        {
+                            $data['editor'] = TRUE;
+                        }
+                    }
+                }
+            }
+            
             $data['currentid'] = $projectid;
             $data['main_content'] = 'project_staff/project_staffs_view';
             $data['login_user_id'] = $session_data['user_id'];
@@ -108,7 +129,15 @@ class Project_Staff extends CI_Controller
                 $data['person_role_id'] = 1;
             }
              
-            if ($data['person_role_id'] == 3 || $this->session->userdata('account_type') == 1)
+            // is logged in user allowed to edit staff data
+            $result = $this->project_staff_model->can_edit_project_staff(
+                        $session_data['id'], $id);
+
+            // admin account type = 1
+            // this is just to make sure that user cannot start editing by 
+            // writing the edit command in an address bar
+            if ($result == TRUE || $this->session->userdata('account_type') == 1)
+
             {
                 // an empty array
                 $persons = array();
@@ -316,6 +345,7 @@ class Project_Staff extends CI_Controller
         if ($this->session->userdata('logged_in'))
         {
             $session_data = $this->session->userdata('logged_in');
+            
             $project_staffs = $this->project_staff_model->read($id);        
 
             if (isset($project_staffs[0])) 
@@ -330,6 +360,8 @@ class Project_Staff extends CI_Controller
                         'person_role_id' => $project_staffs[0]->id,
                         'surname' => $project_staffs[0]->surname,
                         'firstname' => $project_staffs[0]->firstname,
+                        'can_edit_project_staff' => $project_staffs[0]->can_edit_project_staff,
+                        'can_edit_project_data' => $project_staffs[0]->can_edit_project_data
                     );
 
                 $data['login_user_id'] = $session_data['user_id'];
@@ -344,7 +376,14 @@ class Project_Staff extends CI_Controller
                     $data['person_role_id'] = $project_staffs[0]->person_role_id;
                 }
 
-                if ($data['person_role_id'] == 3 || $this->session->userdata('account_type') == 1)
+                // is logged in user allowed to edit staff data
+                $result = $this->project_staff_model->can_edit_project_staff(
+                            $session_data['id'], $project_staffs[0]->project_id);
+                
+                // admin account type = 1
+                // this is just to make sure that user cannot start editing by 
+                // writing the edit command in an address bar
+                if ($result == TRUE || $this->session->userdata('account_type') == 1)
                 {
                     $data['error_message'] = $this->session->flashdata('$error_message');  
                     
@@ -404,6 +443,8 @@ class Project_Staff extends CI_Controller
                  'person_role_id'=>$this->input->post('ddl_role'),
                  'start_date' => $this->input->post('dtm_startdate'),
                  'end_date' => $this->input->post('dtm_enddate'),
+                 'can_edit_project_staff' => $this->input->post('chk_can_edit'),
+                 'can_edit_project_data' => $this->input->post('chk_can_edit_project')
              );
 
             $project = $this->project_model->read(
@@ -553,7 +594,14 @@ class Project_Staff extends CI_Controller
                 $data['person_role_id'] = 1;
              }
 
-             if ($data['person_role_id'] == 3 || $this->session->userdata('account_type') == 1)
+            // is logged in user allowed to edit staff data
+                $result = $this->project_staff_model->can_edit_project_staff(
+                            $session_data['id'], $project_id);
+                
+             // admin account type = 1
+             // this is just to make sure that user cannot start editing by 
+             // writing the edit command in an address bar
+             if ($result == TRUE || $this->session->userdata('account_type') == 1)
              {
                 $this->project_staff_model->delete(intval($id));
                 redirect('project_staff/index/' . $project_id );

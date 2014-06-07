@@ -38,9 +38,14 @@
 
 <h1><?php echo $pagetitle ?></h1>
 
-<p>
-    <?php echo anchor('person_role/add', $this->lang->line('link_add_person_role')) ?>
-</p>
+<?php
+if ($this->session->userdata('account_type') == 1)
+{
+    echo '<p>';
+        echo anchor('person_role/add', $this->lang->line('link_add_person_role'));
+    echo '</p>';
+}
+?>
 <table>
     <thead>
         <tr>
@@ -60,13 +65,21 @@
                 echo '<tr>';
                 echo '<td>' . $person_role->role_name . '</td>';
                 echo '<td>' . $person_role->role_description . '</td>';
-                echo '<td>' . anchor ('person_role/edit/' . $person_role->id,
-                        $this->lang->line('link_edit')) . '</td>';
                 echo '<td>';
+                if ($this->session->userdata('account_type') == 1)
+                {
+                    echo anchor ('person_role/edit/' . $person_role->id,
+                        $this->lang->line('link_edit'));
+                }
+                echo '</td>';
+                echo '<td>';
+                if ($this->session->userdata('account_type') == 1)
+                {
                      echo form_open('person_role/delete');
                      echo form_hidden('txt_id',set_value('id', $person_role->id));
                      echo '<input type="submit" value = "X" onclick="return deleteconfirm();" />';
                      echo form_close();
+                }
                 echo '</td>';
                 echo '</tr>';
             }

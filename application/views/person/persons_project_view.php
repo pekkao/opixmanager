@@ -42,15 +42,23 @@
                 echo '<td>' . $staff->role_name . '</td>';
                 echo '<td>' . $staff->start_date . '</td>';
                 echo '<td>' . $staff->end_date . '</td>';
-                echo '<td>' . anchor(
+                echo '<td>';
+                if ($staff -> can_edit == TRUE)
+                {
+                    echo anchor(
                         'project_staff/edit/' . $staff->id ,
-                        $this->lang->line('link_edit')) . '</td>';
+                        $this->lang->line('link_edit'));
+                }
+                echo  '</td>';
                 echo '<td>'; 
+                if ($staff -> can_edit == TRUE)
+                {
                     echo form_open('project_staff/delete');
                     echo form_hidden('txt_id', set_value('id', $staff->id));
                     echo form_hidden('txt_projectid', set_value('project_id', $staff->project_id));
                     echo '<input type="submit" value="X" />';
                     echo form_close();
+                }
                 echo '</td>';
                 echo '</tr>';
             }

@@ -51,11 +51,24 @@ class Product_Backlog extends CI_Controller
     {   
         if ($this->session->userdata('logged_in'))
         {
-            $session_data = $this->session->userdata('logged_in');          
+            $session_data = $this->session->userdata('logged_in');              
+            
             $data['currentprojectid'] = $projectid;
             $project = $this->project_model->read($projectid);
             $data['project'] = $project;
             $data['main_content'] = 'product_backlog/product_backlogs_view';
+            
+            // can logged in user edit and add product backlog
+            $result = $this->project_staff_model->can_edit_project_data(
+                    $session_data['id'], $projectid);
+            if ($result == TRUE || $this->session->userdata('account_type') == 1)
+            {
+                $data['can_add'] = TRUE;
+            }
+            else 
+            {
+                $data['can_add'] = FALSE;
+            }
             
             $product = $this->product_backlog_model->read_all($projectid);
             $product_backlogs = array();
@@ -65,17 +78,21 @@ class Product_Backlog extends CI_Controller
                 $product_backlogi['backlog_name'] = $product_backlog->backlog_name;
                 $product_backlogi['product_visio'] = $product_backlog->product_visio;
                 $product_backlogi['product_current_state'] = $product_backlog->product_current_state;
+                $name = $this->person_model->read_name($product_backlog->product_owner);                
+                $product_backlogi['product_owner'] = $name[0]->name;
+                $product_backlogi['project_id'] = $product_backlog->project_id;
                 
-                if (!(is_null($product_backlog->product_owner)))
-                {                  
-                    $name = $this->person_model->read_name($product_backlog->product_owner);                
-                    $product_backlogi['product_owner'] = $name[0]->name;
-                }
-                else 
+                // is logged in user the product backlog owner
+                if ($product_backlog->product_owner == $session_data['id'] || 
+                      $this->session->userdata('account_type') == 1   )
                 {
-                    $product_backlogi['product_owner'] = "";
+                    $product_backlogi['is_owner'] = TRUE;
                 }
-                $product_backlogi['project_id'] = $product_backlog->project_id; 
+                else
+                {
+                    $product_backlogi['is_owner'] = FALSE;
+                }
+                
                 $product_backlogs[] = $product_backlogi;
                 
             }
@@ -251,7 +268,12 @@ class Product_Backlog extends CI_Controller
                 'txt_product_visio', 'trim|max_length[1000]|xss_clean');
         $this->form_validation->set_rules(
                 'txt_product_current_state', 'trim|max_length[1000]|xss_clean');
-        
+
+        // callback function to validate that owner is selected
+        // error message for that callback function
+        $this->form_validation->set_message('check_owner', $this->lang->line('missing_owner'));
+        $this->form_validation->set_rules(
+                'ddl_product_owner', null, 'callback_check_owner');        
         
         if ($this->form_validation->run() == FALSE) 
         {
@@ -298,6 +320,20 @@ class Product_Backlog extends CI_Controller
             }
 
             redirect('product_backlog/index/' . $data['project_id']);
+        }
+    }
+
+    /**
+     * Checks that product baclog is selected
+     * @param int $owner who is selected
+     * @return boolean 
+     */
+    function check_owner($owner) {
+        if ($owner > 0) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
     

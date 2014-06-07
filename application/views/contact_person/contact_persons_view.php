@@ -61,11 +61,15 @@
 
 <h1><?php echo $pagetitle ?></h1>
 
-<p>
-<?php echo anchor('contact_person/add/' . $currentcustomerid , 
-        $this->lang->line('link_add_contact_person')) ?>
-</p>
-
+<?php
+if ($this->session->userdata('account_type') == 1)
+{
+    echo '<p>';
+     echo anchor('contact_person/add/' . $currentcustomerid , 
+            $this->lang->line('link_add_contact_person'));
+    echo '</p>';
+}
+?>
 <table>
     <thead>
         <tr>
@@ -83,16 +87,25 @@
                 echo '<tr>';
                 echo '<td>' . $contact_person->surname . '</td>';
                 echo '<td>' . $contact_person->firstname . '</td>';                               
+
                 echo '<td>';
+                if ($this->session->userdata('account_type') == 1)
+                {
+                    echo anchor(
+                        'contact_person/edit/' . $contact_person->id . '/' . $contact_person->customer_id,
+                        $this->lang->line('link_edit'));
+                    echo '</td>';
+                }
+                echo '<td>';
+                if ($this->session->userdata('account_type') == 1)
+                {
                     echo form_open('contact_person/delete');
                     echo form_hidden('txt_id', set_value('id', $contact_person->id));
                     echo form_hidden('txt_customer_id', set_value('customer_id', $contact_person->customer_id));
                     echo '<input type="submit" value="X" onclick="return deleteconfirm();" />';
                     echo form_close();
+                }
                 echo '</td>';
-                echo '<td>' . anchor(
-                        'contact_person/edit/' . $contact_person->id . '/' . $contact_person->customer_id,
-                        $this->lang->line('link_edit')) . '</td>';
                 echo '<td><div class="pop-up">'; 
                        echo $this->lang->line('label_contact_title') . ': ' . $contact_person->title . '</br>' .
                             $this->lang->line('label_contact_phonenumber') . ': ' . $contact_person->phone_number . '</br>' .

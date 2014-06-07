@@ -7,17 +7,24 @@ USE opixmanager;
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 02, 2014 at 09:05 AM
+-- Generation Time: Jun 07, 2014 at 09:52 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `opixmanager`
+--
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `contact_person`
@@ -66,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `city` varchar(255) DEFAULT NULL,
   `www` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `customer`
@@ -78,8 +85,8 @@ INSERT INTO `customer` (`id`, `customer_name`, `customer_description`, `street_a
 (4, 'MikkoStone', NULL, 'Aleksanterinkatu 17', '96100', 'Rovaniemi', 'www.mikkostone.fi'),
 (5, 'BelleVue', NULL, 'Nahkurinkatu 20', '03100', 'Nummela', 'www.bellevue.fi'),
 (6, 'GrafiArt', 'graafista suunnittelua', '', '', 'Iisalmi', 'www.grafiart.fi'),
-(8, 'FinnArt Oy', NULL, NULL, NULL, NULL, NULL),
-(9, 'Elli-ääni Oy', NULL, 'Koulutie 1', '99123', 'Sodankylä', NULL);
+(9, 'Elli-ääni Oy', 'some text here.', 'Koulutie 1', '99123', 'Sodankylä', NULL),
+(10, 'FinnArt Oy', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -150,15 +157,15 @@ CREATE TABLE IF NOT EXISTS `person` (
 --
 
 INSERT INTO `person` (`id`, `surname`, `firstname`, `title`, `email`, `phone_number`, `user_id`, `password`, `language_id`, `account_type`) VALUES
-(1, 'Testaaja', 'Tauno', NULL, '', NULL, 'taunot', MD5('taunot14'), 1, 2),
-(2, 'Koodaaja ', 'Kaisa', NULL, '', NULL, 'kaisak', MD5('kaisak14'), 1, 2),
-(3, 'Aaltonen', 'Alli', 'Programmer', NULL, '1234567', 'allia', MD5('allia14'), 1, 2),
-(4, 'Virtanen', 'Ville', NULL, '', NULL, 'villev', MD5('villev14'), 2, 2),
-(5, 'Oppilas', 'Oili', NULL, '', NULL, 'oilio', MD5('oilio14'), 1, 2),
-(6, 'Päivänlahti', 'Paavo', NULL, '', NULL, 'paavop', MD5('paavop14'), 1, 2),
-(8, 'admin', 'admin', 'Manager', NULL, NULL, 'admin', MD5('14admin'), 2, 1),
-(9, 'testi', 'testi', NULL, '', '1234567', 'testi', MD5('testi14'), 2, 2),
-(10, 'Ääninen', 'Äijä', NULL, '', NULL, 'aijaa', MD5('aijaa14'), 2, 2);
+(1, 'Testaaja', 'Tauno', NULL, '', NULL, 'taunot', '21e9c84518fd9be3241f50c5e7c9fb95', 1, 2),
+(2, 'Koodaaja ', 'Kaisa', NULL, '', NULL, 'kaisak', '538dd437109e02bc3feac27de99b3647', 1, 2),
+(3, 'Aaltonen', 'Alli', 'Programmer', NULL, '1234567', 'allia', '14277cc09bf79f1197e7c9deab097827', 2, 2),
+(4, 'Virtanen', 'Ville', NULL, '', NULL, 'villev', 'cfb0be388f4623627fb54826ce4c460a', 2, 2),
+(5, 'Oppilas', 'Oili', NULL, '', NULL, 'oilio', 'be26ed798b7f402555b4af520b8225e7', 1, 2),
+(6, 'Päivänlahti', 'Paavo', NULL, '', NULL, 'paavop', '6b8e08bc3fbaea84f3d77da257d1ba14', 1, 2),
+(8, 'admin', 'admin', 'Manager', NULL, NULL, 'admin', '55340159dccd929e0cd2abd72cfe799a', 2, 1),
+(9, 'testi', 'testi', NULL, '', '1234567', 'testi', 'ade90a671931096ab508b4ebf20e0bf2', 2, 2),
+(10, 'Ääninen', 'Äijä', NULL, '', NULL, 'aijaa', '03e6bab580b3e0b2b9cbb3cc8231ac49', 2, 2);
 
 -- --------------------------------------------------------
 
@@ -171,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `person_role` (
   `role_name` varchar(255) NOT NULL,
   `role_description` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `person_role`
@@ -193,18 +200,18 @@ CREATE TABLE IF NOT EXISTS `product_backlog` (
   `backlog_name` varchar(255) NOT NULL,
   `product_visio` varchar(1000) DEFAULT NULL,
   `product_current_state` varchar(1000) DEFAULT NULL,
-  `product_owner` int(11) DEFAULT NULL,
+  `product_owner` int(11) NOT NULL,
   `project_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_product_backlog_project` (`project_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `product_backlog`
 --
 
 INSERT INTO `product_backlog` (`id`, `backlog_name`, `product_visio`, `product_current_state`, `product_owner`, `project_id`) VALUES
-(5, 'Music Club ', 'To design and implement web pages to a music club that doesn''t have any yet.', 'Nothing has not been implemented.', 3, 6),
+(5, 'Music Club', 'To design and implement web pages to a music club that doesn''t have any yet.', 'Nothing has not been implemented. ', 3, 6),
 (6, 'just testing', NULL, NULL, 2, 4),
 (7, 'Test backlog', 'Just testing this application', 'Nothing has been done yet', 3, 8);
 
@@ -233,7 +240,7 @@ CREATE TABLE IF NOT EXISTS `product_backlog_item` (
   KEY `fk_product_backlog_item_product_backlog` (`product_backlog_id`),
   KEY `fk_product_backlog_item_item_type` (`item_type_id`),
   KEY `fk_product_backlog_item_status` (`status_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `product_backlog_item`
@@ -243,7 +250,7 @@ INSERT INTO `product_backlog_item` (`id`, `item_name`, `item_description`, `prio
 (6, 'Find a web hotel', 'As an site owner I want to have reliable but not very expensive web hotel. ', 1, 10, NULL, 15, 'The web hotel have been chosen.', NULL, 5, 1, 1, NULL, '2013-01-06'),
 (7, 'Contents of a site', 'As a person interested in the music I need to find out ....', 1, 10, NULL, NULL, 'The mid map of the contents site has been created.', NULL, 5, 1, 1, NULL, '2013-01-06'),
 (8, 'The outlook of the site', 'As a user when scanning the site pages I want to see very easily the data blocks in the pages.', 1, 10, NULL, NULL, 'The fonts, colors and images of the site has been defined. ', NULL, 5, 1, 1, NULL, '2013-01-13'),
-(9, 'Item1', 'As a user I want hear good sounds so that ...', NULL, NULL, NULL, 10, NULL, NULL, 7, 1, 1, NULL, '2014-05-11'),
+(9, 'Item1', 'As a user I want hear good sounds so that ...', NULL, NULL, NULL, 10, 'something here too', NULL, 7, 1, 2, NULL, '2014-05-11'),
 (10, 'Item2', 'As a user want to XXXXXXXXXXX so that YYYYYYYYYYYYYY', NULL, NULL, NULL, 20, NULL, NULL, 7, 1, 1, NULL, '2014-05-12'),
 (11, 'item3', 'Third user story in the backlog', NULL, NULL, NULL, 30, NULL, NULL, 7, 1, 1, NULL, '2014-05-13'),
 (12, 'item4', 'Fourth user story in the backlog', NULL, NULL, NULL, 40, NULL, NULL, 7, 1, 1, NULL, '2014-05-13'),
@@ -267,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `project` (
   `active` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_project_customer` (`customer_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `project`
@@ -276,8 +283,9 @@ CREATE TABLE IF NOT EXISTS `project` (
 INSERT INTO `project` (`id`, `project_name`, `project_description`, `project_start_date`, `project_end_date`, `customer_id`, `project_type`, `active`) VALUES
 (2, 'ShopTesting', 'Testing project of a web shop', '2012-08-20', NULL, 3, 1, 2),
 (4, 'GrafUx', 'User experience study', '2012-09-10', '2012-12-22', 6, 2, 1),
-(6, 'Music Club ', 'Web pages for a music club. ', '2014-01-05', '2014-07-31', 4, 2, 2),
-(8, 'Testproject Voices', 'Something about voices and videos', '2014-04-06', '2014-05-29', 8, 2, 2);
+(6, 'Music Club X', 'Web pages for a music club. ', '2014-01-05', '2014-07-31', 4, 2, 2),
+(8, 'Testproject Voices', 'Something about voices and videos and images', '2014-04-01', '2014-06-30', 10, 2, 2),
+(9, 'Testijuttu', NULL, NULL, NULL, NULL, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -317,36 +325,39 @@ CREATE TABLE IF NOT EXISTS `project_staff` (
   `person_role_id` int(11) DEFAULT NULL,
   `start_date` date NOT NULL,
   `end_date` date DEFAULT NULL,
+  `can_edit_project_staff` tinyint(1) NOT NULL,
+  `can_edit_project_data` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_projectstaff_project` (`project_id`),
   KEY `fk_projectstaff_person` (`person_id`),
   KEY `fk_projectstaff_personrole` (`person_role_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=47 ;
 
 --
 -- Dumping data for table `project_staff`
 --
 
-INSERT INTO `project_staff` (`id`, `project_id`, `person_id`, `person_role_id`, `start_date`, `end_date`) VALUES
-(1, 4, 1, 1, '2012-09-10', NULL),
-(2, 4, 2, 1, '2012-09-10', NULL),
-(3, 4, 6, 3, '2012-09-10', NULL),
-(4, 2, 1, 1, '2012-08-20', NULL),
-(5, 2, 2, 1, '2012-08-20', NULL),
-(6, 2, 3, 3, '2012-08-20', NULL),
-(14, 2, 4, 1, '2012-08-20', NULL),
-(15, 6, 6, 1, '2013-01-31', '2014-05-04'),
-(16, 6, 3, 2, '2013-01-06', NULL),
-(18, 6, 1, 1, '2013-01-06', NULL),
-(19, 6, 2, 1, '2013-01-06', NULL),
-(22, 6, 8, 3, '2011-11-15', NULL),
-(23, 2, 6, NULL, '2014-05-04', NULL),
-(25, 8, 2, 1, '2014-05-11', NULL),
-(26, 8, 3, 3, '2014-05-11', NULL),
-(39, 8, 5, 1, '2014-04-27', NULL),
-(40, 8, 9, NULL, '2014-05-04', NULL),
-(42, 6, 10, 1, '2014-05-04', NULL),
-(43, 2, 8, 1, '2014-05-04', NULL);
+INSERT INTO `project_staff` (`id`, `project_id`, `person_id`, `person_role_id`, `start_date`, `end_date`, `can_edit_project_staff`, `can_edit_project_data`) VALUES
+(1, 4, 1, 1, '2012-09-10', NULL, 0, 0),
+(2, 4, 2, 1, '2012-09-10', NULL, 0, 0),
+(3, 4, 6, 3, '2012-09-10', NULL, 0, 0),
+(5, 2, 2, 1, '2012-08-20', NULL, 1, 0),
+(6, 2, 3, 3, '2012-08-20', NULL, 0, 0),
+(14, 2, 4, 1, '2012-08-20', NULL, 0, 0),
+(15, 6, 6, 1, '2013-01-31', '2014-05-04', 0, 1),
+(16, 6, 3, 2, '2013-01-06', NULL, 0, 0),
+(18, 6, 1, 1, '2013-01-06', '2014-06-01', 0, 0),
+(19, 6, 2, 1, '2013-01-06', NULL, 1, 0),
+(22, 6, 8, 3, '2011-11-15', NULL, 0, 0),
+(23, 2, 6, NULL, '2014-05-04', NULL, 0, 1),
+(25, 8, 2, 1, '2014-04-27', NULL, 0, 0),
+(26, 8, 3, 3, '2014-05-11', NULL, 1, 1),
+(39, 8, 5, 1, '2014-04-27', NULL, 0, 0),
+(42, 6, 10, 1, '2014-05-04', NULL, 0, 0),
+(43, 2, 8, 1, '2014-05-04', NULL, 0, 0),
+(44, 8, 4, 1, '2014-05-04', NULL, 0, 1),
+(45, 8, 9, 1, '2014-05-04', NULL, 0, 0),
+(46, 2, 1, 1, '2014-06-08', NULL, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -371,7 +382,7 @@ CREATE TABLE IF NOT EXISTS `sprint_backlog` (
 
 INSERT INTO `sprint_backlog` (`id`, `product_backlog_id`, `sprint_name`, `sprint_description`, `start_date`, `end_date`) VALUES
 (2, 5, 'The contents and the outlook of the site', 'The contents, navigation and outlook of the site.', '2014-06-02', '2014-06-30'),
-(10, 7, 'First sprint', NULL, '2014-05-16', '2014-05-29'),
+(10, 7, 'First sprint', 'some text here', '2014-05-16', '2014-05-29'),
 (17, 7, 'Second sprint', NULL, '2014-05-04', '2014-05-16');
 
 -- --------------------------------------------------------

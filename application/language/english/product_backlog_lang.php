@@ -24,6 +24,8 @@ $lang['not_allowed'] = "You don't have permission to do that.";
 $lang['select_person'] = 'Select owner';
 $lang['missing_name']='Name';
 $lang['missing_product_backlog']='Product Backlog is not found in database';
+$lang['missing_owner']='Select owner';
+
 $lang['cannot_delete']='Cannot delete product backlog because it contains product backlog item(s) or sprint backlog(s).'
 
 

@@ -7,7 +7,7 @@ USE opixmanager;
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 02, 2014 at 09:05 AM
+-- Generation Time: Jun 07, 2014 at 09:52 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -19,6 +19,12 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `opixmanager`
+--
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `contact_person`
@@ -37,6 +43,8 @@ CREATE TABLE IF NOT EXISTS `contact_person` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `customer`
 --
@@ -50,8 +58,9 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `city` varchar(255) DEFAULT NULL,
   `www` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `item_type`
@@ -64,6 +73,7 @@ CREATE TABLE IF NOT EXISTS `item_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `language`
@@ -76,6 +86,8 @@ CREATE TABLE IF NOT EXISTS `language` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `person`
@@ -97,6 +109,7 @@ CREATE TABLE IF NOT EXISTS `person` (
   KEY `fk_person_language` (`language_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `person_role`
@@ -107,8 +120,9 @@ CREATE TABLE IF NOT EXISTS `person_role` (
   `role_name` varchar(255) NOT NULL,
   `role_description` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `product_backlog`
@@ -119,12 +133,13 @@ CREATE TABLE IF NOT EXISTS `product_backlog` (
   `backlog_name` varchar(255) NOT NULL,
   `product_visio` varchar(1000) DEFAULT NULL,
   `product_current_state` varchar(1000) DEFAULT NULL,
-  `product_owner` int(11) DEFAULT NULL,
+  `product_owner` int(11) NOT NULL,
   `project_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_product_backlog_project` (`project_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `product_backlog_item`
@@ -149,8 +164,10 @@ CREATE TABLE IF NOT EXISTS `product_backlog_item` (
   KEY `fk_product_backlog_item_product_backlog` (`product_backlog_id`),
   KEY `fk_product_backlog_item_item_type` (`item_type_id`),
   KEY `fk_product_backlog_item_status` (`status_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `project`
@@ -167,8 +184,9 @@ CREATE TABLE IF NOT EXISTS `project` (
   `active` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_project_customer` (`customer_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `project_period`
@@ -187,6 +205,8 @@ CREATE TABLE IF NOT EXISTS `project_period` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `project_staff`
 --
@@ -198,12 +218,15 @@ CREATE TABLE IF NOT EXISTS `project_staff` (
   `person_role_id` int(11) DEFAULT NULL,
   `start_date` date NOT NULL,
   `end_date` date DEFAULT NULL,
+  `can_edit_project_staff` tinyint(1) NOT NULL,
+  `can_edit_project_data` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_projectstaff_project` (`project_id`),
   KEY `fk_projectstaff_person` (`person_id`),
   KEY `fk_projectstaff_personrole` (`person_role_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=47 ;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `sprint_backlog`
@@ -220,6 +243,7 @@ CREATE TABLE IF NOT EXISTS `sprint_backlog` (
   KEY `fk_sprint_backlog_product_backlog` (`product_backlog_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `sprint_backlog_item`
@@ -234,6 +258,7 @@ CREATE TABLE IF NOT EXISTS `sprint_backlog_item` (
   KEY `fk_sprint_backlog_item_product_backlog_item` (`product_backlog_item_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `sprint_task`
@@ -253,6 +278,7 @@ CREATE TABLE IF NOT EXISTS `sprint_task` (
   KEY `fk_sprint_task_task_type` (`task_type_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `sprint_task_person`
@@ -268,6 +294,7 @@ CREATE TABLE IF NOT EXISTS `sprint_task_person` (
   KEY `fk_sprint_task_person_person` (`person_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `sprint_work`
@@ -286,6 +313,7 @@ CREATE TABLE IF NOT EXISTS `sprint_work` (
   KEY `fk_sprint_work_person` (`person_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `status`
@@ -298,6 +326,8 @@ CREATE TABLE IF NOT EXISTS `status` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `task`
@@ -320,6 +350,8 @@ CREATE TABLE IF NOT EXISTS `task` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `task_person`
 --
@@ -336,6 +368,7 @@ CREATE TABLE IF NOT EXISTS `task_person` (
   KEY `fk_task_person_person` (`person_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `task_type`
@@ -348,6 +381,7 @@ CREATE TABLE IF NOT EXISTS `task_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `task_work`

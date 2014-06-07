@@ -191,7 +191,8 @@ class Person_Model extends CI_Model
             'project.project_type AS project_type,' .
             'project.customer_id AS customer_id,' .
             'customer.customer_name AS customer_name,' .
-            'project.active AS active'
+            'project.active AS active, ' .
+            'project_staff.can_edit_project_data as can_edit_project_data'    
         );
         
         $this->db->from('project_staff');
