@@ -149,11 +149,6 @@
                             echo anchor(base_url() . 'index.php/sprint_work/choose_person' , 
                             $this->lang->line('nav_sprint_work'));
                         }
-                        else
-                        {
-                            echo anchor(base_url() . 'index.php/sprint_work/index/' . $login_id , 
-                            $this->lang->line('nav_sprint_work'));
-                        }
                     }
                         ?></li>
                     <li><?php
@@ -163,11 +158,6 @@
                         {
                              echo anchor(base_url() . 'index.php/task_work/choose_person' , 
                              $this->lang->line('nav_task_work'));
-                        }
-                        else
-                        {
-                            echo anchor(base_url() . 'index.php/task_work/index/' . $login_id , 
-                            $this->lang->line('nav_task_work'));
                         }
                     }
                         ?></li>

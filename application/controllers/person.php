@@ -245,8 +245,9 @@ class Person extends CI_Controller
                     'txt_surname', $this->lang->line('missing_surname'), 'trim|required|max_length[255]|xss_clean');
             $this->form_validation->set_rules(
                     'txt_firstname', $this->lang->line('missing_firstname'), 'trim|required|max_length[255]|xss_clean');
+            // also a callback function to check that user_id is unique
             $this->form_validation->set_rules(
-                    'txt_user_id', $this->lang->line('missing_user_id'), 'trim|required');
+                    'txt_user_id', $this->lang->line('missing_user_id'), 'trim|required|callback_check_user_id');
             
             // callback function to validate that language is selected
             // error message for that callback function
@@ -340,6 +341,25 @@ class Person extends CI_Controller
         }
         else {
             return false;
+        }
+    }
+    
+    /**
+     * Checks that user_id is unique
+     * @param string $user_id User_id to check
+     * @return boolean
+     */
+    function check_user_id ($user_id)
+    {
+        $result = $this->person_model->unique_user_id($user_id);
+        if ($result == TRUE)
+        {
+            return TRUE;
+        }
+        else 
+        {
+            $this->form_validation->set_message('check_user_id', $this->lang->line('invalid_user_id'));
+            return FALSE;
         }
     }
     

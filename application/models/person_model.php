@@ -320,5 +320,28 @@ class Person_Model extends CI_Model
             return false;
         }
     }
+    
+    /**
+     * Checks if user_id is not found
+     * @param string $user_id User_id not to find
+     * @return boolean TRUE => not found, FALSE => found
+     */
+    public function unique_user_id ($user_id)
+    {
+        $this->db->select('user_id');
+        $this->db->from('person');
+        $this->db->where('user_id', $user_id);
+        
+        $query=$this->db->get();
+        
+        if ($query -> num_rows() === 0)
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }        
+    }
 }
 ?>

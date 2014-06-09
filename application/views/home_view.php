@@ -70,9 +70,8 @@
     <thead>
         <tr>
             <?php
-            echo '<th style="width: 250px">' . $this->lang->line('label_project_name') . '</th>';
+            echo '<th style="width: 200px;">' . $this->lang->line('label_project_name') . '</th>';
             echo '<th>' . $this->lang->line('label_project_type') . '</th>';
-            echo '<th>' . $this->lang->line('label_customer_name') . '</th>';
             echo '<th>' . $this->lang->line('label_active') . '</th>';  
             echo '<th colspan="8"></th>';
             ?>
@@ -86,7 +85,6 @@
                 echo '<tr>';
                 echo '<td>' . $project->project_name . '</td>';
                 echo '<td>' . Home::toString2($project->project_type) . '</td>';
-                echo '<td>' . $project->customer_name . '</td>';
                 echo '<td>' . Home::toString3($project->active) . '</td>';
                 
                 
@@ -124,8 +122,10 @@
                             $this->lang->line('link_project_period')) . '</td>';       
                 }
                 
+                echo '<td>' . anchor('#',  $this->lang->line('link_work_hours')) . '</td>';
                 echo '<td><div class="pop-up-project">';
                     echo 
+                         $this->lang->line('label_customer_name') . ': ' . $project->customer_name . ' ' . '<br>' .
                          $this->lang->line('label_project_description') . ': ' . $project->project_description . ' ' . '<br>' .
                          $project->project_start_date . ' - ' .
                          $project->project_end_date;      

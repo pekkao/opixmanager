@@ -48,6 +48,7 @@ $lang['missing_user_id']='Käyttäjätunnus';
 $lang['missing_password']='Salasana';
 $lang['missing_person']='Henkilöä ei löydy tietokannasta.';
 $lang['missing_language']='Valitse kieli';
+$lang['invalid_user_id'] = 'Käyttäjätunnus on jo käytössä.';
 $lang['invalid_email'] = 'Sähköpostin muoto on väärä.';
 $lang['invalid_phonenumber'] = 'Puhelinnumero ';
 $lang['wrong_password'] = 'Väärä vanha salasana';
