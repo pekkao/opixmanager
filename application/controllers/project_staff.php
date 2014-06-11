@@ -218,7 +218,7 @@ class Project_Staff extends CI_Controller
             $this->form_validation->set_error_delimiters('<span class="error">', '</span>');
             $this->form_validation->set_rules(
                      'dtm_startdate',$this->lang->line('label_start_date'),'trim|required|xss_clean|check_date');
-
+            
             if ($this->form_validation->run() == TRUE)
             {
                 if (!empty($new_persons)) 
@@ -447,16 +447,14 @@ class Project_Staff extends CI_Controller
                  'can_edit_project_data' => $this->input->post('chk_can_edit_project')
              );
 
-            $project = $this->project_model->read(
-                            $project_id);
-            
              $this->load->library('form_validation');
              $this->form_validation->set_error_delimiters('<span class="error">', '</span>');
 
+             // note. two parameters to callback function
              $this->form_validation->set_rules(
-                     'dtm_startdate', $this->lang->line('label_start_date'), 'trim|required|xss_clean|check_date');
-             $this->form_validation->set_rules(
-                     'dtm_enddate', $this->lang->line('label_end_date'), 'trim|xss_clean|check_date');
+                     'dtm_startdate', $this->lang->line('label_start_date'), 
+                     'trim|required|xss_clean|check_date|callback_check_dates[' 
+                     . $data['end_date'] .']');
 
              if ($this->form_validation->run() == FALSE)
              {
@@ -468,13 +466,14 @@ class Project_Staff extends CI_Controller
                         'project_staff_id' => $project_staffs[0]->project_staff_id,
                         'project_id' => $project_staffs[0]->project_id,
                         'person_id' => $project_staffs[0]->person_id,
-                        'start_date' => $project_staffs[0]->start_date,
-                        'end_date' => $project_staffs[0]->end_date,
+                        'person_role_id' => $this->input->post('ddl_role'),
+                        'start_date' => $this->input->post('dtm_startdate'),
+                        'end_date' => $this->input->post('dtm_enddate'),
                         'project_name' => $project_staffs[0]->project_name,
-                        'role_name' => $project_staffs[0]->role_name,
-                        'id' => $project_staffs[0]->id,
                         'surname' => $project_staffs[0]->surname,
                         'firstname' => $project_staffs[0]->firstname,
+                        'can_edit_project_staff' => $project_staffs[0]->can_edit_project_staff,
+                        'can_edit_project_data' => $project_staffs[0]->can_edit_project_data                        
                     );
 
                     $data['error_message'] = $this->session->flashdata('$error_message');
@@ -490,76 +489,18 @@ class Project_Staff extends CI_Controller
 
                     $data['login_user_id'] = $session_data['user_id'];
                     $data['login_id'] = $session_data['id'];
+                    $project = $this->project_model->read($project_id);
                     $data['pagetitle'] = $project[0]->project_name . ': ' .
                                 $this->lang->line('title_edit_project_staff');
                     $data['main_content'] = 'project_staff/edit_project_staff_view';
                     $this->load->view('template', $data);
                 }
              }
-
-                else
-                {
-                    $project = $this->project_model->read($project_id);
-                    if (!empty($project[0]->project_end_date))
-                    {
-                        if ($data['start_date'] < $project[0]->project_end_date)
-                        {
-                            if (!empty($data['end_date']))
-                            {
-                                if ($data['start_date'] < $data['end_date'])
-                                {
-                                    $this->project_staff_model->update($data);
-                                    redirect('project_staff/index/' . $project_id);
-                                }
-                                else
-                                {
-                                    $error_message = $this->lang->line('invalid_dates');
-                                    $this->session->set_flashdata('$error_message', $error_message);
-                                    redirect('project_staff/edit' . '/' . $project_staff_id);
-                                }
-                            }
-                            else
-                            {
-                                $this->project_staff_model->update($data);                        
-                                redirect('project_staff/index/' . $project_id);
-                            }
-                        }
-                        else
-                        {
-                            $project = $this->project_model->read($project_id);
-                            $error_message = $this->lang->line('invalid_dates') . '</br>' .
-                                    $this->lang->line('label_project_end_date') .
-                                    $project[0]->project_end_date;
-                            $this->session->set_flashdata('$error_message', $error_message);                    
-                            $data['pagetitle'] = $project[0]->project_name . ': ' .
-                                $this->lang->line('title_edit_project_staff');
-                            redirect('project_staff/edit/' . $project_staff_id);
-                        }
-                    }
-                    else
-                    {
-                        if (!empty($data['end_date']))
-                        {
-                            if ($data['start_date'] < $data['end_date'])
-                            {
-                                $this->project_staff_model->update($data);
-                                redirect('project_staff/index/' . $project_id);
-                            }
-                            else
-                            {
-                                $error_message = $this->lang->line('invalid_dates');
-                                $this->session->set_flashdata('$error_message', $error_message);
-                                redirect('project_staff/edit' . '/' . $project_staff_id);
-                            }
-                        }
-                        else
-                        {
-                            $this->project_staff_model->update($data);
-                            redirect('project_staff/index/' . $project_id);
-                        }
-                    }
-
-                }
+            else
+            {
+                $this->project_staff_model->update($data);
+                redirect('project_staff/index/' . $project_id);
+            }
         }
         else
         {
@@ -567,6 +508,70 @@ class Project_Staff extends CI_Controller
         }
     }
      
+    /**
+     * Checks that end date is after start date and start date is before project end date.
+     * @param date $end_date End date
+     * @param date $start_date Start date
+     * @return boolean true -> end date is after start date or both are empty
+     */
+    public function check_dates($start_date, $end_date)
+    {
+        // must read from post because callback function doesn't allow third parameter
+        $project = $this->project_model->read($this->input->post('txt_project_id'));
+        
+        if (!empty($project[0]->project_end_date)) // project has end date
+        {
+            if ($start_date < $project[0]->project_end_date)
+            {
+                if (!empty($end_date))
+                {
+                    if ($start_date < $end_date)
+                    {
+                        return TRUE;
+                    }
+                    else
+                    {
+                        // note! message is to callback function, not to field
+                        $this->form_validation->set_message('check_dates', 
+                                $this->lang->line('invalid_dates'));
+                        return FALSE;
+                    }
+                }
+                else
+                {
+                    return TRUE;
+                }
+            }
+            else
+            {
+                $this->form_validation->set_message('check_dates', 
+                    $this->lang->line('invalid_start_date') .  
+                    $project[0]->project_end_date);
+                return FALSE;            
+            }
+        }
+        else  // project has no end date
+        {
+            if (!empty($end_date))
+            {
+                if ($start_date < $end_date)
+                {
+                    return TRUE;                    
+                }
+                else
+                {
+                    $this->form_validation->set_message('check_dates', 
+                                $this->lang->line('invalid_dates'));
+                    return FALSE;
+                }
+            }
+            else
+            {
+                return TRUE;
+            }
+        }        
+    }
+    
     /**
      * Delete a project_staff.
      * 
@@ -594,9 +599,9 @@ class Project_Staff extends CI_Controller
                 $data['person_role_id'] = 1;
              }
 
-            // is logged in user allowed to edit staff data
-                $result = $this->project_staff_model->can_edit_project_staff(
-                            $session_data['id'], $project_id);
+             // is logged in user allowed to edit staff data
+             $result = $this->project_staff_model->can_edit_project_staff(
+                      $session_data['id'], $project_id);
                 
              // admin account type = 1
              // this is just to make sure that user cannot start editing by 

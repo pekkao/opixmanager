@@ -22,7 +22,7 @@ $lang['link_add_project_staff']="Lisää jäseniä projektiin";
 
 $lang['missing_start_date']="Alkupvm puuttuu.";
 $lang['invalid_dates'] = "Aloituspäivämäärä täytyy olla ennen päättymispäivämäärää.";
-$lang['invalid_start_date'] = "Aloituspäivämäärä täytyy olla ennen projektin lopetuspäivämäärää.";
+$lang['invalid_start_date'] = "Aloituspäivämäärä täytyy olla ennen projektin lopetuspäivämäärää, joka on ";
 
 $lang['title_db_error']="Virhe";
 

@@ -22,7 +22,7 @@ $lang['link_add_project_staff']="Add project staff";
 
 $lang['missing_start_date']="Missing start date";
 $lang['invalid_dates'] = "Start date must be before end date.";
-$lang['invalid_start_date'] = "Start date must be before Project end date.";
+$lang['invalid_start_date'] = "Start date must be before project end date which is ";
 $lang['title_db_error']="Error";
 
 $lang['select_role']="Select role";

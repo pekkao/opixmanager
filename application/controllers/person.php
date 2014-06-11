@@ -358,6 +358,7 @@ class Person extends CI_Controller
         }
         else 
         {
+            // note! message is to callback function, not to field
             $this->form_validation->set_message('check_user_id', $this->lang->line('invalid_user_id'));
             return FALSE;
         }
