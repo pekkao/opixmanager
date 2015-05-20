@@ -1,15 +1,15 @@
 <?php
 $lang['nav_customers'] = "Asiakkaat";
-$lang['nav_projects'] = "Projektit ↓";
+$lang['nav_projects'] = "Projektit";
 $lang['nav_persons'] = "Henkilöt";
 $lang['nav_project_types'] = "Projektityypit";
 $lang['nav_staff_roles'] = "Jäsenten roolit";
 $lang['nav_status'] = "Status";
 $lang['nav_task_type'] = "Työluokka";
-$lang['nav_reports'] = "Raportit ↓";
-$lang['nav_customer_contacts'] = "Asiakkaat ja yhteyshenkilöt >";
-$lang['nav_customer_projects'] = "Asiakkaat ja projektit >";
-$lang['nav_projects_persons'] = "Projektit ja henkilöt >";
+$lang['nav_reports'] = "Raportit";
+$lang['nav_customer_contacts'] = "Asiakkaat ja yhteyshenkilöt";
+$lang['nav_customer_projects'] = "Asiakkaat ja projektit";
+$lang['nav_projects_persons'] = "Projektit ja henkilöt";
 $lang['nav_persons_projects'] = "Henkilöt ja projektit";
 $lang['nav_project_show_all'] = "Kaikki projektit";
 $lang['nav_project_show_active'] = "Aktiiviset projektit";

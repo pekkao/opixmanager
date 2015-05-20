@@ -53,9 +53,10 @@
 ?>
 </p>
 
-<table>
+<div class="table-responsive">
+<table class="table table-striped table-condensed">
     <thead>
-        <tr>
+        <tr class="success">
             <?php
             echo '<th>' . $this->lang->line('label_surname') . '</th>';
             echo '<th>' . $this->lang->line('label_firstname') . '</th>';
@@ -91,7 +92,7 @@
                 {
                     echo anchor(
                         'project_staff/edit/' . $staff->id ,
-                        $this->lang->line('link_edit'));
+                       '<span class="glyphicon glyphicon-edit"></span>');
                 }
                 echo '</td>';                
                 
@@ -102,7 +103,7 @@
                     echo form_open('project_staff/delete');
                     echo form_hidden('txt_id', set_value('id', $staff->id));
                     echo form_hidden('txt_project_id', set_value('project_id', $staff->project_id));
-                    echo '<input type="submit" value="X" onclick="return deleteconfirm();" />';
+                    echo '<span class="glyphicon glyphicon-remove-circle" <input onclick="return deleteconfirm();" /></span>';
                     echo form_close();
                 }
                 echo '</td>';
@@ -119,7 +120,7 @@
         ?>
     </tbody>
 </table>
-
+</div>
 <?php 
 if ($error_message != '')
 {

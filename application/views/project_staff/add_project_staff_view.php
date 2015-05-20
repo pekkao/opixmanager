@@ -48,13 +48,14 @@ echo form_fieldset();
 echo form_open('project_staff/save');
 echo form_hidden('project_id', $project_id);
 
-echo form_label($this->lang->line('label_role'), 'ddl_role');
+echo form_label('<p><span class="label label-success">Role: </span></p>',$this->lang->line('label_role'), 'ddl_role');
 //echo form_hidden('txtroleId', set_value('id', $id));
 // the first one is selected now
+echo ' ';
 echo form_dropdown('ddl_role', $roles, $selected_role, 'class="sameline"');
 echo br(1);
 
-echo form_label($this->lang->line('label_start_date'), 'dtm_startdate');
+echo form_label('<p><span class="label label-success">Start Date: </span></p>',$this->lang->line('label_start_date'), 'dtm_startdate');
 
 $data = array(
     'name' => 'dtm_startdate',
@@ -62,15 +63,17 @@ $data = array(
     'value' => set_value('dtm_startdate', $start_date),
     'maxlength' => '10',
     'size' => '10',
-    'type' => 'date'
+    'type' => 'date',
+    'class' => "form-control"
 );
 
 echo form_input($data);
 echo form_error('dtm_startdate');
 echo br(2);
 
-echo '<table>';
-echo '<tr>';
+echo '<div class="table-responsive">';
+echo '<table class="table table-striped table-condensed">';
+echo '<tr class="success">';
         echo '<td>' . $this->lang->line('label_select') . '</td>';
         echo '<td>' . $this->lang->line('label_surname') . '</td>';
         echo '<td>' . $this->lang->line('label_firstname') . '</td>';
@@ -91,8 +94,9 @@ foreach ($persons as $person)
 }
 
 echo '</table>';
+echo '</div>';
 echo br(1);
-echo form_submit('btn_save', $this->lang->line('button_save'));
+echo form_submit('btn_save', $this->lang->line('button_save'), 'class="btn btn-primary"');
 echo anchor('project_staff/index/' . $project_id ,
         $this->lang->line('link_return'), 'class="returnlink"');
 

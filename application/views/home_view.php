@@ -65,10 +65,10 @@
 <h1><?php echo $pagetitle . $login_user_id ?></h1>
 
 <h4><?php echo $this->lang->line('title_my_projects')  ?> </h4>
-
-<table>
+<div class="table-responsive">
+    <table class="table table-striped table-condensed">
     <thead>
-        <tr>
+        <tr class="success">
             <?php
             echo '<th style="width: 200px;">' . $this->lang->line('label_project_name') . '</th>';
             echo '<th>' . $this->lang->line('label_project_type') . '</th>';
@@ -93,7 +93,7 @@
                         ($this->session->userdata('account_type') == 1))
                 {
                     echo anchor('project/edit/' . $project->project_id, 
-                        $this->lang->line('link_edit'));
+                       '<span class="glyphicon glyphicon-edit"></span>');
                 }
                 echo '</td>';
                 
@@ -103,7 +103,7 @@
                 {
                     echo form_open('project/delete');
                     echo form_hidden('txt_id', set_value('id', $project->project_id));
-                    echo '<input type="submit" value="X" onclick="return deleteconfirm();" />';
+                    echo '<span class="glyphicon glyphicon-remove-circle" <input onclick="return deleteconfirm();"></span>';
                     echo form_close();
                 }
                 echo '</td>';
@@ -123,10 +123,20 @@
                 }
                 
                 echo '<td>' . anchor('#',  $this->lang->line('link_work_hours')) . '</td>';
-                echo '<td><div class="pop-up-project">';
+                
+//                echo '<td><div class="pop-up-project">';
+//                    echo 
+//                         $this->lang->line('label_customer_name') . ': ' . $project->customer_name . ' ' . '<br>' .
+//                         $this->lang->line('label_project_description') . ': ' . $project->project_description . ' ' . '<br>' .
+//                         $project->project_start_date . ' - ' .
+//                         $project->project_end_date;      
+//                echo '</div>'; 
+//                echo '<a href="#" class="trigger">' . img('img/information.jpg') . '</a>';
+//                echo '</td>';
+                                echo '<td><div class="pop-up-project">';
                     echo 
-                         $this->lang->line('label_customer_name') . ': ' . $project->customer_name . ' ' . '<br>' .
-                         $this->lang->line('label_project_description') . ': ' . $project->project_description . ' ' . '<br>' .
+                      
+                         $this->lang->line('label_project_description') . ': ' . $project->project_description . ' ' . '</br>' .
                          $project->project_start_date . ' - ' .
                          $project->project_end_date;      
                 echo '</div>'; 
@@ -138,6 +148,7 @@
         ?>
     </tbody>
 </table>
+</div>
 
 <h4><?php echo $this->lang->line('title_my_data')  ?> </h4>
 

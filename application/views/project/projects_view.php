@@ -84,7 +84,7 @@
 <?php 
 echo form_open("project/find");
 
-echo form_label($this->lang->line('label_start_date'), 'dtm_start_date');
+echo form_label('<p><span class="label label-success">Start Date: </span></p>',$this->lang->line('label_start_date'), 'dtm_start_date');
 
 $data = array(
     'name' => 'dtm_start_date',
@@ -92,14 +92,15 @@ $data = array(
     'value' => set_value('dtm_start_date', $start_date),
     'maxlength' => '10',
     'size' => '10',
-    'type' => 'date'
+    'type' => 'date',
+    'class' => "form-control"
 );
 
 echo form_input($data);
 echo form_error('dtm_start_date');
 echo br(1);
 
-echo form_label($this->lang->line('label_end_date'), 'dtm_end_date');
+echo form_label('<p><span class="label label-success">End Date: </span></p>',$this->lang->line('label_end_date'), 'dtm_end_date');
 
 $data = array(
     'name' => 'dtm_end_date',
@@ -107,15 +108,17 @@ $data = array(
     'value' => set_value('dtm_end_date', $end_date),
     'maxlength' => '10',
     'size' => '10',
-    'type' => 'date'
+    'type' => 'date',
+    'class' => "form-control"
 );
 
 echo form_input($data);
 echo form_error('dtm_end_date');
 echo br(1);
 
-echo form_submit('btn_submit', $this->lang->line('button_search'), 'class="newline"');
-echo '<input type="button" value="' . $this->lang->line('button_reset') .
+echo form_submit('btn_submit', $this->lang->line('button_search'), 'class="btn btn-primary"');
+echo ' ';
+echo '<input type="button" class="btn btn-warning" value="' . $this->lang->line('button_reset') .
             '" onclick="location.href=' . "'".base_url() .
             'index.php/project/clear' . "'" . '" />';
 echo anchor('project', $this->lang->line('link_all'), 'class="returnlink"');
@@ -128,9 +131,10 @@ echo form_fieldset_close();
 <?php echo anchor('project/add', $this->lang->line('link_insert_project')) . ' ';  
 ?>
 </p>
-<table>
+<div class="table-responsive">
+<table class="table table-striped table-condensed">
     <thead>
-        <tr>
+        <tr class="success">
             <?php
             echo '<th style="width: 250px">' . $this->lang->line('label_project_name') . '</th>';
             echo '<th>' . $this->lang->line('label_project_type') . '</th>';
@@ -151,11 +155,11 @@ echo form_fieldset_close();
                 echo '<td>' . $project->customer_name . '</td>';
                 echo '<td>' . Project::toString2($project->active) . '</td>';
                 echo '<td>' . anchor('project/edit/' . $project->id, 
-                        $this->lang->line('link_edit')) . '</td>';
+                       '<span class="glyphicon glyphicon-edit"></span>') . '</td>';
                 echo '<td>';
                     echo form_open('project/delete');
                     echo form_hidden('txt_id', set_value('id', $project->id));
-                    echo '<input type="submit" value="X" onclick="return deleteconfirm();" />';
+                    echo '<span class="glyphicon glyphicon-remove-circle" <input onclick="return deleteconfirm();" /></span>';
                     echo form_close();
                 echo '</td>';
                 echo '<td>' . anchor('project_staff/index/' . $project->id, 
@@ -186,6 +190,7 @@ echo form_fieldset_close();
         ?>
     </tbody>
 </table>
+</div>
 
 <?php 
 // printing the error message if exists

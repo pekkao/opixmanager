@@ -61,9 +61,10 @@
         {
             foreach ($product_backlog_items as $product_backlog_item)
             {
+
                 echo '<table>';
                 echo '<tbody>';     
-                    echo '<tr>';
+                    echo '<tr class="success">';
                         echo '<th class="rivi">' . $this->lang->line('label_item_name') . '</th>';                 
                         echo '<th class="rivi">' . $this->lang->line('label_start_date') . '</th>';
                         echo '<th class="rivi">' . $this->lang->line('label_priority') . '</th>';
@@ -129,6 +130,7 @@
                     echo '</tr>';
                 echo '</tbody>';
                 echo '</table>';
+
                 }
             }
         }

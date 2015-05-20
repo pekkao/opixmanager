@@ -29,7 +29,8 @@ $data = array(
     'value' => set_value('txt_user_id'),
     'maxlength' => '100',
     'size' => '20',
-    'type' =>'text'
+    'type' =>'text',
+     'class' => "form-control"
 );
 
 echo form_input($data);
@@ -42,13 +43,14 @@ $data = array(
     'value' => set_value('pwd_password', $password),
     'maxlength' => '100',
     'size' => '21',
-    'type' =>'password'
+    'type' =>'password',
+    'class' => "form-control"
 );
 
 echo form_input($data);
 echo br(1);
 
-echo form_submit('btn_submit', $this->lang->line('button_login'),'class="newline"');
+echo form_submit('btn_submit', $this->lang->line('button_login'),'class="btn btn-primary"');
 
 echo form_close();
 echo form_fieldset_close();

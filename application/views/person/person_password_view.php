@@ -26,38 +26,41 @@
     
     echo form_hidden('txt_id', set_value('id', $id));
     
-    echo form_label($this->lang->line('label_person_old_password'), 'pwd_old_password');
+    echo form_label('<p><span class="label label-success">Old Password: </span></p>',$this->lang->line('label_person_old_password'), 'pwd_old_password');
     $data = array(
     'name' => 'pwd_old_password',
     'id' => 'pwd_old_password',
-    'type'=> 'password'
+    'type'=> 'password',
+    'class' => "form-control"
     );
     echo form_input($data);
     echo form_error('pwd_old_password');
     echo br(1);
     
-    echo form_label($this->lang->line('label_person_new_password'), 'pwd_new_password');
+    echo form_label('<p><span class="label label-success">New Password: </span></p>',$this->lang->line('label_person_new_password'), 'pwd_new_password');
     $data = array(
     'name' => 'pwd_new_password',
     'id' => 'pwd_new_password',
-    'type'=> 'password'
+    'type'=> 'password',
+    'class' => "form-control"
     );
     echo form_input($data);
     echo form_error('pwd_new_password');
     echo br(1);
     
-    echo form_label($this->lang->line('label_person_confirm_password'), 'pwd_confirm_password');
+    echo form_label('<p><span class="label label-success">Confirm Password: </span></p>',$this->lang->line('label_person_confirm_password'), 'pwd_confirm_password');
     $data = array(
     'name' => 'pwd_confirm_password',
     'id' => 'pwd_confirm_password',
-    'type'=> 'password'
+    'type'=> 'password',
+    'class' => "form-control"
     );
     echo form_input($data);
     echo form_error('pwd_confirm_password');
     echo br(1);
     
     echo '<p>';
-    echo form_submit('btn_submit', $this->lang->line('button_save'), 'class="newline"');
+    echo form_submit('btn_submit', $this->lang->line('button_save'), 'class="btn btn-primary"');
     echo anchor('home', $this->lang->line('link_return'), 'class="returnlink"' );
     echo '</p>';
     echo form_fieldset_close();

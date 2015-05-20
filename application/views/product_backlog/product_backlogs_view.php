@@ -54,7 +54,8 @@
     {
         foreach ($product_backlogs as $product_backlog)
         {
-            echo '<table>';
+            echo '<div class="table-responsive">';
+            echo '<table class="table-striped table-condensed">';
             echo '<tbody>';
                 echo '<tr>';
                     echo '<th class="rivi">' . $this->lang->line('label_backlog_name') . '</th>';
@@ -64,8 +65,9 @@
                 echo '</tr>';
             echo '</tbody>';
             echo '</table>';
-
-            echo '<table>';
+            echo '</div>';
+            
+            echo '<table class="table-striped table-condensed">';
             echo '<tbody>';
                 echo '<tr>';
                     echo '<th class="reuna">' . $this->lang->line('label_product_visio') . '</th>';
@@ -94,24 +96,30 @@
                         echo anchor ('product_backlog/edit/' . 
                         $currentprojectid . 
                         '/' . $product_backlog['id'],
-                        $this->lang->line('link_edit'));
+                        '<span class="glyphicon glyphicon-edit"></span>');
                     }
                     echo '</td>';
+                     echo '</tr>';
+                     echo '<tr>';
                     echo '<td class="reuna">' . anchor ('product_backlog_item/index/' . 
                         $currentprojectid .
                         '/' . $product_backlog['id'],
                         $this->lang->line('link_product_backlog_item')) . 
                         '</td>';
+                    echo '</tr>';
+                    echo '<tr>';
                     echo '<td class="reuna">' 
                         . anchor ('sprint_backlog/index/' . $currentprojectid . '/' .
                         $product_backlog['id'],
                         $this->lang->line('link_sprint_backlog'))
                         . '</td>';
+                    echo '</tr>';
+                    echo '<tr>';
                     echo '<td class="reuna">';
                         echo form_open('product_backlog/delete');
                         echo form_hidden('txt_project_id', set_value('project_id', $currentprojectid));
                         echo form_hidden('txt_id', set_value('id', $product_backlog['id']));
-                        echo '<input type="submit" value = "X" onclick="return deleteconfirm();" />';
+                        echo '<span class="glyphicon glyphicon-remove-circle" <input onclick="return deleteconfirm();" /></span>';
                         echo form_close();
                     echo '</td>';
                 echo '</tr>';

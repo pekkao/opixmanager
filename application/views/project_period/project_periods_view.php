@@ -53,9 +53,10 @@ if (isset($project_periods))
 {
     foreach ($project_periods as $project_period)
     {
-        echo '<table>';
+        echo '<div class="table-responsive">';
+        echo '<table class="table table-striped table-condensed">';
         echo '<tbody>';
-            echo '<tr>';
+            echo '<tr class="success">';
                 echo '<th class="rivi">' . $this->lang->line('label_period_name') . '</th>';               
                 echo '<th class="rivi">' . $this->lang->line('label_period_start_date') . '</th>';            
                 echo '<th class="rivi">' . $this->lang->line('label_period_end_date') . '</th>';
@@ -69,10 +70,12 @@ if (isset($project_periods))
             echo '</tr>';
         echo '</tbody>';
         echo '</table>';
+        echo '</div>';
         
-        echo '<table>';
+        echo '<div class="table-responsive">';
+        echo '<table class="table table-striped table-condensed">';
         echo '<tbody>';
-            echo '<tr>';
+            echo '<tr class="success">';
                 echo '<th class="reuna">' . $this->lang->line('label_period_description') . '</th>';
             echo '</tr>';
             echo '<tr>';
@@ -86,12 +89,12 @@ if (isset($project_periods))
             echo '<tr>';
                 echo '<td class="reuna">' . anchor(
                         'project_period/edit/' . $project_period->id . '/' . $project_period->project_id,
-                        $this->lang->line('link_edit')) . '</td>';
+                       '<span class="glyphicon glyphicon-edit"></span>') . '</td>';
                 echo '<td class="reuna">';
                     echo form_open('project_period/delete');
                     echo form_hidden('txt_id', set_value('id', $project_period->id));
                     echo form_hidden('txt_projectid', set_value('project_id', $project_period->project_id));                          
-                    echo '<input type="submit" value="X" onclick="return deleteconfirm();" />';
+                    echo '<span class="glyphicon glyphicon-remove-circle" <input onclick="return deleteconfirm();" /></span>';
                     echo form_close();
                 echo '</td>';
                 echo '<td class="reuna">' . anchor('task/index/' . $project_period->project_id . '/' . $project_period->id,

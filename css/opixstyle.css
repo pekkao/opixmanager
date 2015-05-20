@@ -38,7 +38,7 @@ div#logged
    padding-right: 10px;
    text-align: right;
    font-weight: bold;
-   color: #f0f0f0;
+   color: #ffffff;
    background-color: #6699CC;
 }
 
@@ -196,7 +196,8 @@ th.reunaaa, td.reunaaa
 
 th.raporttireuna, td.raporttireuna
 {
-    width: 145px;
+/*    width: 145px;*/
+    width: 130px;
     border-bottom: none;
 }
 
@@ -234,6 +235,7 @@ fieldset span.error
 fieldset input[type="reset"],
 fieldset input[type="submit"],
 fieldset input[type="button"]
+
 {
     height: 25px;
     margin: 10px;
@@ -282,7 +284,7 @@ div.pop-up-project {
   margin-top: -8px;    
   margin-left: 50px;
   max-width: 200px;
-  padding: 10px 10px;
+  padding: 10px 5px;
   background-color: #ffffff;
   color: #000000;
   border: 5px solid #99B2CC;
