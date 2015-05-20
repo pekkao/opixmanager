@@ -39,7 +39,14 @@
 */
 
 // LA: 17.4.2012
-$route['default_controller'] = "home";
+$file=FCPATH.'install.lock'; 
+     if (file_exists($file)){
+        $route['default_controller'] = "home";}
+     else{
+        $route['default_controller'] = "install";
+        
+     }
+
 $route['404_override'] = '';
 
 

@@ -1,0 +1,66 @@
+@charset "UTF-8";
+
+
+.container {
+	
+    width: 920px!important;
+	
+}
+
+input.install_error{
+    border:1px solid red;
+    
+}
+
+.error{
+    color:red !important;
+}
+
+#install_envrionment{
+   margin: 12px 21px 54px -4px;
+}
+
+.well {
+    margin:4%!important;
+    padding:3%!important;
+    
+}
+
+.install_content{
+    margin-left: 35px;
+    margin-right:20px;
+}
+
+.install_content ul {
+    font-size: 15px;
+}
+
+#install_logo {
+		margin-left:29%;
+	}
+	
+.install_text_warning{
+	color:#F00;
+	font-size:21px;
+	}
+        
+#check_database{
+   margin-left: 80%;
+            
+        }
+        
+#configuration_submit{
+   margin-left: 80%;
+}
+
+#frm_db{
+   margin:4% 0 0 -6%;            
+        }        
+
+.clear { clear: both; }
+
+
+	
+	
+
+
